@@ -7,24 +7,27 @@
 - Только один метод чтобы реализовать лямбду
 - foreach, аналогичен методу peek, разница в том, что он конечный — терминальный.
 
-```
-- <T> – the type of the input to the function 
-- <R> – the type of the result of the function
-- <E> – the type of elements held in this deque
-- <K> – the type of keys maintained by this map 
-- <V> – the type of mapped values
-- X – if no value is present
-- <N> - node we are pointing to
+``` Java
+<T> – the type of the input to the function 
+<R> – the type of the result of the function
+<E> – the type of elements held in this deque
+<K> – the type of keys maintained by this map 
+<V> – the type of mapped values
+<X> – no value is present
+<N> - node we are pointing to
 ```
 
 ``` Java
 
 @FunctionalInterface
 public interface Converter<T, N> {
+
   N convert(T t);
+  
   static void printMsg() {
     System.out.println("HELLO, I'm static void method");
   }
+  
 }
 
 /* Using cases */
@@ -40,6 +43,7 @@ public class Main {
         System.out.println(myConverter.convert("TTTTTSTSFFS"));    // TT
         System.out.println(myConverter.convert("LUFGGFLS"));       // LU
         System.out.println(myConverter.convert("23462387"));       // 23
+
 
         Converter<String, Integer> fromStrToInt = Integer::parseInt;
         System.out.println(fromStrToInt.convert("123"));        // 123
