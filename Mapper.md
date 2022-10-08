@@ -1,4 +1,29 @@
-// marks the interface as mapping interface
+- marks the interface as mapping interface
+
+
+``` Java
+@Entity
+@Data
+@Table(name = "authors")
+@EqualsAndHashCode(callSuper = true)
+public class Author extends BaseEntity {
+
+    private String name;
+
+    public Author (String name) {
+        this.setName(name);
+    }
+
+    public Author (Long id, String name) {
+        this.setId(id);
+        this.setName(name);
+    }
+
+    public Author() {
+
+    }
+}
+```
 
 Declaring the dto object
 ``` Java
