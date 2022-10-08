@@ -1,7 +1,16 @@
 // marks the interface as mapping interface
 
+Declaring the dto object
 ``` Java
-// Create the interface 
+@Value
+@Builder
+public class AuthorDto {
+    private long id;
+    private String authorName;
+}
+
+Create the interface 
+``` Java
 @Mapper
 public interface AuthorMapper {
 
@@ -15,8 +24,7 @@ public interface AuthorMapper {
 ```
 
 The tests 
-
-```
+``` Java
     @Test
     void shouldMapAuthorToDto() {
         // given
