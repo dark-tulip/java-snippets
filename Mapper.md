@@ -84,3 +84,59 @@ The tests
     }
     
 ```
+
+Mapping for book Model
+``` Java
+@Mapper
+public interface BookMapper {
+
+  BookMapper INSTANCE = Mappers.getMapper(BookMapper.class);
+
+  @Mapping(source = "id", target = "id")
+  @Mapping(source = "title", target = "title")
+  @Mapping(source = "author.name", target = "author")
+  @Mapping(source = "genre.name", target = "genre")
+  @Mapping(source = "description", target = "description")
+  @Mapping(source = "status", target = "status")
+  BookDto bookToDto(Book book);
+}
+```
+
+``` Java
+class BookMapperTest {
+
+  @Test
+  void shouldMapBookToBookDto() {
+    Book book = new Book("book");
+
+    book.setAuthor(new Author("authorName"));
+    book.setTitle("bookTitle");
+    book.setStatus(BookStatus.AVAILABLE);
+    book.setDescription("this is short description of book");
+    book.setId(123L);
+    book.setGenre(new Genre("classic library", "description of genre"));
+
+    BookDto bookDto = BookMapper.INSTANCE.bookToDto(book);
+
+    assertEquals(bookDto.getId(), book.getId());
+    assertEquals(bookDto.getTitle(), book.getTitle());
+    assertEquals(bookDto.getGenre(), book.getGenre().getName());
+    assertEquals(bookDto.getAuthor(), book.getAuthor().getName());
+    assertEquals(bookDto.getStatus(), book.getStatus());
+    assertEquals(bookDto.getDescription(), book.getDescription());
+  }
+
+  @Test
+  void shouldMapBookToBookDto__onlyName() {
+
+    Book book = new Book("bookName");
+
+    BookDto bookDto = BookMapper.INSTANCE.bookToDto(book);
+
+    assertEquals(bookDto.getTitle(), book.getTitle());
+
+    System.out.println(bookDto);  // BookDto(id=0, title=book, author=null, description=null, genre=null, status=null)
+    System.out.println(book);     // Book(id=null, title=book, status=null, genre=null, author=null, description=null)
+  }
+}
+```
