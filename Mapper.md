@@ -4,9 +4,6 @@ Mapper annotation marks the interface as mapping interface
 ### The Author model
 ``` Java
 @Entity
-@Data
-@Table(name = "authors")
-@EqualsAndHashCode(callSuper = true)
 public class Author extends BaseEntity {
 
     private String name;
@@ -20,9 +17,7 @@ public class Author extends BaseEntity {
         this.setName(name);
     }
 
-    public Author() {
-
-    }
+    public Author() { }
 }
 ```
 
@@ -125,7 +120,6 @@ class BookMapperTest {
 
   @Test
   void shouldMapBookToBookDto__onlyName() {
-
     Book book = new Book("bookName");
 
     BookDto bookDto = BookMapper.INSTANCE.bookToDto(book);
