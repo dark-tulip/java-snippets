@@ -1,6 +1,7 @@
-- marks the interface as mapping interface
+Mapper annotation marks the interface as mapping interface
 
 
+### The Author model
 ``` Java
 @Entity
 @Data
@@ -25,7 +26,7 @@ public class Author extends BaseEntity {
 }
 ```
 
-Declaring the dto object
+#### Declaring the authorDto object
 ``` Java
 @Value
 @Builder
@@ -34,7 +35,7 @@ public class AuthorDto {
     private String authorName;
 }
 ```
-Create the interface 
+#### Create the  mapping interface 
 ``` Java
 @Mapper
 public interface AuthorMapper {
@@ -47,15 +48,13 @@ public interface AuthorMapper {
   AuthorDto authorToAuthorDto(Author author);
 }
 ```
-
-The tests 
+#### The tests 
 ``` Java
     @Test
     void shouldMapAuthorToDto() {
         // given
         Long id = 111L;
         String name = "authorName";
-
         Author author = new Author(id, name);
 
         // when
@@ -71,7 +70,6 @@ The tests
     void shouldMapAuthorToDto__onlyName() {
         // given
         String name = "authorName";
-
         Author author = new Author(name);
 
         // when
@@ -84,8 +82,7 @@ The tests
     }
     
 ```
-
-Mapping for book Model
+### Mapping for Book model
 ``` Java
 @Mapper
 public interface BookMapper {
@@ -101,7 +98,7 @@ public interface BookMapper {
   BookDto bookToDto(Book book);
 }
 ```
-
+#### The tests
 ``` Java
 class BookMapperTest {
 
