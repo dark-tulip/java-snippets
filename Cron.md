@@ -36,3 +36,10 @@ public class TestController {
 ```
 
 <img width="500" alt="image" src="https://user-images.githubusercontent.com/89765480/195112567-4b0dc31f-93f9-4d30-8d88-28a0ff51acc8.png">
+
+
+ACID
+Normal forms
+isolation levels
+
+
