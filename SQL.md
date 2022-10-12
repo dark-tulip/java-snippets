@@ -13,8 +13,13 @@
 
 ```
 ACID
-atomicity
-consictency 
-isolation
-durability
+Atomicity
+Consictency 
+Isolation
+Durability
+```
+
+
+```
+isolation levels
 ```
