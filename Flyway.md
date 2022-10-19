@@ -31,3 +31,16 @@ Naming
 ```
 
 By default Flyway will look for migrations on the classpath under db/migration, which on a Maven project means src/main/resources/db/migration
+```Java
+    static final String url = "jdbc:postgresql://localhost:5432/library";
+    static final String user = "postgres";
+    static final String password = "postgres";
+    
+    @Bean
+    public FlywayMigrationStrategy flywayMigrationStrategy() {
+        return flyway -> {
+            Flyway.configure().dataSource(url, user, password).load().migrate();
+            // do nothing
+        };
+    }
+```
