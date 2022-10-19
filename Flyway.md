@@ -8,7 +8,7 @@ Flyway обновляет версии баз данных с помощью м�
 
 
 configuration pom.xml
-```
+```xml
 <plugin>
     <groupId>org.flywaydb</groupId>
     <artifactId>flyway-maven-plugin</artifactId>
@@ -28,6 +28,8 @@ Naming
 - prefix (V)
 - version (major_, minor)
 - name (double __name )
+
+mvn clean flyway:migrate 
 ```
 
 By default Flyway will look for migrations on the classpath under db/migration, which on a Maven project means src/main/resources/db/migration
