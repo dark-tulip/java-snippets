@@ -17,6 +17,17 @@ configuration pom.xml
         <url>jdbc:postgresql://localhost:5432/library</url>
         <user>postgres</user>
         <password>postgres</password>
+        <locations>filesystem:src/main/resources/db/migration/</locations>
+        <schemas>public</schemas>
     </configuration>
 </plugin>
 ```
+
+Naming
+```
+- prefix (V)
+- version (major_, minor)
+- name (double __name )
+```
+
+By default Flyway will look for migrations on the classpath under db/migration, which on a Maven project means src/main/resources/db/migration
