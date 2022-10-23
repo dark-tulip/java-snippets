@@ -1,10 +1,8 @@
-Flyway - фреймворка для непрерывного изменения схемы базы данных 
-
 Flyway обновляет версии баз данных с помощью миграций. Миграции можно писать на SQL (с синтаксисом, специфичным для конкретной СУБД) или на Java.
 
-Миграции
-Версионные - запускаются только один раз
-Повторяющиеся - только при изменнеии контрольной суммы
+- Миграции
+- Версионные - запускаются только один раз
+- Повторяющиеся - только при изменнеии контрольной суммы
 
 
 configuration pom.xml
@@ -24,14 +22,13 @@ configuration pom.xml
 ```
 
 Naming
-```
+```bash
 - prefix (V)
 - version (major_, minor)
 - name (double __name )
 
 mvn clean flyway:migrate 
 ```
-
 By default Flyway will look for migrations on the classpath under db/migration, which on a Maven project means src/main/resources/db/migration
 ```Java
     static final String url = "jdbc:postgresql://localhost:5432/library";
