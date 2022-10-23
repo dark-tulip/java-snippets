@@ -32,11 +32,9 @@ dirty read - грязное чтение - чтение данных, измен
 non-repeatable read - неповторяющееся чтение - при повторном чтении данные измменены другой транзакцией, неприемлимо когда данные считываются для частичного изменения (update / delete)
 fantom read - одна и та же выборка дает разное кол-во строк (изза вставки) в рамках одной транзакции
 ```
-
+```
 docker-compose stop
 docker-compose ps
-
-
-While Docker Compose is about creating and starting one or multiple containers, 
-Kubernetes serves more as a platform to create a network where we can orchestrate containers.
-
+```
+- While Docker Compose is about creating and starting one or multiple containers, 
+- Kubernetes serves more as a platform to create a network where we can orchestrate containers.
