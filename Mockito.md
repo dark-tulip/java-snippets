@@ -6,7 +6,12 @@
 `mock` -  это фиктивные обхекты, внедрить объекты для переменной экземпляра<br>
 Жесткий порядок вызова методов можно задать с помощью специального объекта InOrder (затем с verify)
 
-
+```Java
+Способы застабить
+when(foo.foo("qwe")).thenReturn("asd");   // так
+stub(foo.foo("qwe")).toReturn("asd");     // или так
+doReturn("asd").when(foo).foo("qwe");     // или так
+```
 ``` Java
 @ExtendWith(MockitoExtension.class)
 class AuthorServiceTest {
