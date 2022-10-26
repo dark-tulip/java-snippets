@@ -85,6 +85,8 @@ public class PopMusic implements Music {
 
 public class MusicPlayer {
   Music music;
+  
+  // IoC
   public MusicPlayer(Music music) {
     this.music = music;
   }
