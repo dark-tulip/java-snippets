@@ -36,5 +36,13 @@ public class MathComponent {
 }
 MathComponent ms = (MathComponent) context.getBean("mc");
 
+@Service and @Repository являются частными случаями of @Component.
+
 #### @Repository
 This annotation indicates that the class deals with CRUD operations
+Обычно для определения репозитория базы данных (уровень доступа к БД)
+Или определить что это DAO класс
+
+#### @Service
+Означает что класс содержит определенную бизнес логику
+и отвечает за уровень сервиса
