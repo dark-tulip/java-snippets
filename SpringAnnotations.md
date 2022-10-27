@@ -109,4 +109,23 @@ public class Main {
     }
 }
 ```
-
+#### Автоматическое внедрение зависимостей
+Внедрение зависимостей с помощью конструктора и конфигурацией xml 
+```Java
+// ApplicationContext.xml - injection with constructor
+    <bean id="music" class="ClassicalMusic"/>
+    <bean id="musicPlayer" class="MusicPlayer">
+        <constructor-arg ref="music"/>  // Доверили спрингу внедрение зависимости, полученный бин будет с внедренной зависимостью
+    </bean>
+    
+// Main.java
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        //  Music music = context.getBean("music", Music.class);
+        //  MusicPlayer musicPlayer = new MusicPlayer(music);
+        //  Usage is:
+        MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+        musicPlayer.playMusic();  // Playing... PLAYING CLASSICAL MUSIC
+        context.close();
+    }
+```
