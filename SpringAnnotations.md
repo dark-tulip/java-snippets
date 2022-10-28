@@ -249,3 +249,8 @@ Playing... PLAYING CLASSICAL MUSIC
 Some value
 1799
 ```
+#### Scopes
+```
+scope создает то, как spring будет создавать бины
+Scope singleton - указывет на один и тот же участок в памяти, на один и тот же бин
+```
