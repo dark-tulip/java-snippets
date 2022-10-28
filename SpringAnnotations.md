@@ -153,6 +153,7 @@ public class MusicPlayer {
   }
 }
 ```
+SetMusic в качестве аргумента передает ранее созданный бин
 ```xml
     <bean id="musicType" class="ClassicalMusic"/>
     <!--
@@ -160,8 +161,70 @@ public class MusicPlayer {
         с помощью метода set music назначает этому объекту зависимость music bean
     -->
     <bean id="musicPlayer" class="MusicPlayer">
-<!--        setSong, setMusic-->
+        <!-- setSong, setMusic-->
         <property name="music" ref="musicType"/>
     </bean>
 ```
+Вставка значений
+```xml
+    <bean id="musicPlayer" class="MusicPlayer">
+        <property name="music" ref="musicType"/>
+        <property name="name" value="Some name"/>
+        <property name="volume" value="100"/>
+    </bean>
+```
+``` Java
+public class MusicPlayer {
+  Music music;
+  int volume;
+  String name;
+  // IoC
+  public MusicPlayer(Music music) {
+    this.music = music;
+  }
 
+  // SETTER needs default constructor
+  public MusicPlayer() { }
+
+  // Setter
+  public void setMusic(Music music) {
+    this.music = music;
+  }
+
+  void playMusic() {
+    System.out.println("Playing... " + music.sound());
+  }
+
+  public int getVolume() {
+    return volume;
+  }
+
+  public void setVolume(int volume) {
+    this.volume = volume;
+  }
+
+  public String getName() {
+    return name;
+  }
+
+  public void setName(String name) {
+    this.name = name;
+  }
+}
+```
+```
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+//        Music music = context.getBean("music", Music.class);
+//        MusicPlayer musicPlayer = new MusicPlayer(music);
+        MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+        musicPlayer.playMusic();  // Playing... PLAYING CLASSICAL MUSIC
+        context.close();
+
+//        Playing... PLAYING CLASSICAL MUSIC
+//        Some name
+//        100
+        System.out.println(musicPlayer.getName());
+        System.out.println(musicPlayer.getVolume());
+    }
+```
