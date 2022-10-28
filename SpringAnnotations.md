@@ -228,3 +228,24 @@ public class MusicPlayer {
         System.out.println(musicPlayer.getVolume());
     }
 ```
+Задать значения с помощью classpath
+```
+    <context:property-placeholder location="classpath:musicPlayer.properties"/>
+    <bean id="musicType" class="ClassicalMusic"/>
+    <bean id="musicPlayer" class="MusicPlayer">
+        <property name="music" ref="musicType"/>
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
+    </bean>
+```
+```
+// musicPlayer.properties
+musicPlayer.name=Some value
+musicPlayer.volume=1799
+```
+result
+```
+Playing... PLAYING CLASSICAL MUSIC
+Some value
+1799
+```
