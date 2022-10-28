@@ -131,5 +131,37 @@ public class Main {
     }
 ```
 2. С помощь сеттера
+```Java
+public class MusicPlayer {
+  Music music;
 
+  // IoC
+  public MusicPlayer(Music music) {
+    this.music = music;
+  }
+
+  // SETTER needs default constructor
+  public MusicPlayer() { }
+  
+  // Setter
+  public void setMusic(Music music) {
+    this.music = music;
+  }
+
+  void playMusic() {
+    System.out.println("Playing... " + music.sound());
+  }
+}
+```
+```xml
+    <bean id="musicType" class="ClassicalMusic"/>
+    <!--
+        Создает объект с пустым конструктором MusicPlayer
+        с помощью метода set music назначает этому объекту зависимость music bean
+    -->
+    <bean id="musicPlayer" class="MusicPlayer">
+<!--        setSong, setMusic-->
+        <property name="music" ref="musicType"/>
+    </bean>
+```
 
