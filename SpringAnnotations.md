@@ -201,7 +201,7 @@ public class MusicPlayer {
     }
 ```
 Задать значения с помощью classpath
-```
+```xml
     <context:property-placeholder location="classpath:musicPlayer.properties"/>
     <bean id="musicType" class="ClassicalMusic"/>
     <bean id="musicPlayer" class="MusicPlayer">
