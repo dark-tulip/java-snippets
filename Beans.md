@@ -1,3 +1,11 @@
+1. Create BookService interface
+2. Create BookServiceImpl service implementing interface (@Service annotattion)
+3. Create BookServiceStubbedImpl service implementing interface (@Service annotattion)
+
+4. Вызвать нужный бин с нового сервиса.
+5. Сделать дефолтным BookServiceImpl как дефолтную реализацию BookService.
+
+
 ### Как подруджить lombok @RequiredArgsConstructor с @Qualifier
 ```Java
 @RestController
@@ -21,15 +29,34 @@ public class TestController {
 lombok.copyableAnnotations += org.springframework.beans.factory.annotation.Qualifier
 ```
 
-
 #### Qualifier
 Квалификатор аннотации нужен чтобы конкретно указать спрингу какой нам нужен бин
 Когда есть несколько бинов реализующих интерфейс
 
+```Java
+public interface BookService {
+  String getServiceType();
+}
 
-1. Create BookService interface
-2. Create BookServiceImpl service implementing interface (@Service annotattion)
-3. Create BookServiceStubbedImpl service implementing interface (@Service annotattion)
+@Service
+@AllArgsConstructor
+public class BookServiceStubbedImpl implements BookService {
 
-4. Вызвать нужный бин с нового сервиса.
-5. Сделать дефолтным BookServiceImpl как дефолтную реализацию BookService.
+  private final BookRepository bookRepository;
+
+  public String getServiceType(){
+    return "This is Faked book service";
+  }
+}
+
+@Primary
+@Service
+@RequiredArgsConstructor
+public class BookServiceImpl implements BookService {
+  private final BookRepository bookRepository;
+
+  public String getServiceType(){
+    return "This is real book service";
+  }
+}
+```
