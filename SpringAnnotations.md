@@ -9,10 +9,9 @@
 Бин - объект класса управляемый контейнером бинов (ApplicationContext)
 - Подставить значение поля shop объекту seller
 - Аннотация `Component` означает что класс который мы вызываем это бин
-- Аннотация `autowired` означает подставить значение, в поле которое оно аннотирует
-
-Делегирование объектов класса спрингу
-Когда мы передаем класс спрингу - он называется БИН
+- Аннотация `Autowired` означает подставить значение, в поле которое оно аннотирует
+- Делегирование объектов класса спрингу
+- Когда мы передаем класс спрингу - он называется БИН
 ```Java
 @Component
 public class Shop {
@@ -26,12 +25,9 @@ public class Seller {
 ```
 
 #### @Component
-
-class is a front controller and responsible to handle user request and return appropriate response.
-
-We can also specify the component name and then get it from spring context using the same name.
-
-@Service and @Repository являются частными случаями of @Component.
+- class is a front controller and responsible to handle user request and return appropriate response.
+- We can also specify the component name and then get it from spring context using the same name.
+- `@Service` and `@Repository` являются частными случаями `@Component`.
 
 #### @Repository
 - This annotation indicates that the class deals with CRUD operations
@@ -41,7 +37,6 @@ We can also specify the component name and then get it from spring context using
 #### @Service
 - Означает что класс содержит определенную бизнес логику
 - и отвечает за уровень сервиса
-
 
 ### Inversion of Control (Beans with xml)
 ```xml name='applicationContext.xml'
@@ -63,14 +58,12 @@ public interface Music {
 }
 
 public class ClassicalMusic implements Music {
-  @Override
   public String sound() {
     return "PLAYING CLASSICAL MUSIC";
   }
 }
 
 public class PopMusic implements Music {
-  @Override
   public String sound() {
     return "PlAYING POP MUSIC";
   }
@@ -88,7 +81,6 @@ public class MusicPlayer {
   }
 }
 
-public class Main {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         Music music = context.getBean("music", Music.class);
@@ -96,7 +88,6 @@ public class Main {
         musicPlayer.playMusic();
         context.close();
     }
-}
 ```
 #### Автоматическое внедрение зависимостей
 1. Внедрение зависимостей с помощью конструктора и конфигурацией xml 
@@ -119,7 +110,7 @@ public class Main {
         context.close();
     }
 ```
-2. С помощь сеттера
+2. С помощь сеттера - needs default constructor
 ```Java
 public class MusicPlayer {
   Music music;
@@ -129,7 +120,6 @@ public class MusicPlayer {
     this.music = music;
   }
 
-  // SETTER needs default constructor
   public MusicPlayer() { }
   
   // Setter
@@ -172,7 +162,6 @@ public class MusicPlayer {
     this.music = music;
   }
 
-  // SETTER needs default constructor
   public MusicPlayer() { }
 
   // Setter
@@ -205,14 +194,10 @@ public class MusicPlayer {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
         MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
-        musicPlayer.playMusic();  // Playing... PLAYING CLASSICAL MUSIC
+        musicPlayer.playMusic();                      // Playing... PLAYING CLASSICAL MUSIC
+        System.out.println(musicPlayer.getName());    // Some name
+        System.out.println(musicPlayer.getVolume());  // 100
         context.close();
-
-//        Playing... PLAYING CLASSICAL MUSIC
-//        Some name
-//        100
-        System.out.println(musicPlayer.getName());
-        System.out.println(musicPlayer.getVolume());
     }
 ```
 Задать значения с помощью classpath
