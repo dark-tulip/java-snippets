@@ -20,3 +20,8 @@ public class TestController {
 // lombok.config file on the application root 
 lombok.copyableAnnotations += org.springframework.beans.factory.annotation.Qualifier
 ```
+
+
+#### Qualifier
+Квалификатор аннотации нужен чтобы конкретно указать спрингу какой нам нужен бин
+Когда есть несколько бинов реализующих интерфейс
