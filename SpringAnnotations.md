@@ -1,20 +1,19 @@
-- DTO - хранить, сериализовывать, передавать данные
-- Entity - сущность в БД без никакой логики
-- DAO - сохранять и доставать данные в БД
+- `DTO` - хранить, сериализовывать, передавать данные
+- `Entity` - сущность в БД без никакой логики
+- `DAO` - сохранять и доставать данные в БД
 
-Inversion of control - делегирование обязанностей внешнему компоненту
+`Inversion of control` - делегирование обязанностей внешнему компоненту
 
-Одна из реализаций Inversion of control это dependency injection
+Одна из реализаций Inversion of control это `dependency injection`
 
 Бин - объект класса управляемый контейнером бинов (ApplicationContext)
-Подставить значение поля shop объекту seller
-Аннотация компонент означает что класс который мы вызываем это бин
-Аннотация autowired означает подставить значение, в поле которое оно аннотирует
+- Подставить значение поля shop объекту seller
+- Аннотация `Component` означает что класс который мы вызываем это бин
+- Аннотация `autowired` означает подставить значение, в поле которое оно аннотирует
 
 Делегирование объектов класса спрингу
 Когда мы передаем класс спрингу - он называется БИН
 ```Java
-
 @Component
 public class Shop {
 }
@@ -32,21 +31,16 @@ class is a front controller and responsible to handle user request and return ap
 
 We can also specify the component name and then get it from spring context using the same name.
 
-@Component("mc")
-public class MathComponent {
-}
-MathComponent ms = (MathComponent) context.getBean("mc");
-
 @Service and @Repository являются частными случаями of @Component.
 
 #### @Repository
-This annotation indicates that the class deals with CRUD operations
-Обычно для определения репозитория базы данных (уровень доступа к БД)
-Или определить что это DAO класс
+- This annotation indicates that the class deals with CRUD operations
+- Обычно для определения репозитория базы данных (уровень доступа к БД)
+- Или определить что это DAO класс
 
 #### @Service
-Означает что класс содержит определенную бизнес логику
-и отвечает за уровень сервиса
+- Означает что класс содержит определенную бизнес логику
+- и отвечает за уровень сервиса
 
 
 ### Inversion of Control (Beans with xml)
@@ -63,7 +57,6 @@ This annotation indicates that the class deals with CRUD operations
     <bean id="music" class="ClassicalMusic"/>
 </beans>
 ```
-
 ```java
 public interface Music {
   String sound();
@@ -98,13 +91,9 @@ public class MusicPlayer {
 public class Main {
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-
         Music music = context.getBean("music", Music.class);
-
         MusicPlayer musicPlayer = new MusicPlayer(music);
-
         musicPlayer.playMusic();
-
         context.close();
     }
 }
@@ -212,11 +201,9 @@ public class MusicPlayer {
   }
 }
 ```
-```
+```java
     public static void main(String[] args) {
         ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
-//        Music music = context.getBean("music", Music.class);
-//        MusicPlayer musicPlayer = new MusicPlayer(music);
         MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
         musicPlayer.playMusic();  // Playing... PLAYING CLASSICAL MUSIC
         context.close();
@@ -239,11 +226,11 @@ public class MusicPlayer {
     </bean>
 ```
 ```
-// musicPlayer.properties
+// musicPlayer.properties file
 musicPlayer.name=Some value
 musicPlayer.volume=1799
 ```
-result
+result:
 ```
 Playing... PLAYING CLASSICAL MUSIC
 Some value
