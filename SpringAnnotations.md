@@ -214,15 +214,13 @@ public class MusicPlayer {
 // musicPlayer.properties file
 musicPlayer.name=Some value
 musicPlayer.volume=1799
-```
 result:
-```
 Playing... PLAYING CLASSICAL MUSIC
 Some value
 1799
 ```
 #### Scopes
 ```
-scope создает то, как spring будет создавать бины
+Scope создает то, как spring будет создавать бины
 Scope singleton - указывет на один и тот же участок в памяти, на один и тот же бин (когда бин stateless, когда нет изменяемых состояний)
 ```
