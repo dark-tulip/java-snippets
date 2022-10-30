@@ -239,6 +239,22 @@ Some value
 - Изменение состояний для сингтон бина приведет к проблемам (ссылочные типы данных)
 - Смена атрибута приведет к его смене во всем программном коде
 - По умолчанию используется scope singleton
+
+```java
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+        MusicPlayer musicPlayer2 = context.getBean("musicPlayer", MusicPlayer.class);
+        
+        // Singleton
+        System.out.println(musicPlayer == musicPlayer2);  // true
+        musicPlayer.volume = 1800;
+        musicPlayer2.volume = 2000;
+        System.out.println(musicPlayer == musicPlayer2);  // true
+
+        context.close();
+    }
+```
 #### Prototype
 - каждый раз создает новый объект при вызове getBean
 - При изменяемых состояниях, statefull (например volume of music)
