@@ -50,16 +50,16 @@ public class TestController {
   }
 }
 ```
-
 ```
 // lombok.config file on the application root 
 lombok.copyableAnnotations += org.springframework.beans.factory.annotation.Qualifier
 ```
 #### Qualifier
-Квалификатор аннотации нужен чтобы конкретно указать спрингу какой нам нужен бин
-Когда есть несколько бинов реализующих интерфейс
+- Квалификатор аннотации нужен чтобы конкретно указать спрингу какой нам нужен бин
+- Когда есть несколько бинов реализующих интерфейс
+- indicates that specific bean should be autowired when there are multiple candidates
+- Независимо от того, сколько beans spring нашел, просто используй тот, который указали
 
-// order, qualifier, test, lombok-qualifier
-
-
-
+#### @Primary
+- Отдать приоритет этому бину (по умолчанию)
+- Приоритет Qualifier выше
