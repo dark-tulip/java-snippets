@@ -59,4 +59,7 @@ lombok.copyableAnnotations += org.springframework.beans.factory.annotation.Quali
 Квалификатор аннотации нужен чтобы конкретно указать спрингу какой нам нужен бин
 Когда есть несколько бинов реализующих интерфейс
 
+// order, qualifier, test, lombok-qualifier
+
+
 
