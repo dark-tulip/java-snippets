@@ -12,6 +12,7 @@
 - `DAO` - сохранять и доставать данные в БД
 
 Одна из реализаций Inversion of control это `dependency injection`
+- Конкрентная реализация возлагается на фреймворк или используемый модуль
 
 Бин - объект класса управляемый контейнером бинов (ApplicationContext)
 - Подставить значение поля shop объекту seller
@@ -36,14 +37,17 @@ public class Seller {
 - We can also specify the component name and then get it from spring context using the same name.
 - `@Service` and `@Repository` являются частными случаями `@Component`.
 
-#### @Repository
-- This annotation indicates that the class deals with CRUD operations
-- Обычно для определения репозитория базы данных (уровень доступа к БД)
-- Или определить что это DAO класс
-
 #### @Service
 - Означает что класс содержит определенную бизнес логику
 - и отвечает за уровень сервиса
+
+#### @Repository
+- This annotation indicates that the class deals with CRUD operations
+- Обычно для определения репозитория базы данных (уровень доступа к БД)
+- Хранилище данных, Или определить что это DAO класс
+
+#### Controller 
+- Обработка веб запросов (Методы Request Mapping)
 
 ### Inversion of Control (Beans with xml)
 ```xml name='applicationContext.xml'
@@ -226,7 +230,7 @@ Playing... PLAYING CLASSICAL MUSIC
 Some value
 1799
 ```
-#### Scopes
+### Scopes
 - Scope указывает на то, как spring будет создавать бины
 - Scope singleton - указывет на один и тот же участок в памяти, на один и тот же бин (когда бин stateless, когда нет изменяемых состояний)
 
@@ -235,3 +239,7 @@ Some value
 - Изменение состояний для сингтон бина приведет к проблемам (ссылочные типы данных)
 - Смена атрибута приведет к его смене во всем программном коде
 - По умолчанию используется scope singleton
+#### Prototype
+- каждый раз создает новый объект при вызове getBean
+- При изменяемых состояниях, statefull (например volume of music)
+- Когда у бина изменяемые состояния
