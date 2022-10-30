@@ -239,6 +239,7 @@ Some value
 - Изменение состояний для сингтон бина приведет к проблемам (ссылочные типы данных)
 - Смена атрибута приведет к его смене во всем программном коде
 - По умолчанию используется scope singleton
+- Хэши объектов равны
 
 ```java
     public static void main(String[] args) {
@@ -259,3 +260,25 @@ Some value
 - каждый раз создает новый объект при вызове getBean
 - При изменяемых состояниях, statefull (например volume of music)
 - Когда у бина изменяемые состояния
+```xml
+    <bean id="musicPlayer" class="MusicPlayer" scope="prototype">
+        <property name="music" ref="musicType"/>
+        <property name="name" value="${musicPlayer.name}"/>
+        <property name="volume" value="${musicPlayer.volume}"/>
+    </bean>
+```
+```Java
+ public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        MusicPlayer musicPlayer = context.getBean("musicPlayer", MusicPlayer.class);
+        MusicPlayer musicPlayer2 = context.getBean("musicPlayer", MusicPlayer.class);
+
+        // Prototype
+        System.out.println(musicPlayer == musicPlayer2);  // false
+        musicPlayer.volume = 1800;
+        musicPlayer2.volume = 2000;
+        System.out.println(musicPlayer == musicPlayer2);  // false
+
+        context.close();
+    }
+```
