@@ -282,3 +282,25 @@ Some value
         context.close();
     }
 ```
+
+### Жизненный цикл бина
+
+#### Init destroy методы
+- Любой модификатор доступа (private, public, protected)
+- По факту только void, так как нет возможности получить значение
+- Название метода может быть любым
+- Методы не должны принимать никаких аргументов
+```xml
+    <bean id="musicBean" class="ClassicalMusic" init-method="doMyInit" destroy-method="doMyDestroy"/>
+```
+```java
+    public static void main(String[] args) {
+        ClassPathXmlApplicationContext context = new ClassPathXmlApplicationContext("applicationContext.xml");
+        ClassicalMusic musicPlayer = context.getBean("musicBean", ClassicalMusic.class);
+        System.out.println(musicPlayer.sound());
+        context.close();
+        //  :: INIT
+        //  PLAYING CLASSICAL MUSIC
+        //  :: DESTROY
+    }
+```
