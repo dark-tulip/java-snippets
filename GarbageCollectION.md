@@ -24,7 +24,6 @@
 - Code cache - память при использовании JIT компиляции (кэшируется скомпилированный - платформенно зависимый код)
 ---
 
-
 ## 2. очистка памяти
 
 GC выолняет только две задачи
@@ -47,7 +46,13 @@ Spoiler. Утечка памяти - когда два объекта ссыла
 
 --- 
 
-
+- Try with resources
+- GC
+- Сколько heap and stacks имеет GC
+- Serial GC
+- Parralel GC
+- G1GC
+- without GC
 
 2. Какие garbage collectorы есть
 3. Java varsion и GC
