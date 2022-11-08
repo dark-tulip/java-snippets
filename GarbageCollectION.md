@@ -28,8 +28,6 @@
     - eden space (все новые объекты создаются тут, когда переполняется запускается GC)
     - survior space (после первой сборки мусора)
 
----
-
 ## 2. Garbage collectors
 
 Триггерит GC:
@@ -60,8 +58,8 @@ GC выолняет только две задачи:
 - GC is memoty management tool
 - tracks every available object
 
----
-## GC types
+
+## 3. GC types
 
 #### 1. Serial GC
 - один из первых
