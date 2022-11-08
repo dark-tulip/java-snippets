@@ -4,10 +4,11 @@
 - основной сегмент памяти где хранятся все объекты
 - Общий участок памяти для всего приложения
 - OutOfMemoryException
+- хранение ссылочных типов
 
 #### Области памяти в heap
 - old generation, 
-    - Tenured (долгоживущие объекты - после переполнения выполняется тотальный GC)
+    - Tenured (долгоживущие объекты - после переполнения выполняется тотальный GC) - статичные объекты, константы, огромные objects
 - new generation
     - eden space (все новые объекты создаются тут, когда переполняется запускается GC)
     - survior space (после первой сборки мусора)
@@ -18,6 +19,8 @@
 - Стековая память недоступна для других потоков
 - StackOverFlowException
 - only compiler instructions manages stack memory
+- Память освобождается в конце выполнения метода
+- хранение примитивных типов
 
 #### Стековая память
 - Permanent generation - память в JVM для хранения метаинформации 
@@ -25,12 +28,14 @@
 ---
 
 ## 2. очистка памяти
-
+Триггерит GC
+- переполнение объектов в куче
+- ОС посылает сигнал
 GC выолняет только две задачи
     - reference counting (каждый объект имеет счетчик ссылок на себя - когда ноль мусор)
     - tracing (узлы до которых нельзя достучаться (non-reachable objects) из GCroot считаются мусором)
 
-Spoiler. Утечка памяти - когда два объекта ссылаются друг на друга и не имеют внешних ссылок
+Утечка памяти - когда два объекта ссылаются друг на друга и не имеют внешних ссылок
 
     
 #### copy collection - эффективен когда много мусора и мало полезных обхектов
@@ -39,26 +44,67 @@ Spoiler. Утечка памяти - когда два объекта ссыла
 - удаляет все из eden
 #### mark-sweep-compact collection 
 - Пометка неиспользуемых
-- Sweep - удаление пустых слот
+- Sweep - удаление пустых слот ( removes marked objects)
 - Compact - заполнение пустых слот (смещение к ним)
 
 ### generational gc 
+по умолчанию JVM HotSpot имеет 4 сборщика мусора
+Решает проблемы
+- dangling pointers (указателей на удаленный объект)
+- auto clearing of unused memory space
+- memory leak (утечка памяти - програмный код не может достучаться до объекта)
+- автоочищение медленней чем правильней вручную
+- GC is memoty management tool
+- tracks every available object
+
+#### 1. Serial GC
+- один из первых
+- GC работает одним потоком
+- замораживает все потоки приложения
+   - minor GC - new generation
+   - mark-sweep-compact - total - old generation - с уплотнением
+   
+#### 2. Parallel GC
+- Использует несколько потоков для управления heap space
+- Также замораживает другие потоки приложения
+- default for Java 8
+
+
+#### 3. Concurrent-Mark-Sweep
+- multiple GC threads 
+- can share processor resources with GC (running application)
+- shorter pauses
+- deprecated in Java 9, dropped from java 14
+
+#### 4. G1GC - garbage first garbage collector
+- default from Java 9
+- разбиение кучи на набор области одинакового размера
+- хорошая пропускная способность
+- from new -> old geneeration
+- parallel marking of unlinked objects 
+- сжатие живых объектов путем паралельного копирования
+- JVM sets the region size (depends from heap size)
+- eden, survior and olg generation are logical sets of these regions (они не пересекаются)
+- firsl, compact collection sets 
+- second, Remembered sets to track references into regions (to scan only region without whole heap)
+
+#### 5. Zero GC
+- для больших куч с меньшей задержкой
+- работает паралельно с приложением 
+- Java 11 -> 15
+
+#### 6. JVM withot GC
+- from java 11
+- stops JVM when куча переполнена
+- Epsilon - no op GC
+
+
+--- 
+from java 8 - suplicated strings storing 
+файл лучше читать построчно а не целиком (no large objects)
+String builder
 
 --- 
 
 - Try with resources
-- GC
-- Сколько heap and stacks имеет GC
-- Serial GC
-- Parralel GC
-- G1GC
-- without GC
-
-2. Какие garbage collectorы есть
-3. Java varsion и GC
-4. Внутренняя реализация
-
-
-#### gc for heap or stack\?
-
 #### Cashing and redis
