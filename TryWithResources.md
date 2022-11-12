@@ -39,7 +39,7 @@ Second resource is closed
 First resource is closed
 ```
 
-### Использование констант
+### Использование и сравнение с константами
 ```Java
 CONST.equals(someService.getMethod());
 ```
