@@ -305,5 +305,3 @@ Some value
     }
 ```
 - scope prototype - spring не вызывает destroy метода
-
-
