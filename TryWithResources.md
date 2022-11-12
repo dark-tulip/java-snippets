@@ -32,3 +32,9 @@ try (resourceTwo; resourceOne) {
   System.out.println("Printed something inside try-catch block");
 }
 ```
+```
+// The output result
+Printed something inside try-catch block
+Second resource is closed
+First resource is closed
+```
