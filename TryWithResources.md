@@ -38,3 +38,8 @@ Printed something inside try-catch block
 Second resource is closed
 First resource is closed
 ```
+
+### Использование констант
+```Java
+CONST.equals(someService.getMethod());
+```
