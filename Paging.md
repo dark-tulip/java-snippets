@@ -1,5 +1,6 @@
 ### Встроенная пагинация Spring Data JPA
 
+### Extend from PagingAndSortingRepository
 ```Java
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {
   @Override
@@ -7,20 +8,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<Author, Lon
 }
 ```
 
-
-```Java
-@RestController
-@RequiredArgsConstructor
-@RequestMapping(path = Constants.API_BASE + "authors")
-public class AuthorController {
-    @GetMapping
-    public List<Author> getAuthorList(@RequestParam Integer pageNum, 
-                                      @RequestParam(required = false) Integer itemsPerPage){
-        return authorService.getAuthorList(pageNum, itemsPerPage);
-    }
-}
-```
-
+### FindAll using Pageable 
 ```Java
 @Component
 @RequiredArgsConstructor
@@ -43,3 +31,18 @@ public class AuthorService {
     }
 }
 ```
+
+### Make controller with requested params
+```Java
+@RestController
+@RequiredArgsConstructor
+@RequestMapping(path = Constants.API_BASE + "authors")
+public class AuthorController {
+    @GetMapping
+    public List<Author> getAuthorList(@RequestParam Integer pageNum, 
+                                      @RequestParam(required = false) Integer itemsPerPage){
+        return authorService.getAuthorList(pageNum, itemsPerPage);
+    }
+}
+```
+
