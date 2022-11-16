@@ -1,7 +1,17 @@
 ### Встроенная пагинация Spring Data JPA
 
-Integer - класс обертка, (if you want to be able to be null)
-int - примитивный тип данных (int cannot be null, may be zero if not initialized)
+#### Разница между Integer and int
+
+Integer
+- Integer - класс обертка, 
+- if you want object to be able to be null
+- Integer.parseInt("123"); // OK
+- new Integer("123");      // OK
+- Convert to another base: Integer.toBinaryString(123) // OK
+
+int 
+- примитивный тип данных 
+- int cannot be null, may be zero if not initialized
 
 ### Extend from PagingAndSortingRepository
 ```Java
