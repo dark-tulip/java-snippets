@@ -1,5 +1,8 @@
 ### Встроенная пагинация Spring Data JPA
 
+Integer - класс обертка, (if you want to be able to be null)
+int - примитивный тип данных (int cannot be null, may be zero if not initialized)
+
 ### Extend from PagingAndSortingRepository
 ```Java
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {
