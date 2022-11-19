@@ -116,3 +116,33 @@ class AuthorServiceTest {
 
 }
 ```
+
+``` Java
+@ExtendWith(MockitoExtension.class)
+class StudentServiceTest {
+
+    @InjectMocks  // указывает что мы тестируем (мокать поле которое в классе)
+    StudentService studentService;
+    
+    @Mock
+    StudentRepository studentRepository
+    
+    @Test
+    void getAll() {
+        // given 
+        Long wantType = 1L;
+        Boolean deleted = true;
+        
+        Student student1 = new Student();
+        Student student2 = new Student();
+        Student student3 = new Student();
+        
+        // when 
+        when(studentRepository.findByQustomQuery(deleted)).thenReturn(List.of(student1, student2, student3));
+        
+        // then
+        List<Studnet> all = studentService.getAll(wantType, deleted);
+        assertEquals(3, all.size());
+    }
+}
+```
