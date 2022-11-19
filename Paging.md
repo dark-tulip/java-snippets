@@ -13,7 +13,7 @@ int
 - примитивный тип данных 
 - int cannot be null, may be zero if not initialized
 
-### Extend from PagingAndSortingRepository
+### 1.Extend from PagingAndSortingRepository
 ```Java
 public interface AuthorRepository extends PagingAndSortingRepository<Author, Long> {
   @Override
@@ -21,7 +21,7 @@ public interface AuthorRepository extends PagingAndSortingRepository<Author, Lon
 }
 ```
 
-### FindAll using Pageable 
+### 2.FindAll using Pageable 
 ```Java
 @Component
 @RequiredArgsConstructor
@@ -45,7 +45,7 @@ public class AuthorService {
 }
 ```
 
-### Make controller with requested params
+### 3.Make controller with requested params
 ```Java
 @RestController
 @RequiredArgsConstructor
@@ -58,4 +58,23 @@ public class AuthorController {
     }
 }
 ```
+### Objecr relational mapping
+#### Показать запрос который был отправлен в БД
+``` 
+spring.jpa.show-sql=true;
+```
+- прелесть JPA - object relational mapping - при различном наименовании атрибутов (столбцов) с моделькой Java
+- Главная фишка  в маппинге полей с java объектом
+``` Java
+public interface StudentRepository extends JpaRepository<Student, Long> {
+    // : ссылка на параметр 
+    // s - ссылка на объект - entity
 
+    @Query("SELECT s FROM students s WHERE (:deleted is null or s.deleted = :deleted) AND (:wantTypeId is null or s.wantTypeId = :wantTypeId)")
+    List<Student> findAllFiltered(Boolean deleted, Long wantTypeId);
+
+    // прямой запрос в БД, nativeQuery
+    @Query(value = "SELECT * FROM students WHERE is_deleted = :deleted", nativeQuery=true);
+    List<Student> findByQustomQuery(Boolean deleted, Long wantType)
+}
+```
