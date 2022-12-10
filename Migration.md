@@ -30,6 +30,6 @@ try (Connection connection = DriverManager.getConnection(connectionUrl)
         return; // Exit if there was an error
     }
 
-    conn.commit();
+    connection.commit();
 }
 ```
