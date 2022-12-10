@@ -1,10 +1,12 @@
 ### Теоретический материал по миграции
 
 1. Преимущественно использовать групповые операции
-2. По умолчанию каждый батч кэшируется
-3. 
+2. По умолчанию каждая строка кэшируется и пакетом отправляется при вызове `executeBatch()`
+3. (Streaming batch inserts) Потоковая вставка, каждый раз вставляет в БД при вызове `addBatch()`
 
 ### Batch Inserts Using JDBC Prepared Statements
+
+https://www.vertica.com/docs/9.2.x/HTML/Content/Authoring/ConnectingToVertica/ClientJDBC/BatchInsertsUsingJDBCPreparedStatements.htm
 
 - `addBatch()` - вставляет строку в пакет
 - `executeBatch()` - выполнить пакетную вставку
