@@ -19,12 +19,12 @@ try (Connection connection = DriverManager.getConnection(connectionUrl)
         ps.setString(2, lastNames[i]);
         ps.setString(3, firstNames[i]);
         // Add row to the batch.
-        pstmt.addBatch();
+        ps.addBatch();
     }
     // 3. Insert batch of data
     try {
         // Batch is ready, execute it to insert the data
-        pstmt.executeBatch();
+        ps.executeBatch();
     } catch (SQLException e) {
         System.out.println("Error message: " + e.getMessage());
         return; // Exit if there was an error
