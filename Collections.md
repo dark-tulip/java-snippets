@@ -1,0 +1,2 @@
+- List - может хранить дубликаты и null (ArrayList, LinkedList, Vector (Stack))
+- ArrayList - this is resizable array, defaultCapacity = 10, можно задать initialCapacity, можно передать в параметры конструктора другой список  
