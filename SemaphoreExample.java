@@ -23,6 +23,8 @@ class Person extends Thread {
     public Person(String name, Semaphore restRoom) {
         this.name = name;
         this.restRoom = restRoom;
+
+        // при создании персоны сразу запускать тред (run task)
         this.start();
     }
 
