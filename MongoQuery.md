@@ -59,3 +59,53 @@ db.Person
   ]);
 ```
 
+
+### Получить внутренние записи коллекции
+```
+db.getSiblingDB("db_name").getCollection("coll_name").aggregate([
+  {
+    $project: {
+      events: {
+        $objectToArray: "$events"  // превратить в key/value документ, чтобы ссылаться ниже через точку, где K это ИД события, а через V можно достать его внутренности
+      }
+    }
+  },
+  {
+    $unwind: "$events"  // дернуть документ за веточку выше
+  },
+  {
+    $project: {
+      _id: 1,
+      eventType: "$events.v.type",
+      fieldValues: { $objectToArray: "$events.v.fieldValues" },
+      participantIds: { $objectToArray: "$events.v.participantIds" },
+      happened: "$events.v.happened"
+    }
+  },
+  {
+    $unwind: {
+      path: "$fieldValues",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+  {
+    $unwind: {
+      path: "$participantIds",
+      preserveNullAndEmptyArrays: true  // разрешить пустые значения в ячейках, нужно для полной проекции
+    }
+  },
+  {
+    $project: {
+      _id: 1,
+      eventType: 1,
+      fieldId: "$fieldValues.k",
+      newValue: "$fieldValues.v.newStoredValue",
+      oldValue: "$fieldValues.v.oldStoredValue",
+      participantId: "$participantIds.k",
+      happenedAt: "$happened.at",
+      happenedBy: "$happened.by"
+    }
+  },
+])
+```
+
