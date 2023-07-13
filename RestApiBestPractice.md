@@ -1,0 +1,4 @@
+- use UUID
+- берегитесь инкрементальных ИД
+- NEVER send token througn URL
+- use content-type HTTP headers
