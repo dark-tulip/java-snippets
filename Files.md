@@ -135,3 +135,52 @@ public class Main {
 }
 ```
 
+<hr>
+
+### DataInputStream, DataOutputStream
+- позволяет читать примитивные типы данных
+- независим от запускаемой платформы
+- позволяет сохранить и позже прочитать с DataOutputStream
+- для работы с несколькими потоками используйте синхронизированные блоки
+
+```Java
+
+
+import java.io.*;
+
+public class MainEx {
+  public static void main(String[] args) {
+    try (DataOutputStream out = new DataOutputStream(new FileOutputStream("test.bin"))) {
+      out.writeInt(123);
+      out.writeInt(111111);
+      out.writeBoolean(true);
+      out.writeInt(1);  // - int
+      out.writeBoolean(true);
+
+      DataInputStream is = new DataInputStream(new FileInputStream("test.bin"));
+      System.out.println(is.readInt());
+      System.out.println(is.readInt());
+      System.out.println(is.readBoolean());
+      System.out.println(is.readBoolean());
+      System.out.println(is.readBoolean());
+      System.out.println(is.readBoolean());
+      System.out.println(is.readBoolean());
+      System.out.println(is.readBoolean());
+      is.close();
+
+//      123
+//      111111
+//      true
+//      false - int
+//      false - int
+//      false - int
+//      true  - int
+//      true
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}
+
+```
+
