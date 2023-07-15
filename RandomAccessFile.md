@@ -31,4 +31,10 @@ public class RandomAccessFileEx {
     }
   }
 }
+/*
+Output:
+-----f gjgh
+raf.write('n');('n')dfsdfs
+sdf
+*/
 ```
