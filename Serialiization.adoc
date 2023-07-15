@@ -2,6 +2,9 @@
 - десериализация - это процесс восстановления объекта ИЗ потока байтов
 - сериализируемый класс должен имплементировать интерфейс `Serializable` иначе кидает `NotSerializableException`
 - когда поле НЕ серидализируемого класса равно null - сериализация проходит
+- `transient` игнорирует поле при сериализации
+- `static final long serialVersionUID` - нужен для смены версии класса, иначе его нельзя будет десериализовывать
+- когда у класса совпадает serialVersionUID, не найденные поля будут равны null
 ```Java
 
 import lombok.ToString;
@@ -18,19 +21,21 @@ class Car {
 }
 
 class MyObject implements Serializable {
+
+  static final long serialVersionUID = 5313373900449447211L;
   String name;
   String surname;
-  int age;
+  int personAge;
   transient Car model = new Car("sdfsdf");  // ignore during serialization
 
   public String toString() {
-    return "name: " + this.name + ", surname: " + this.surname + ", age: " + this.age + ", model: " + this.model
+    return "name: " + this.name + ", surname: " + this.surname + ", age: " + this.personAge + ", model: " + this.model
       + " , hashCode:" + Objects.hashCode(this)
       + " , identityHashCode:" + System.identityHashCode(this);
   }
 
   public int hashCode() {
-    return Objects.hash(age, name, surname, model);
+    return Objects.hash(personAge, name, surname, model);
   }
 }
 
@@ -51,6 +56,7 @@ class ThreadWriter extends Thread {
   public void run() {
     try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.bin"))) {
       MyObject obj = new MyObject();
+      obj.surname ="AAA";
       // obj.model = null;  // if model=null - спокойно проходит,
       // иначе кидает NotSerializableException: org.example.Car
       System.out.println("6YQ61AQQ :: write " + obj);
@@ -66,8 +72,8 @@ public class MainEx {
     MainEx ex = new MainEx();
     ThreadWriter writer = new ThreadWriter();
     ThreadReader reader = new ThreadReader();
-    writer.start();
-    writer.join();
+//    writer.start();
+//    writer.join();
     reader.start();
     reader.join();
     //  6YQ61AQQ :: write name: null, surname: null, age: 0, model: Car(carModel=sdfsdf) , hashCode:1741161210 , identityHashCode:153380676
