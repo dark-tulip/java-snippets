@@ -1,2 +1,80 @@
 - процесс преобразования объекта в последовательность байтов
 - десериализация - это процесс восстановления объекта ИЗ потока байтов
+- сериализируемый класс должен имплементировать интерфейс `Serializable` иначе кидает `NotSerializableException`
+- когда поле НЕ серидализируемого класса равно null - сериализация проходит
+```Java
+
+import lombok.ToString;
+
+import java.io.*;
+import java.util.Objects;
+
+@ToString
+class Car {
+  String carModel;
+  Car(String carModel) {
+    this.carModel = carModel;
+  }
+}
+
+class MyObject implements Serializable {
+  String name;
+  String surname;
+  int age;
+  transient Car model = new Car("sdfsdf");  // ignore during serialization
+
+  public String toString() {
+    return "name: " + this.name + ", surname: " + this.surname + ", age: " + this.age + ", model: " + this.model
+      + " , hashCode:" + Objects.hashCode(this)
+      + " , identityHashCode:" + System.identityHashCode(this);
+  }
+
+  public int hashCode() {
+    return Objects.hash(age, name, surname, model);
+  }
+}
+
+class ThreadReader extends Thread {
+  @Override
+  public void run() {
+    try (ObjectInputStream out = new ObjectInputStream(new FileInputStream("test.bin"))) {
+      MyObject myObject = (MyObject) out.readObject();
+      System.out.println("2VA94Y3S :: read: " + myObject);
+    } catch (IOException | ClassNotFoundException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}
+
+class ThreadWriter extends Thread {
+  @Override
+  public void run() {
+    try (ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream("test.bin"))) {
+      MyObject obj = new MyObject();
+      // obj.model = null;  // if model=null - спокойно проходит,
+      // иначе кидает NotSerializableException: org.example.Car
+      System.out.println("6YQ61AQQ :: write " + obj);
+      out.writeObject(obj);
+    } catch (IOException e) {
+      throw new RuntimeException(e);
+    }
+  }
+}
+
+public class MainEx {
+  public static void main(String[] args) throws InterruptedException {
+    MainEx ex = new MainEx();
+    ThreadWriter writer = new ThreadWriter();
+    ThreadReader reader = new ThreadReader();
+    writer.start();
+    writer.join();
+    reader.start();
+    reader.join();
+    //  6YQ61AQQ :: write name: null, surname: null, age: 0, model: Car(carModel=sdfsdf) , hashCode:1741161210 , identityHashCode:153380676
+    //  2VA94Y3S :: read: name: null, surname: null, age: 0, model: null , hashCode:923521 , identityHashCode:2060575144
+  }
+}
+
+```
+
+
