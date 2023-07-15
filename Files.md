@@ -30,9 +30,6 @@
 пример буфферизации:
 процесс загрузки части видео и его воспроизведения, пока остальная часть будет загружаться
 
-### FileInputStream and FileOutputStream
-- для работы с бинарными файлами
-- НЕЛЬЗЯ использовать стримы закодированных символов для работы с бинарными файлами
 
 ``` Java
  try (
@@ -55,7 +52,12 @@
 | *Пример копирования с сharacter streams  - ломает бинарный файл изображения* |
 </div>
 
+
 <hr>
+
+### FileInputStream and FileOutputStream
+- для работы с бинарными файлами
+- НЕЛЬЗЯ использовать стримы закодированных символов для работы с бинарными файлами
 
 ```Java
 try (
@@ -81,6 +83,8 @@ try (
 
 <hr>
 
+### BufferedInputStream and BufferedOutputStream
+
 Для ускорения чтения потока байтов можно их буфферизировать, результат такой же, это обертка над FileInputStream
 
 ``` Java
@@ -104,11 +108,9 @@ public class MainEx {
 ```
 
 <div align="center">
-
 | <img width="1034" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/d9c94a52-f708-4933-a900-72e28032ac51"> |
 |:--:| 
-| *Using streams of RAW BYTES* |
-
+| * Буфферизированный поток байтов (по умолчанию 2^13 = 8192)* |
 </div>
 
 #### Yandex Contest Java Input example
