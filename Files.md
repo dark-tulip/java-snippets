@@ -48,10 +48,12 @@
       throw new RuntimeException(e);
     }
 ```
-
-|<img width="998" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/79a0ccb8-e99d-441e-8a6c-b839e81e7359"> | 
+<div align="center">
+ 
+|<img width="600" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/79a0ccb8-e99d-441e-8a6c-b839e81e7359"> | 
 |:--:| 
 | *Пример копирования с сharacter streams  - ломает бинарный файл изображения* |
+</div>
 
 <hr>
 
@@ -68,9 +70,14 @@ try (
       throw new RuntimeException(e);
     }
 ```
-| <img width="1035" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f57dcd2f-3fad-44e5-a94c-19dcacc6a6ad"> |
+
+<div align="center">
+
+| <img width="600" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f57dcd2f-3fad-44e5-a94c-19dcacc6a6ad"> |
 |:--:| 
 | *Using streams of RAW BYTES* |
+
+</div>
 
 <hr>
 
@@ -96,10 +103,13 @@ public class MainEx {
 }
 ```
 
+<div align="center">
+
 | <img width="1034" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/d9c94a52-f708-4933-a900-72e28032ac51"> |
 |:--:| 
 | *Using streams of RAW BYTES* |
 
+</div>
 
 #### Yandex Contest Java Input example
 - Java шаблон для контестов
