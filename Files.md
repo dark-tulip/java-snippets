@@ -183,4 +183,41 @@ public class MainEx {
 }
 
 ```
+<hr>
 
+- Нельзя удалить директорию, в которой есть какие то файлы
+- канонический путь удаляет символические ссылки, как `..` и `.` и нормализует путь 
+- абсолютный путь - путь с корневого каталога ОС
+```Java
+import java.io.File;
+import java.io.IOException;
+import java.util.Arrays;
+
+public class FileExample {
+
+  public static void main(String[] args) throws IOException {
+    File file = new File("/Users/tansh/Desktop/untitled/hello/1.txt");
+    File dir = new File("/Users/tansh/Desktop/untitled/hello/");
+
+    System.out.println("file isFile: " + file.isFile());
+    System.out.println("dir isFile: " + dir.isFile());
+    System.out.println("-----");
+    System.out.println("file isDirectory: " + file.isDirectory());
+    System.out.println("dir isDirectory: " + dir.isDirectory());
+
+    System.out.println(file.createNewFile());   // создать файл
+    System.out.println(dir.mkdir());            // создать директорию (только до первого уровня вложенности)
+
+    System.out.println(dir.delete());  // удалить директорию в которой есть файлы - НЕЛЬЗЯ
+    System.out.println(Arrays.toString(dir.listFiles())); // [/Users/tansh/Desktop/untitled/hello/a, /Users/tansh/Desktop/untitled/hello/1.txt]
+    System.out.println(Arrays.toString(dir.list()));      // [a, 1.txt]
+
+    System.out.println("getCanonicalPath: " + file.getCanonicalPath());   // /Users/tansh/Desktop/untitled/hello/1.txt
+    System.out.println("getAbsolutePath: " + file.getAbsolutePath());     // /Users/tansh/Desktop/untitled/hello/1.txt
+    System.out.println("getParentFile: " + file.getParentFile());         // /Users/tansh/Desktop/untitled/hello
+    System.out.println("getName: " + file.getName());                     // 1.txt
+    System.out.println("getCanonicalFile: " + file.getCanonicalFile());   // /Users/tansh/Desktop/untitled/hello/1.txt
+    System.out.println("getAbsoluteFile: " + file.getAbsoluteFile());     // /Users/tansh/Desktop/untitled/hello/1.txt
+  }
+}
+```
