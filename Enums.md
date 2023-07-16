@@ -5,7 +5,7 @@
 - атрибуты конструктора должны быть определены если они не заданы
 - конструктор приватный
 - нельзя создать с new (не нуждается во внешнем вызове)
-- может имплементить Интерфейсы Closeable, Cloneable, Serializable, Constable
+- имплементирует Интерфейсы Comparable, Serializable, Constable
 - НЕЛЬЗЯ наследовать
 - внутренне переводит в обычный класс
 - Енумы нельзя клонировать, кидает CloneNotSupportedException - тем самым, являясь синглтонами
@@ -23,8 +23,7 @@ enum SeasonsReplica {
   SUMMER,
   AUTUMN,
   WINTER,
-  SPRING;  // хороший тон заканчивать с ";"
-
+  SPRING;  
 }
 
 enum Seasons {
@@ -91,6 +90,4 @@ public class EnumsEx {
     );
   }
 }
-
-
 ```
