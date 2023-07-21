@@ -11,8 +11,6 @@ interface Test extends AutoCloseable, Closeable {
 - Read:  **File -> Channel -> Buffer -> Program**
 - Write: **Program -> Buffer -> Channel -> File**
 - Channel всегда работает вместе с буфером
-- fileChannel, ServerSocketChannel
-- ByteBuffer, CharBuffer,
 - Буфер это блок памяти, позволяющий читать и записывать данные
 - FileChannel это АБСТРАКТНЫЙ КЛАСС, ()реализующий интерфейсы
 -   SeekableByteChannel (позиция курсора в канале для чтения или установки позиции с помощью метода position(), ищущий)
@@ -22,9 +20,34 @@ interface Test extends AutoCloseable, Closeable {
 Режимы буфера
 - read mode
 - write mode
-- capcacity
-- position
-- limit
+- capcacity (размер буфера)
+- position (при инит равна нулю)
+- limit () - кол-во байтов которые мы можем прочитать (`при флипе лимит равен его послледней записанной позиции`)
+- `clear()` вернуть позицию к нулю; а лимит к размеру capacity, благодаря чему старые данные перезаписываются
+- flip -> from write mode (capacity) to read mode (0) (лимит заменяет на текущую позицию, позицию на ноль)
+- `channel.read(byffer)` - прочитать инфо из файла и записать в буфер; также сместить курсор в файле; return -1 if EOF
+```Java
+try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
+         FileChannel channel = file.getChannel();
+    ) {
+      print("channel.size(): " + channel.size());
+      print("channel.position(): " + channel.position());
+
+      ByteBuffer buffer = ByteBuffer.allocate(20);
+      print("1) pos: " + buffer.position() + " limit: " + buffer.limit());  // 1) pos: 0 limit: 20
+      channel.read(buffer);  // прочитать и заполнить буфер реальными данными
+      print("2) pos: " + buffer.position() + " limit: " + buffer.limit());  // 2) pos: 20 limit: 20
+      buffer.flip();  // перевести в режим чтения, лимит на позицию, позицию на ноль
+      print("3) pos: " + buffer.position() + " limit: " + buffer.limit());  // 3) pos: 0 limit: 20
+      buffer.getInt();  // прочитать четыре байта; поз+4, limit same
+      print("4) pos: " + buffer.position() + " limit: " + buffer.limit());  // 1) pos: 4 limit: 20
+      buffer.flip();  // limit = 4, pos = 0
+      print("5) pos: " + buffer.position() + " limit: " + buffer.limit());  // 1) pos: 0 limit: 4
+
+    } catch (IOException e) {
+      e.printStackTrace();
+}
+```
 
   Выделить память в ByteBuffer можно двумя способами
   - allocate(int capacity) - буфер переданного размера, выделяемой в куче, управляет JVM
