@@ -26,6 +26,7 @@ interface Test extends AutoCloseable, Closeable {
 - `clear()` вернуть позицию к нулю; а лимит к размеру capacity, благодаря чему старые данные перезаписываются
 - `flip()` -> (лимит заменяет на текущую позицию, ЗАТЕМ позицию на ноль)
 - `channel.read(byffer)` - прочитать инфо из файла и записать в буфер; также сместить курсор в файле; return -1 if EOF
+- благодаря флипу мы понимаем что дальше уже читать не нужно
 ```Java
 try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
          FileChannel channel = file.getChannel();
@@ -47,6 +48,15 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
     } catch (IOException e) {
       e.printStackTrace();
 }
+```
+- после чтения данных, позииция сокращается; читает только до лимита
+- после клеар и позиция и лимит проходят в исходное состояние
+``` Java
+      buffer.getInt();
+      print("8) pos: " + buffer.position() + " limit: " + buffer.limit());  // 8) pos: 4 limit: 4
+
+      buffer.clear();
+      print("9) pos: " + buffer.position() + " limit: " + buffer.limit());  // 9) pos: 0 limit: 20
 ```
 
   Выделить память в ByteBuffer можно двумя способами
