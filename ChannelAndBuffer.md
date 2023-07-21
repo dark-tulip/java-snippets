@@ -58,7 +58,68 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       buffer.clear();
       print("9) pos: " + buffer.position() + " limit: " + buffer.limit());  // 9) pos: 0 limit: 20
 ```
-
   Выделить память в ByteBuffer можно двумя способами
   - allocate(int capacity) - буфер переданного размера, выделяемой в куче, управляет JVM
   - allocateDirect(int capacity) - off-heap память (прямая память, использует unsafe, НЕ управляется GC, медленный для малых объемов данных)
+
+```Java
+    try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
+         FileChannel channel = file.getChannel();) {
+      print("channel.size(): " + channel.size());
+      print("channel.position(): " + channel.position());
+
+      ByteBuffer buffer = ByteBuffer.allocate(3);
+
+      int readBytes = channel.read(buffer);  // прочитать из канала и записать в буфер
+
+      System.out.println("readBytes: " + readBytes);
+      System.out.println(buffer.position());
+      System.out.println(buffer.limit());
+      System.out.println(buffer.capacity());
+      buffer.flip();
+      
+      System.out.println("ch: " + (char) buffer.get());
+      System.out.println(buffer.position());
+      System.out.println(buffer.limit());
+      System.out.println(buffer.capacity());
+      buffer.clear();
+      
+//      channel.size(): 127
+//      channel.position(): 0
+//      readBytes: 3
+//      3
+//      3
+//      3
+//      ch: T
+//      1   - два байта уже прочитали, теперь можно прочитать один
+//      3
+//      3
+```
+### Чтение из файла используя канал
+```Java
+StringBuilder str = new StringBuilder();
+
+    try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
+         FileChannel channel = file.getChannel();) {
+      print("channel.size(): " + channel.size());
+      print("channel.position(): " + channel.position());
+
+      ByteBuffer buffer = ByteBuffer.allocate(77);
+
+      int readBytes = channel.read(buffer);  // прочитать из канала и записать в буфер
+
+      while (readBytes != -1) {
+        System.out.println("read: " + readBytes);
+        buffer.flip();
+
+        while (buffer.hasRemaining()) {
+          str.append((char) buffer.get());
+        }
+
+        buffer.clear();
+        readBytes = channel.read(buffer);
+      }
+
+      System.out.println(str);
+    }
+```
