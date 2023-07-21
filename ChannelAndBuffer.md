@@ -24,7 +24,7 @@ interface Test extends AutoCloseable, Closeable {
 - position (при инит равна нулю)
 - limit () - кол-во байтов которые мы можем прочитать (`при флипе лимит равен его послледней записанной позиции`)
 - `clear()` вернуть позицию к нулю; а лимит к размеру capacity, благодаря чему старые данные перезаписываются
-- flip -> from write mode (capacity) to read mode (0) (лимит заменяет на текущую позицию, позицию на ноль)
+- `flip()` -> (лимит заменяет на текущую позицию, ЗАТЕМ позицию на ноль)
 - `channel.read(byffer)` - прочитать инфо из файла и записать в буфер; также сместить курсор в файле; return -1 if EOF
 ```Java
 try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
