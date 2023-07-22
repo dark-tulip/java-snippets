@@ -134,6 +134,20 @@ Or do you need more?
 Is there something else you're searchin' for? */
 ```
 
+```Java
+ ByteBuffer buffer = ByteBuffer.allocate(1);
+      int read;
+      // пока в канале есть символы для чтения
+      while ((read = channel.read(buffer)) > 0 ){
+        buffer.flip(); 
+        
+        // пока можно доставать символы из буфера
+        while (buffer.hasRemaining()) {
+          System.out.print((char) buffer.get());
+        }
+        buffer.clear();
+      }
+```
 ### Запись в буфер
 - 1 способ через методы allocate, put, flip, channel write
 - 2 способ через wrap который аллоцирует память в буфере с размером переданного массива
