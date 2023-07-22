@@ -122,4 +122,35 @@ StringBuilder str = new StringBuilder();
 
       System.out.println(str);
     }
+/*
+Output:
+channel.size(): 127
+channel.position(): 0
+read: 77
+read: 50
+Tell me something, girl
+Are you happy in this modern world?
+Or do you need more?
+Is there something else you're searchin' for? */
+```
+
+### Запись в буфер
+- 1 способ через методы allocate, put, flip, channel write
+- 2 способ через wrap который аллоцирует память в буфере с размером переданного массива
+```Java
+try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
+         FileChannel channel = file.getChannel()){
+      String text = "Hello, world, I am here";
+      String text2 = "Hello, world. I am here!!!";
+
+      ByteBuffer buffer = ByteBuffer.allocate(text.getBytes().length);
+      buffer.put(text.getBytes());
+      
+      buffer.flip();
+      channel.position(channel.size());  // переместить курсор на конец файла
+      channel.write(buffer);
+
+      ByteBuffer wrappedBuffer = ByteBuffer.wrap(text2.getBytes());  // обернуть буфер;
+      channel.write(wrappedBuffer);  // записать в канал
+    }
 ```
