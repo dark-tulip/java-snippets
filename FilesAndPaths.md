@@ -1,18 +1,16 @@
+### interface Path and class Files
+
 - статичные методы для работы с файлами
-- interface Path and class Files
 - `getParent()` - только для диекторий (возвращает родительские диретории)
 - `resolve()` объединить первый Path со вторым
 - `relativize()`
-
 - резолв возвращает новый объект пути
 ```Java
     Path path2 = Paths.get("/Users").resolve("tansh");
     System.out.println(path2.resolve("Desktop").toAbsolutePath());  // /Users/tansh/Desktop
     System.out.println(path2.toAbsolutePath());                     // /Users/tansh
 ```
-
 - `relativize()` - построить относительный путь (или как из первого получить второй)
-- 
 ``` Java
    Path path2 = Paths.get("/Users").resolve("tansh");
     System.out.println(path2.resolve("Desktop").toAbsolutePath());  // /Users/tansh/Desktop
