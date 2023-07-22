@@ -62,3 +62,39 @@
     // getAttribute: 2023-07-22T17:21:41.656819502Z
     System.out.println("getAttribute: " + Files.getAttribute(file1, "lastAccessTime"));   // read the value of attrib
 ```
+
+#### Move, Copy and Delete
+- скопировать файл можно в директорию указав имя файла
+- при повторном запуске файл не перезаписывается, и сохраняет старую копию (or else java.nio.file.FileAlreadyExistsException)
+- чтобы перезаписать - используйте опцию `StandardCopyOption.REPLACE_EXISTING`
+```Java
+Files.copy(file1, dir.resolve("copied"), StandardCopyOption.REPLACE_EXISTING); 
+```
+- НЕЛЬЗЯ КОПИРОВАТЬ ПАПКУ С ФАЙЛАМИ, ПАПКА СКОПИРУЕТСЯ, СОДЕРЖИМОЕ - НЕТ!
+- **Переименовать файл** - перемещает внутренние директории и файлы
+```Java
+Files.move(Paths.get("new_folder"), Paths.get("new_folder2"));
+```
+- Нельзя удалить папку если внутри нее есть файлы
+```Java
+Files.deleteIfExists(Paths.get("src").resolve("test"));
+```
+
+### File.readAllLines()
+
+```Java
+    Path file1 = Paths.get("in.txt");
+    if(!Files.exists(file1)) {
+      Files.createFile(file1);
+    }
+    String lines = "row1\nrow2\nrow3";
+    Files.write(file1, lines.getBytes());
+    List<String> fileLines = Files.readAllLines(file1);  // [row1, row2, row3]
+    // row1
+    // row2
+    // row3
+    for(var line : fileLines) {
+      System.out.println(line);
+    }
+  }
+```
