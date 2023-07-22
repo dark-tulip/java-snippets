@@ -168,3 +168,27 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       channel.write(wrappedBuffer);  // записать в канал
     }
 ```
+
+##### mark and reset position
+- mark - запоминает текущую позицию в буфере
+- reset возвращает к замаркированной позиции в буфере, данные не затираются и можно повторно читать
+
+```Java
+      String txt = "new_hello world!";
+      ByteBuffer buffer = ByteBuffer.wrap(txt.getBytes());
+      System.out.println((char)buffer.get());  // n
+      System.out.println((char)buffer.get());  // e
+      System.out.println((char)buffer.get());  // w
+
+      buffer.rewind();  // вернуть позицию в начало для повторного чтения
+      System.out.println((char)buffer.get());  // n
+      System.out.println((char)buffer.get());  // e
+      System.out.println((char)buffer.get());  // w
+      buffer.mark();
+
+      System.out.println((char)buffer.get());  // _
+      System.out.println((char)buffer.get());  // h
+
+      buffer.reset();   // вернуть буфер в замаркированную позицию
+      System.out.println((char)buffer.get());  // _
+```
