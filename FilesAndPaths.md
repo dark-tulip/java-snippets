@@ -27,3 +27,38 @@
     // cd: no such file or directory: /Users/tansh/Desktop/untitled/Desktop/untitled
     System.out.println("path2.relativize(dirPath): " + path2.relativize(dirPath).toAbsolutePath());  //  /Users/tansh/Desktop/untitled/Desktop/untitled
 ```
+#### Files class
+
+```Java
+    Path file1 = Paths.get("input.sh");
+    Path file2 = Paths.get("input3.txt");
+    Path dir = Paths.get("new_folder");
+
+    if (!Files.exists(dir)) {
+      System.out.println("Dir not found: " + dir);
+      Files.createDirectory(dir);
+    }
+    if (!Files.exists(file1)) {
+      Files.createFile(file1);
+      System.out.println("created file1: " + file1);
+    }
+
+    if (!Files.exists(file2)) {
+      Files.createFile(file2);
+      System.out.println("created file2: " + file2);
+    }
+
+    System.out.println("isSameFile: " + Files.isSameFile(file1, file2));  // isSameFile: false
+    System.out.println("isHidden: " + Files.isHidden(file1));             // isHidden: false
+    System.out.println("isReadable: " + Files.isReadable(file1));         // isReadable: true
+    System.out.println("isWritable: " + Files.isWritable(file1));         // isWritable: true
+    System.out.println("isExecutable: " + Files.isExecutable(file1));     // isExecutable: false
+    System.out.println("size: " + Files.size(file1));                     // size: 11
+    System.out.println("getOwner: " + Files.getOwner(file1));             // getOwner: tansh
+    
+    // getAttribute: {lastAccessTime=2023-07-22T17:21:41.656819502Z, lastModifiedTime=2023-07-22T17:21:40.444193826Z, size=11, creationTime=2023-07-22T17:21:17Z, isSymbolicLink=false, isRegularFile=true, fileKey=(dev=1000010,ino=47751573), isOther=false, isDirectory=false}
+    System.out.println("getAttribute: " + Files.readAttributes(file1, "*"));             // read set of attribs
+
+    // getAttribute: 2023-07-22T17:21:41.656819502Z
+    System.out.println("getAttribute: " + Files.getAttribute(file1, "lastAccessTime"));   // read the value of attrib
+```
