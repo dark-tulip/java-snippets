@@ -172,6 +172,7 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
 ##### mark and reset position
 - mark - запоминает текущую позицию в буфере
 - reset возвращает к замаркированной позиции в буфере, данные не затираются и можно повторно читать
+- если позиция не помечена, кидает illegalMarkException
 
 ```Java
       String txt = "new_hello world!";
@@ -184,7 +185,7 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       System.out.println((char)buffer.get());  // n
       System.out.println((char)buffer.get());  // e
       System.out.println((char)buffer.get());  // w
-      buffer.mark();
+      buffer.mark();  // если не пометить, и ресетнуть - то исключение
 
       System.out.println((char)buffer.get());  // _
       System.out.println((char)buffer.get());  // h
