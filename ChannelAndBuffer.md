@@ -193,3 +193,47 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       buffer.reset();   // вернуть буфер в замаркированную позицию
       System.out.println((char)buffer.get());  // _
 ```
+
+##### compact()
+- биты между текущей позиции и лимитом копируются в начало, а позиция смещается на конец скопированного массива байтов
+```Java
+      String txt = "new_hello world!";
+
+      ByteBuffer buffer = ByteBuffer.wrap(txt.getBytes());
+      System.out.println((char)buffer.get());  // n
+      System.out.println((char)buffer.get());  // e
+      System.out.println((char)buffer.get());  // w
+      System.out.println("position: " + buffer.position() + ", limit: " + buffer.limit());  // position: 3, limit: 16
+
+      buffer.compact();  // копирование не прочитанных байтов в начало,
+      // а позиция записи на конец скопированных байт
+      System.out.println("position: " + buffer.position() + ", limit: " + buffer.limit());  // position: 13, limit: 16
+
+      System.out.println((char)buffer.get());  // l
+      System.out.println((char)buffer.get());  // d
+      System.out.println((char)buffer.get());  // !
+      System.out.println("position: " + buffer.position() + ", limit: " + buffer.limit());  // position: 16, limit: 16
+      // System.out.println((char)buffer.get());  // ИСКЛЮЧЕНИЕ! java.nio.BufferUnderflowException
+```
+- используя comapct помещаем непрочитанное наверх, а с rewind возвращаемся к начальной позиции для чтения
+```Java
+ String txt = "abcdef";
+
+      ByteBuffer buffer = ByteBuffer.wrap(txt.getBytes());
+      System.out.println((char)buffer.get());  // a
+      System.out.println((char)buffer.get());  // b
+      System.out.println((char)buffer.get());  // c
+      buffer.compact();
+      System.out.println("position: " + buffer.position() + ", limit: " + buffer.limit());  // position: 3, limit: 6
+
+      buffer.rewind();
+      System.out.println("position: " + buffer.position() + ", limit: " + buffer.limit());  // position: 0, limit: 6
+
+      System.out.println((char)buffer.get());  // d
+      System.out.println((char)buffer.get());  // e
+      System.out.println((char)buffer.get());  // f
+      System.out.println((char)buffer.get());  // d
+      System.out.println((char)buffer.get());  // e
+      System.out.println((char)buffer.get());  // f
+```
+- в отличии от `clear()` `rewind()` не сбрасывает лимит, благодаря чему мы обратно можем вернуться к непрочитанным данным
