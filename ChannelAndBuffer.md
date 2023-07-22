@@ -237,3 +237,4 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       System.out.println((char)buffer.get());  // f
 ```
 - в отличии от `clear()` `rewind()` не сбрасывает лимит, благодаря чему мы обратно можем вернуться к непрочитанным данным
+- после флипа лимит устанавливается последней прочитанной позиции
