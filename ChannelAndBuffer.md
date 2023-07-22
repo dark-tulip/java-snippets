@@ -216,6 +216,7 @@ try (RandomAccessFile file = new RandomAccessFile("input.txt", "rw");
       // System.out.println((char)buffer.get());  // ИСКЛЮЧЕНИЕ! java.nio.BufferUnderflowException
 ```
 - используя comapct помещаем непрочитанное наверх, а с rewind возвращаемся к начальной позиции для чтения
+- когда не хотим терять непрочитанные байты, но хотим что то записать в буфер
 ```Java
  String txt = "abcdef";
 
