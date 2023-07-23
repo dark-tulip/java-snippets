@@ -54,11 +54,15 @@ class MyFileVisitor implements FileVisitor<Path> {
 - чтобы полность/ скопировать файл с содержимым можно использовать эту реализацию
 - move тоже самое что и переименование?
 ```Java
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+
 public class FileCopier {
   public static void main(String[] args) throws IOException {
-    Path path = Paths.get("new_folder2");
-    Files.walkFileTree(path, new CopyFilesVisitor(path, Paths.get("total_copy")));
-//    Files.move(Paths.get("asd4"), Paths.get("move"));  // move тоже самое что и переименование
+    Path path = Paths.get("AAA");
+    Files.walkFileTree(path, new CopyFilesVisitor(path, Paths.get("AAA_total_copy")));
+//    Files.move(Paths.get("asd4"), Paths.get("move"));
   }
 }
 
@@ -75,6 +79,7 @@ class CopyFilesVisitor extends SimpleFileVisitor<Path> {
     this.target = target;
   }
 
+  @Override
   public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
     System.out.println("preVisitDirectory: " + source.relativize(dir));                  // name
     System.out.println("preVisitDirectory: " + target.resolve(source.relativize(dir)));  // new name
@@ -86,11 +91,34 @@ class CopyFilesVisitor extends SimpleFileVisitor<Path> {
   @Override
   public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
     throws IOException {
-    System.out.println("visitFile: " + source.relativize(file));                  // name
-    System.out.println("visitFile: " + target.resolve(source.relativize(file)));  // new name
+    System.out.println("visitFile source: " + source.relativize(file));                  // name
+    System.out.println("visitFile target: " + target.resolve(source.relativize(file)));  // new name
     Path newDest = target.resolve(source.relativize(file));
     Files.copy(file, newDest, StandardCopyOption.REPLACE_EXISTING);
     return FileVisitResult.CONTINUE;
   }
 }
+```
+
+
+
+<img width="344" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ae996238-af63-46e7-a6d4-e085a3ddde31">
+
+
+```Output
+> Task :FileCopier.main()
+preVisitDirectory: 
+preVisitDirectory: AAA_total_copy
+preVisitDirectory: AAB
+preVisitDirectory: AAA_total_copy/AAB
+visitFile source: AAB/aab.txt2
+visitFile target: AAA_total_copy/AAB/aab.txt2
+visitFile source: AAB/aab.txt
+visitFile target: AAA_total_copy/AAB/aab.txt
+preVisitDirectory: ABB
+preVisitDirectory: AAA_total_copy/ABB
+visitFile source: ABB/abb.txt
+visitFile target: AAA_total_copy/ABB/abb.txt
+visitFile source: aaa.txt
+visitFile target: AAA_total_copy/aaa.txt
 ```
