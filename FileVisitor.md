@@ -47,5 +47,6 @@ class MyFileVisitor implements FileVisitor<Path> {
     return FileVisitResult.CONTINUE;
   }
 }
-
 ```
+
+### SimpleFileVisitor - реализация обхода файлов по умолчанию
