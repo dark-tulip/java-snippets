@@ -49,4 +49,48 @@ class MyFileVisitor implements FileVisitor<Path> {
 }
 ```
 
-### SimpleFileVisitor - реализация обхода файлов по умолчанию
+
+### Способ копирования всех файлов в директории (SimpleFileVisitor - реализация обхода файлов по умолчанию)
+- чтобы полность/ скопировать файл с содержимым можно использовать эту реализацию
+- move тоже самое что и переименование?
+```Java
+public class FileCopier {
+  public static void main(String[] args) throws IOException {
+    Path path = Paths.get("new_folder2");
+    Files.walkFileTree(path, new CopyFilesVisitor(path, Paths.get("total_copy")));
+//    Files.move(Paths.get("asd4"), Paths.get("move"));  // move тоже самое что и переименование
+  }
+}
+
+/**
+ * Способ копирования всех файлов в директории
+ */
+class CopyFilesVisitor extends SimpleFileVisitor<Path> {
+
+  Path source;
+  Path target;
+
+  public CopyFilesVisitor(Path source, Path target) {
+    this.source = source;
+    this.target = target;
+  }
+
+  public FileVisitResult preVisitDirectory(Path dir, BasicFileAttributes attrs) throws IOException {
+    System.out.println("preVisitDirectory: " + source.relativize(dir));                  // name
+    System.out.println("preVisitDirectory: " + target.resolve(source.relativize(dir)));  // new name
+    Path newDest = target.resolve(source.relativize(dir));             // new full dst
+    Files.copy(dir,newDest, StandardCopyOption.REPLACE_EXISTING);
+    return FileVisitResult.CONTINUE;
+  }
+
+  @Override
+  public FileVisitResult visitFile(Path file, BasicFileAttributes attrs)
+    throws IOException {
+    System.out.println("visitFile: " + source.relativize(file));                  // name
+    System.out.println("visitFile: " + target.resolve(source.relativize(file)));  // new name
+    Path newDest = target.resolve(source.relativize(file));
+    Files.copy(file, newDest, StandardCopyOption.REPLACE_EXISTING);
+    return FileVisitResult.CONTINUE;
+  }
+}
+```
