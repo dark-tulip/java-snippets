@@ -119,3 +119,44 @@ visitFile target: AAA_total_copy/ABB/abb.txt
 visitFile source: aaa.txt
 visitFile target: AAA_total_copy/aaa.txt
 ```
+
+### File Removed (walk tree file remover)
+```Java
+import java.io.IOException;
+import java.nio.file.*;
+import java.nio.file.attribute.BasicFileAttributes;
+
+public class FiledDeleter {
+
+  public static void main(String[] args) throws IOException {
+    Files.walkFileTree(Paths.get("AAA_total_copy"), new RemoveFileVisitor());
+  }
+}
+
+class RemoveFileVisitor extends SimpleFileVisitor<Path> {
+  @Override
+  public FileVisitResult visitFile(Path file, BasicFileAttributes attrs) throws IOException
+  {
+    System.out.println("removed file: " + file.getFileName());
+    Files.delete(file);
+    return FileVisitResult.CONTINUE;
+  }
+
+  @Override
+  public FileVisitResult postVisitDirectory(Path dir, IOException exc) throws IOException
+  {
+    Files.delete(dir);
+    System.out.println("removed dir: " + dir.getFileName());
+    return FileVisitResult.CONTINUE;
+  }
+}
+
+Output:
+removed file: aab.txt2
+removed file: aab.txt
+removed dir: AAB
+removed file: abb.txt
+removed dir: ABB
+removed file: aaa.txt
+removed dir: AAA_total_copy
+```
