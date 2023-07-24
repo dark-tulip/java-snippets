@@ -1,16 +1,23 @@
 ### Регулярные выражения
 - для вставки поиска и замены подстроки по шаблону
+- `matcher.group()`
+- `matcher.start()` - позиция начала шаблонного вхождения
 - вывод совпадения - метод group из матчера
 - производительность с классами Pattern and Matcher будет в разы выше (чем поиск с методами класса String)
 ```Java
- public static void main(String[] args) {
-    String str = "AAAA";
-    Pattern pattern = Pattern.compile("AA");
+public class PatternMatcherRegex {
+  public static void findRegex(String str, Pattern pattern) {
     Matcher matcher = pattern.matcher(str);
     while (matcher.find()) {
-      System.out.println(matcher.group());
+      System.out.println("Position: " + matcher.start() + " end: " + matcher.end() + ", found: " + matcher.group());
     }
   }
+  public static void main(String[] args) {
+    findRegex("AAAAABBBB", Pattern.compile("AB{3}"));
+  }
+  
+  // Position: 5 end: 9, found: ABBB
+}
 ```
 ### regex cheat sheet
 
@@ -27,7 +34,7 @@
 #### метасимволы
 - `\d` - одна цифра
 - `\D` - одна НЕ цифра
-- `\w` - один буква, цифра или "_"
+- `\w` - один буква, цифра или "_", `[A-Za-z1-9_]`
 - `\W` - символ НЕ буква, НЕ цифра и не "_"
 - `\s` - пробельный символ
 - `\S` - НЕ пробельный символ
