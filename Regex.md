@@ -22,15 +22,80 @@ public class PatternMatcherRegex {
 ### regex cheat sheet
 
 - `abc` - точное вхождение
+```Java
+findRegex("AAAAABBBBCABC", Pattern.compile("ABC"));
+// Position: 10 end: 13, found: ABC
+```
 - `[abc]` - а или b или с
+```Java
+findRegex("AAASSBBAC", Pattern.compile("[ABC]"));
+/*
+Position: 0 end: 1, found: A
+Position: 1 end: 2, found: A
+Position: 2 end: 3, found: A
+Position: 5 end: 6, found: B
+Position: 6 end: 7, found: B
+Position: 7 end: 8, found: A
+Position: 8 end: 9, found: C
+*/
+```
 - `[a-c]` - одна буква из переданного диапазона
+```Java
+findRegex("FFFDbdC", Pattern.compile("[a-d]"));
+/*
+Position: 4 end: 5, found: b
+Position: 5 end: 6, found: d
+*/
+```
 - `[A-Fd-f1-9]` - одна буква или цифра в переданном  (совмещение диапазона)
+```Java
+findRegex("FFFDbdC", Pattern.compile("[a-dB-D]"));
+/*
+Position: 3 end: 4, found: D
+Position: 4 end: 5, found: b
+Position: 5 end: 6, found: d
+Position: 6 end: 7, found: C
+*/
+```
 - `a|b` - либо a либо b
+```Java
+findRegex("FFFDbdCgf", Pattern.compile("[asd|C]"));
+/*
+Position: 5 end: 6, found: d
+Position: 6 end: 7, found: C
+*/
+```
 - `[^A-S]` - соответствует одной букве НЕ из диапазона, начинается с символа карет, что значит отрицание диапазона
+```Java
+findRegex("asdDC", Pattern.compile("[^asd|C]"));
+/*
+Position: 3 end: 4, found: D
+*/
+```
 - `[.]` - один любой символ (НЕ новая строка)
+```Java
+findRegex("A\nS\rF\t", Pattern.compile("."));
+/*
+Position: 0 end: 1, found: A
+Position: 2 end: 3, found: S
+Position: 4 end: 5, found: F
+Position: 5 end: 6, found: 	   // here is \t
+*/
+```
 - `^startsSame` - соотв началу строки
+```Java
+findRegex("ABCASD AD AF ABHH\n\r\f\sAB", Pattern.compile("^AB"));
+/*
+Position: 0 end: 2, found: AB
+*/
+```
 - `endWith$` - заканчивается на 
-
+```Java
+findRegex("ABCASD AD AF ABHHAB\n\r\f\sAB", Pattern.compile("AB$"));
+/*
+Position: 23 end: 25, found: AB
+*/
+```
 #### метасимволы
 - `\d` - одна цифра
 - `\D` - одна НЕ цифра
