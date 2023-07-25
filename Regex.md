@@ -98,12 +98,61 @@ Position: 23 end: 25, found: AB
 ```
 #### метасимволы
 - `\d` - одна цифра
+```Java
+findRegex("AS1AS123", Pattern.compile("\\d\\d"));
+/*
+Position: 5 end: 7, found: 12
+*/
+```
 - `\D` - одна НЕ цифра
+```Java
+findRegex("ASz1AS!123", Pattern.compile("\\D\\D\\D"));
+/*
+Position: 0 end: 3, found: ASz
+Position: 4 end: 7, found: AS!
+*/
+```
 - `\w` - один буква, цифра или "_", `[A-Za-z1-9_]`
+```Java
+findRegex("ASz1AS!123", Pattern.compile("\\w\\w\\w"));
+/*
+Position: 0 end: 3, found: ASz
+Position: 3 end: 6, found: 1AS
+Position: 7 end: 10, found: 123
+*/
+```
 - `\W` - символ НЕ буква, НЕ цифра и не "_"
+```Java
+findRegex("ASz1AS!? $5432@#%123", Pattern.compile("\\W\\W\\W"));
+/*
+Position: 6 end: 9, found: !?    // Тут есть пробел
+Position: 14 end: 17, found: @#%/*
+Position: 5 end: 7, found: 12
+*/
+```
 - `\s` - пробельный символ [\t\n\r\f]
+```Java
+findRegex("  \n@\r#%\t12\s3", Pattern.compile("\\s"));
+/*
+Position: 6 end: 9, found: !?    // Тут есть пробел
+Position: 14 end: 17, found: @#%/*
+Position: 5 end: 7, found: 12
+*/
+```
 - `\S` - НЕ пробельный символ
+```Java
+findRegex("  \n@\r#%\t2\s", Pattern.compile("\\S"));
+/*
+Position: 6 end: 9, found: !?    // Тут есть пробел
+Position: 14 end: 17, found: @#%/*
+Position: 5 end: 7, found: 12
+*/
+```
 - `\A` - выражение в начале string-a
+```Java
+findRegex("QDSQAZ\sQAZ", Pattern.compile("\\AQAZ"));
+// empty
+```
 - `\Z` - выражение в конце string-a
 - `\b` - граница слова или числа
 - `\B` - НЕ граница слова или числа
