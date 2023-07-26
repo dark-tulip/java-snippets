@@ -154,14 +154,57 @@ findRegex("QDSQAZ\sQAZ", Pattern.compile("\\AQAZ"));
 // empty
 ```
 - `\Z` - выражение в конце string-a
+```Java
+findRegex("QDSQAZQAZQAZ", Pattern.compile("QAZ\\Z"));
+findRegex("QDSQAZQAZQAZ\n", Pattern.compile("QAZ\\Z"));
+/*
+Position: 9 end: 12, found: QAZ
+Position: 9 end: 12, found: QAZ (не учитывает перенос строки)
+*/
+```
 - `\b` - граница слова или числа
+```Java
+findRegex("1234567890 122 66 876 9090 00", Pattern.compile("\\b\\d\\d\\b"));
+/*
+Position: 15 end: 17, found: 66
+Position: 27 end: 29, found: 00
+*/
+```
 - `\B` - НЕ граница слова или числа
-
+```Java
+findRegex("1234567890 122 66 876 9090 00", Pattern.compile("\\B\\d{3}\\B"));
+/*
+Position: 1 end: 4, found: 234
+Position: 4 end: 7, found: 567
+*/
+```
 
 #### количество повторений
 - `(value)?` - 0 или 1 повторение
+```Java
+findRegex("folder holder older elder oldf eld oper ho-ho!", Pattern.compile("ho(lder)?"));
+/*
+Position: 7 end: 13, found: holder
+Position: 40 end: 42, found: ho
+Position: 43 end: 45, found: ho
+*/
+```
 - `(value)*`- 0 или много повторений
+```Java
+findRegex("folder holder older elder oldf eld oper ho-ho!", Pattern.compile("ho(lder)*"));
+/*
+Position: 7 end: 13, found: holder
+Position: 40 end: 42, found: ho
+Position: 43 end: 45, found: ho
+*/
+```
 - `(value)+` - 1 точное повторение
+```Java
+findRegex("folder holder older elder oldf eld oper ho-ho! hold", Pattern.compile("ho(lder)+"));
+/*
+Position: 7 end: 13, found: holder
+*/
+```
 - `B{n}` - точное повторение "B" n раз
 ```Java
     String str = "AAABABBB";
@@ -173,5 +216,19 @@ findRegex("QDSQAZ\sQAZ", Pattern.compile("\\AQAZ"));
   // Output: ABBB
 ```
 - `value{n, m}` - от n до m раз
+```Java
+findRegex("ASD AES ASSASASS", Pattern.compile("(AS){1,2}"));
+/*
+Position: 0 end: 2, found: AS
+Position: 8 end: 10, found: AS
+Position: 11 end: 15, found: ASAS
+*/
+```
 - `value{n,}` - n или более раз
-
+```Java
+findRegex("ASD AES ASSASASS", Pattern.compile("AS{2,}"));
+/*
+Position: 8 end: 11, found: ASS
+Position: 13 end: 16, found: ASS
+*/
+```
