@@ -232,3 +232,25 @@ Position: 8 end: 11, found: ASS
 Position: 13 end: 16, found: ASS
 */
 ```
+
+
+### Java String matches and split accept RegEx
+- matches - cтрока целиком совпадает регулярному выражению
+```Java
+    String s1 = "t@mail.ru";
+    System.out.println(s1.matches("\\w+@\\w+.ru"));  // true
+
+    String s2 = "t@mail.ru t@mail.ru";
+    System.out.println(s2.matches("\\w+@\\w+.ru"));  // false
+```
+## RegEx for IP address
+```Java
+    String pattern = "(([0-1]?\\d?\\d|2[0-5]{2}).){3}([0-1]?\\d?\\d|2[0-5]{2})";
+
+    System.out.println(Pattern.matches(pattern, "255.255.255.255"));  // true
+    System.out.println(Pattern.matches(pattern, "255.255.256.255"));  // false
+    System.out.println(Pattern.matches(pattern, "0.0.0.0"));          // true
+    System.out.println(Pattern.matches(pattern, "000.00.0.000"));     // true
+    System.out.println(Pattern.matches(pattern, "000.00.0.0000"));    // false
+```
+
