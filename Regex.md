@@ -253,4 +253,56 @@ Position: 13 end: 16, found: ASS
     System.out.println(Pattern.matches(pattern, "000.00.0.000"));     // true
     System.out.println(Pattern.matches(pattern, "000.00.0.0000"));    // false
 ```
+- matcher 
+- Каждая группа помещается в скобки `()` внутри регулярного выражения
+- метод `group(0)` по умолчанию выводит всю переданную Матчеру строку
+- если `group(number)` передать число - выведит группу из строки, которая разделена ()
+- `lookingAt()` не имеет конца, каждый раз начинает поиск с начала строки (может застрять с бесконечном цикле)
+- `find()` - каждый раз смещается по позиции, тем самым имея конечный цикл
+- `replaceAll()` - заменяет каждую подпоследовательность в виде переданного шаблона
+```Java
+ String bankCardTotalString =
+        "11112222333344442807425;\n" +
+        "11112222333344442807425;\n" +
+        "43564634563456345645645";
+    Pattern pattern = Pattern.compile("(\\d{4})(\\d{4})(\\d{4})(\\d{4})(\\d{2})(\\d{2})(\\d{3})");
+    Matcher matcher = pattern.matcher(bankCardTotalString);
+    System.out.println(matcher.find());
 
+    String formattedResult = matcher.replaceAll("CSV:($7) MM/DD:$5/$6 CODE:$1-$2-$3-$4");
+    System.out.println(formattedResult);
+
+    matcher.reset();
+
+    // find изменяет состояние матчера
+    while (matcher.find()) {
+      System.out.println(matcher.group(1));
+    }
+
+    matcher.reset();
+
+    while (matcher.find()) {
+      System.out.println(matcher.group(0));
+    }
+
+    while (matcher.lookingAt()) {
+      System.out.println("dsf: " + matcher.group(0));
+      Thread.sleep(300);
+    }
+/*
+Output:
+true
+CSV:(425) MM/DD:28/07 CODE:1111-2222-3333-4444;
+CSV:(425) MM/DD:28/07 CODE:1111-2222-3333-4444;
+CSV:(645) MM/DD:56/45 CODE:4356-4634-5634-5634
+1111
+1111
+4356
+11112222333344442807425
+11112222333344442807425
+43564634563456345645645
+dsf: 11112222333344442807425
+... inf
+dsf: 11112222333344442807425
+*/
+```
