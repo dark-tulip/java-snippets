@@ -5,5 +5,5 @@
 
 #### Verification
 - check executes before test
-- check tests total project (included plugins, tests) - it is lifecycle task
+- check tests total project (included plugins, tests) - it is lifecycle task - по умолчанию равен таске ТЕСТ, но при подключении других плагинов удобен для совместной верификации
 - test only runs unit tests
