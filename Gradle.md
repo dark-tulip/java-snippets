@@ -1,0 +1,3 @@
+- (*) - зависимость ранее встречалась
+- (n) - not resolved
+- (c) - dependency constraint 
