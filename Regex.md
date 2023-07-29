@@ -361,9 +361,14 @@ dsf: 11112222333344442807425
     System.out.printf("%tY %n", date);  // 2023
     System.out.printf("%ty %n", date);  // 23 (last two digits of year)
 ```
-### Hex, Oct
+### Hex, Oct, Bin
 ```Java
     System.out.printf("%H %n", 999);  // 3E7  - hex
     System.out.printf("%h %n", 999);  // 3e7  - hex
     System.out.printf("%o %n", 999);  // 1747 - oct
+
+    String fillWithZeros = String.format("%10s%n",Integer.toBinaryString(99)).replaceAll(" ", "0");
+    System.out.printf(fillWithZeros);                           // 0001100011
+    System.out.printf("%10s%n", Integer.toBinaryString(99));    //    1100011
+    System.out.printf("%-10s%n", Integer.toBinaryString(99));   // 1100011
 ```
