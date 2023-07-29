@@ -308,11 +308,11 @@ dsf: 11112222333344442807425
 ```
 
 ### Шаблон спецификатора формата
-%[flag][width][.precision]datatype_specifier
+** %[flag][width][.precision]datatype_specifier **
 - flag
-    - `0` - заполнить нулями (число)
-    - `,` - разделитель разрядов в числах 
-    - `-` - выровнить слева
+  - `0` - заполнить нулями (число)
+  - `,` - разделитель разрядов в числах 
+  - `-` - выровнить слева
 - width - продолжительность флага
 - precision - дробная точность
   
@@ -323,3 +323,47 @@ dsf: 11112222333344442807425
 - d - digit
 - f - float number
 
+```Java
+    System.out.printf("%03d \n", 1234);             // 1234
+    System.out.printf("%.1f \n", 1234.234324);      // 1234,2
+    System.out.printf("%,.1f\n", 1234.234324);      // 1 234,2
+    System.out.printf("%c.%c.%c\n", 66, 67, 68);    // B.C.D
+    System.out.printf("%05d\n", 44);                // 00044
+    System.out.printf("%8d\n", 44);                 //       44
+    System.out.printf("%-8d\n", 44);                // 44  
+    System.out.printf("%b\n", 1);    // true
+    System.out.printf("%b\n", -1);   // true
+    System.out.printf("%b\n", 0);    // true
+    System.out.printf("%b\n", null); // false
+    System.out.printf("%n");  // new line
+```
+
+### Dates
+```
+    Date date = new Date();
+    System.out.printf("%tH %n", date);  // hours now
+    System.out.printf("%tM %n", date);  // minutes now
+    System.out.printf("%tS %n", date);  // seconds now
+    System.out.printf("%ts %n", date);  // total seconds
+
+    System.out.printf("%tD %n", date);  // 07/29/23 (month/day/year)
+    System.out.printf("%tT %n", date);  // 22:20:14
+    System.out.printf("%tz %n", date);  // +0600 (timezone)
+    System.out.printf("%tZ %n", date);  // ALMT
+    System.out.printf("%tp %n", date);  // pm or am
+    
+    System.out.printf("%ta %n", date);  // сб (short week name)
+    System.out.printf("%tA %n", date);  // суббота (total week name)
+    System.out.printf("%tb %n", date);  // июл. (short month name)
+    System.out.printf("%tB %n", date);  // июля (total month name)
+    System.out.printf("%td %n", date);  // 29 (day of month)
+    System.out.printf("%tm %n", date);  // 07 (month in digits)
+    System.out.printf("%tY %n", date);  // 2023
+    System.out.printf("%ty %n", date);  // 23 (last two digits of year)
+```
+### Hex, Oct
+```Java
+    System.out.printf("%H %n", 999);  // 3E7  - hex
+    System.out.printf("%h %n", 999);  // 3e7  - hex
+    System.out.printf("%o %n", 999);  // 1747 - oct
+```
