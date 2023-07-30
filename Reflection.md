@@ -38,27 +38,32 @@ public interface ILivable {
   String INTERFACE_FIELD = "here";
   void init();
 }
+
 // IMPLEMENTED CLASS
 public class Person implements ILivable {
-  public String surname_public;
-  private String surname_private;
+
+  public String    surname_public;
+  private String   surname_private;
   protected String surname_protected;
-  String surname_pkg_default;
+  String           surname_pkg_default;
+  public ILivable  livable = new PeronLivable();
 
-  public ILivable livable = new PeronLivable();
-
-  @Override
   public void init() { }
 }
+
 // CALL fields
 public class Reflections {
   public static void main(String[] args) {
+
     // includes public, protected, package-private and package access fields, EXCLUDED inherited
     Field[] getDeclaredFields = Person.class.getDeclaredFields();
+
     // все публичные поля; включая унаследованные (only public and public inherited)
-    Field[] getFields         = Person.class.getFields();          
+    Field[] getFields         = Person.class.getFields();
+
     System.out.println("-----getDeclaredFields: ");
     Arrays.stream(getDeclaredFields).forEach(fld -> System.out.printf("%8s: %s%n", fld.getType(), fld.getName()));
+
     System.out.println("-----getFields: ");
     Arrays.stream(getFields).forEach(fld -> System.out.printf("%8s: %s%n", fld.getType(), fld.getName()));
   }
@@ -74,5 +79,6 @@ interface org.example.ILivable: livable
 class java.lang.String: surname_public
 interface org.example.ILivable: livable
 class java.lang.String: INTERFACE_FIELD
+
 */
 ```
