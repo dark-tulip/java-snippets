@@ -11,7 +11,7 @@ Class clazz3 = Class.forName("org.example.Person");
 System.out.println(clazz + " " + clazz2  + " " + clazz3);
 // class org.example.Person class org.example.Person class org.example.Person
 ```
-### Field
+### Class Field
 ```Java
     Field classFld = clazz.getDeclaredField("livable");
     System.out.println("getType:           " + classFld.getType());
@@ -29,7 +29,7 @@ getGenericType:    interface org.example.ILivable
 getModifiers:      1
 */
 ```
-**getFields VS getDeclaredFields**
+***getFields VS getDeclaredFields**
 - getFields - все публичные поля, и унаследованные публичные
 - getDeclaredFields - все объявленные поля класса (public, private, protected, pkg-private); КРОМЕ УНАСЛЕДВАННЫХ;
 ```Java
@@ -84,13 +84,13 @@ class java.lang.String: INTERFACE_FIELD
 */
 ```
 
-### Methods
+## Methods
 - у примитивных типов тоже есть понятие класс
 - при получении метода по имени обязательно нужно передать типы принимаетмых параметров
 - **varagrs** `Method method = Person.class.getMethod("print", String[].class);` для метода `public String print(String... strs)`
 - isDefault - проверить что использует реализацию по умолчанию от интерфейса (НЕ РАБОТАЕТ ДЛЯ АБСТРАКТНЫХ КЛАССОВ)
 
-## Cинтетические методы 
+### Cинтетические методы 
 - С Java 5 ДО Java 11
 - создаются самим компилятором
 - синтетические методы для обеспечения доступа ко внутреннему атрибуту
