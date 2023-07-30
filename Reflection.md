@@ -83,7 +83,75 @@ interface org.example.ILivable: livable
 class java.lang.String: INTERFACE_FIELD
 */
 ```
+
+### Methods
 - у примитивных типов тоже есть понятие класс
 - при получении метода по имени обязательно нужно передать типы принимаетмых параметров
 - **varagrs** `Method method = Person.class.getMethod("print", String[].class);` для метода `public String print(String... strs)`
+- isDefault - проверить что использует реализацию по умолчанию от интерфейса (НЕ РАБОТАЕТ ДЛЯ АБСТРАКТНЫХ КЛАССОВ)
+
+## Cинтетические методы 
+- С Java 5 ДО Java 11
+- создаются самим компилятором
+- синтетические методы для обеспечения доступа ко внутреннему атрибуту
+- поле должно быть приватным внутри вложенного класса
+- для генерации синтетического метода атрибут должен использоваться - иначе сработает оптимизатоор и не создаст их
+- 4096 modifier not declared in code, means synthetic метод
+```Java
+// 
+public class Person {
+
+  class NestedClass {
+    private String value;
+  }
+
+  public String getNestedField() {
+    return new NestedClass().value;
+  }
+
+  public void setNestedField(int nestedField) {
+    new NestedClass().value = "" + nestedField;
+  }
+}
+
+// CALL
+public class Reflections {
+
+  public static void main(String[] args) throws NoSuchMethodException {
+    /**
+     * Cинтетические методы (cтатические)
+     * Method: access$000, isSynthetic: true
+     * Method: access$002, isSynthetic: true
+     */
+    Method[] methods = Person.NestedClass.class.getDeclaredMethods();  
+    for (Method m : methods) {
+      System.out.println("Method: " + m.getName() + ", isSynthetic: " + m.isSynthetic() + ", \n" + m.toGenericString());
+    }
+}
+
+//OUTPUT
+
+// Method: access$000, isSynthetic: true,
+// static java.lang.String org.example.Person$NestedClass.access$000(org.example.Person$NestedClass)
+
+// Method: access$002, isSynthetic: true,
+// static java.lang.String org.example.Person$NestedClass.access$002(org.example.Person$NestedClass,java.lang.String)
+```
+
+### Modifiers
+- класс Modifiers не содержит статического определения для синтетического метода
+- Получить все модификаторы доступа метода `Modifier.toString(m.getModifiers())`
+```Java
+Modifier.PUBLIC = 1 = 0000 0001
+Modifier.PRIVATE = 2 = 0000 0010
+Modifier.PROTECTED = 4 = 0000 0100
+Modifier.STATIC = 8 = 0000 1000
+Modifier.FINAL = 16 = 0001 0000
+Modifier.SYNCHRONIZED = 32 = 0010 0000
+Modifier.VOLATILE = 64 = 0100 0000
+Modifier.TRANSIENT = 128 = 1000 0000
+Modifier.NATIVE = 256 = 1 0000 0000
+Modifier.INTERFACE = 512 = 10 0000 0000
+Modifier.ABSTRACT = 1024 = 100 0000 0000
+```
 
