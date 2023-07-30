@@ -83,3 +83,7 @@ interface org.example.ILivable: livable
 class java.lang.String: INTERFACE_FIELD
 */
 ```
+- у примитивных типов тоже есть понятие класс
+- при получении метода по имени обязательно нужно передать типы принимаетмых параметров
+- **varagrs** `Method method = Person.class.getMethod("print", String[].class);` для метода `public String print(String... strs)`
+
