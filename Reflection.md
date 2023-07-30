@@ -51,23 +51,25 @@ public class Person implements ILivable {
   public void init() { }
 }
 
-// CALL fields
+// CALL METHODS
 public class Reflections {
   public static void main(String[] args) {
 
     // includes public, protected, package-private and package access fields, EXCLUDED inherited
-    Field[] getDeclaredFields = Person.class.getDeclaredFields();
-
-    // все публичные поля; включая унаследованные (only public and public inherited)
-    Field[] getFields         = Person.class.getFields();
-
     System.out.println("-----getDeclaredFields: ");
+
+    Field[] getDeclaredFields = Person.class.getDeclaredFields();
     Arrays.stream(getDeclaredFields).forEach(fld -> System.out.printf("%8s: %s%n", fld.getType(), fld.getName()));
 
+    // все публичные поля; включая унаследованные (only public and public inherited)
     System.out.println("-----getFields: ");
+
+    Field[] getFields = Person.class.getFields();
     Arrays.stream(getFields).forEach(fld -> System.out.printf("%8s: %s%n", fld.getType(), fld.getName()));
   }
 }
+
+// OUTPUT
 /*
 -----getDeclaredFields: 
 class java.lang.String: surname_public
@@ -79,6 +81,5 @@ interface org.example.ILivable: livable
 class java.lang.String: surname_public
 interface org.example.ILivable: livable
 class java.lang.String: INTERFACE_FIELD
-
 */
 ```
