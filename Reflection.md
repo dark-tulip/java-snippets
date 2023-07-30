@@ -137,6 +137,7 @@ public class Reflections {
 // Method: access$002, isSynthetic: true,
 // static java.lang.String org.example.Person$NestedClass.access$002(org.example.Person$NestedClass,java.lang.String)
 ```
+- знак доллара означает вложенный класс
 
 ### Modifiers
 - класс Modifiers не содержит статического определения для синтетического метода
