@@ -23,3 +23,7 @@ configurations.configureEach { pkg ->
   pkg.exclude(group: "com.squareup.okhttp3", module: "okhttp")
 }
 ```
+### Dependency tree
+```
+./gradlew :plugin:dependencyInsight --dependency okhttp3
+```
