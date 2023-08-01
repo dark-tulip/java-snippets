@@ -164,8 +164,9 @@ Modifier.ABSTRACT = 1024 = 100 0000 0000
 - чтобы создать дженерики компилятор использует стирание типов для
 -     если не объявлен конкретный тип данных для дженерика - кастит в объекты, и компилирует байт код в виде классов Object
 -     создает мостовые методы для обеспечения полиморфизма
-```Java
+- параметрзированные типы на Java - это дженерики, позволяющие создать обобщенный универсальный класс, работающий с разными типами данных
 
+```Java
 class GenericNode<T> {
   T value;
   public T getValue() {
@@ -176,7 +177,6 @@ class GenericNode<T> {
   }
 }
 
-
 class GenericNodeImpl extends GenericNode<Integer> {
   public Integer getValue() {
     return value;
@@ -186,10 +186,12 @@ class GenericNodeImpl extends GenericNode<Integer> {
 public class Reflections {
 
   public static void main(String[] args) throws NoSuchMethodException {
+
     GenericNodeImpl ll = new GenericNodeImpl();
     Method[] methods = ll.getClass().getDeclaredMethods();
     for (Method m : methods) {
       System.out.printf("m.getName: %-10s is bridge: %-7s getReturnType: %-25s %-30s%n",  m.getName(), m.isBridge(), m.getReturnType(), Arrays.toString(m.getParameterTypes()));
+
     }
 }
 
