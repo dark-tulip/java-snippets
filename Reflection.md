@@ -157,3 +157,45 @@ Modifier.INTERFACE = 512 = 10 0000 0000
 Modifier.ABSTRACT = 1024 = 100 0000 0000
 ```
 
+### Bridge methods Java
+- Мостовые методы на Java
+- связаны со стиранием типов
+- дженерики проверяются во время компиляции
+- чтобы создать дженерики компилятор использует стирание типов для
+-     если не объявлен конкретный тип данных для дженерика - кастит в объекты, и компилирует байт код в виде классов Object
+-     создает мостовые методы для обеспечения полиморфизма
+```Java
+
+class GenericNode<T> {
+  T value;
+  public T getValue() {
+    return value;
+  }
+  public void setValue(T val) {
+    this.value = val;
+  }
+}
+
+
+class GenericNodeImpl extends GenericNode<Integer> {
+  public Integer getValue() {
+    return value;
+  }
+}
+
+public class Reflections {
+
+  public static void main(String[] args) throws NoSuchMethodException {
+    GenericNodeImpl ll = new GenericNodeImpl();
+    Method[] methods = ll.getClass().getDeclaredMethods();
+    for (Method m : methods) {
+      System.out.printf("m.getName: %-10s is bridge: %-7s getReturnType: %-25s %-30s%n",  m.getName(), m.isBridge(), m.getReturnType(), Arrays.toString(m.getParameterTypes()));
+    }
+}
+
+/*
+m.getName: getValue   is bridge: false   getReturnType: class java.lang.Integer   []                            
+m.getName: getValue   is bridge: true    getReturnType: class java.lang.Object    []  
+*/
+```
+- getDeclaredMethods показывает мостовые методы тоже
