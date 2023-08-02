@@ -204,7 +204,7 @@ m.getName: getValue   is bridge: true    getReturnType: class java.lang.Object  
 
 ### Default methods Java
 - переопределенные дефолтные методы с интерфейса уже не являются дефолтными
-```
+```Java
 // INTERFACE
 interface IMovalble {
     default String move(int pos) {
@@ -248,4 +248,71 @@ name: notifyAll  isdefault: false      return type: void
 name: move       isdefault: true       return type: String - NOT OVERRIDEN, still default  
 */
 Абстрактные методы, реализованные в интерфейсе
+```
+### IsVarArgs методы с переменным кол-вом аргументов
+
+// CLASS
+```Java
+public class Person {
+  public String print(String... strs) {
+    return Arrays.toString(strs);
+  }
+}
+
+
+// CALL
+public class Reflections {
+  public static void main(String[] args) throws NoSuchMethodException {
+    Method method = Person.class.getMethod("print", String[].class);
+
+    System.out.println("getName: " + method.getName());
+    System.out.println("getDeclaringClass: " + method.getDeclaringClass().getSimpleName());
+    System.out.println("getReturnType: " + method.getReturnType().getSimpleName());
+    System.out.println("getModifiers: " + method.getModifiers());
+    System.out.println("getModifiers isTransient: " + Modifier.isTransient(method.getModifiers()));
+    System.out.println("getModifiers isPublic: " + Modifier.isPublic(method.getModifiers()));
+    System.out.println("getModifiers toString: " + Modifier.toString(method.getModifiers()));
+    System.out.println("getAnnotatedReturnType: " + method.getAnnotatedReturnType().getType());
+    System.out.println("getExceptionTypes: " + method.getExceptionTypes().getClass().getSimpleName());
+    System.out.println("getParameterCount: " + method.getParameterCount());
+    System.out.println("getParameterTypes: " + Arrays.toString(method.getParameterTypes()));
+    System.out.println("isVarArgs: " + method.isVarArgs());
+    System.out.println("isBridge: " + method.isBridge());
+    System.out.println("isSynthetic: " + method.isSynthetic());
+    System.out.println("isDefault: " + method.isDefault());
+    System.out.println("toGenericString: " + method.toGenericString());
+
+  }
+}
+
+// OUTPUT
+/*
+getName: print
+getDeclaringClass: Person
+getReturnType: String
+getModifiers: 129
+getModifiers isTransient: true
+getModifiers isPublic: true
+getModifiers toString: public transient
+getAnnotatedReturnType: class java.lang.String
+getExceptionTypes: Class[]
+getParameterCount: 1
+getParameterTypes: [class [Ljava.lang.String;]
+isBridge: false
+isSynthetic: false
+isDefault: false
+isVarArgs: true
+toGenericString: public java.lang.String org.example.Person.print(java.lang.String...)
+*/
+```
+#### Varargs
+- методы с переменной длиной аргументов
+- должны быть на конце списка аргументов метода
+- heap pollution problem (Class Cast Exception) https://www.baeldung.com/java-varargs
+- модификатор в методе isVARARGS имеет такое же значение как и в классе Modifiers.isTRANSIENT - ЭТО НИКАКОГО ОТНОШЕНИЯ НЕ ИМЕЕТ
+```Java
+System.out.println("Modifier: " + Modifier.toString(-1));
+
+// OUTPUT
+// Modifier: public protected private abstract static final transient volatile synchronized native strictfp interface
 ```
