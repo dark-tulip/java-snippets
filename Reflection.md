@@ -201,3 +201,51 @@ m.getName: getValue   is bridge: true    getReturnType: class java.lang.Object  
 */
 ```
 - getDeclaredMethods показывает мостовые методы тоже
+
+### Default methods Java
+- переопределенные дефолтные методы с интерфейса уже не являются дефолтными
+```
+// INTERFACE
+interface IMovalble {
+    default String move(int pos) {
+        return "moved: " + pos;
+    }
+
+    default String move2(int pos) {
+        return "moved interface: " + pos;
+    }
+}
+
+
+// IMPL CLASS
+class Car implements IMovalble {
+    @Override
+    public String move2(int pos) {
+        return "moved2 interface: " + pos;
+    }
+}
+
+// CALL
+public class Test {
+    public static void main(String[] args) {
+        for(var m :  new Car().getClass().getMethods()) {
+            System.out.printf("name: %-10s isdefault: %-10s return type: %-10s%n", m.getName(), m.isDefault(), m.getReturnType().getSimpleName());
+        }
+    }
+}
+
+/*
+name: move2      isdefault: false      return type: String - Overriden - not default    
+name: wait       isdefault: false      return type: void      
+name: wait       isdefault: false      return type: void      
+name: wait       isdefault: false      return type: void      
+name: equals     isdefault: false      return type: boolean   
+name: toString   isdefault: false      return type: String    
+name: hashCode   isdefault: false      return type: int       
+name: getClass   isdefault: false      return type: Class     
+name: notify     isdefault: false      return type: void      
+name: notifyAll  isdefault: false      return type: void      
+name: move       isdefault: true       return type: String - NOT OVERRIDEN, still default  
+*/
+Абстрактные методы, реализованные в интерфейсе
+```
