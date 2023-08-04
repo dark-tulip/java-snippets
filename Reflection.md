@@ -316,3 +316,48 @@ System.out.println("Modifier: " + Modifier.toString(-1));
 // OUTPUT
 // Modifier: public protected private abstract static final transient volatile synchronized native strictfp interface
 ```
+### Declare constructor
+```Java
+// INIT CLASS
+class Person2<T extends String, E> {
+  T genericTypeVarT;
+  E genericTypeVarE;
+  
+  public Person2(T t, E e, int n, String... str) throws RuntimeException {
+    this.genericTypeVarT = t;
+    this.genericTypeVarE = e;
+  }
+}
+
+// CALL CLASS
+public class Reflections {
+
+  public static void main(String[] args) throws NoSuchMethodException, InvocationTargetException, InstantiationException, IllegalAccessException {
+    Constructor method = Person2.class.getDeclaredConstructor(String.class, Object.class, int.class, String[].class);
+    System.out.println("getGenericExceptionTypes: " + Arrays.toString(method.getGenericExceptionTypes()));
+    System.out.println("getGenericParameterTypes: " + Arrays.toString(method.getGenericParameterTypes()));
+    System.out.println("getParameterTypes: " + Arrays.toString(method.getParameterTypes()));
+    System.out.println("getParameterCount: " + method.getParameterCount());
+    System.out.println("getExceptionTypes: " + Arrays.toString(method.getExceptionTypes()));
+    System.out.println("getDeclaredAnnotations: " + Arrays.toString(method.getDeclaredAnnotations()));
+
+    Object obj = method.newInstance("111", 222, 33, new String[]{"H", "E", "LL"});  // new instance of object returns casted class
+    System.out.println(obj.getClass().getSimpleName());
+    System.out.println(Arrays.toString(obj.getClass().getTypeParameters()));
+    System.out.println(obj instanceof Person2);
+  }
+}
+
+// OUTPUT
+/*
+getGenericExceptionTypes: [class java.lang.RuntimeException]
+getGenericParameterTypes: [T, E, int, class [Ljava.lang.String;]
+getParameterTypes: [class java.lang.String, class java.lang.Number, int, class [Ljava.lang.String;]
+getParameterCount: 4
+getExceptionTypes: [class java.lang.RuntimeException]
+getDeclaredAnnotations: []
+Person2
+[T, E]
+true
+*/
+```
