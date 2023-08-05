@@ -406,3 +406,125 @@ public class Reflections {
 }
 
 ```
+
+- рефлексия способна обходить принципы инкапсуляции
+
+``` Java
+class Employee {
+  String name;
+
+  private void setName(String value) {
+    this.name = value;
+    System.out.println("setName executed");
+  }
+
+  public void setNamePublic(String value) {
+    this.name = value;
+    System.out.println("setNamePublic executed");
+  }
+}
+
+// CALL CLASS
+public class Reflections {
+  public static void main(String[] args) throws NoSuchMethodException,
+    InvocationTargetException, IllegalAccessException {
+
+    Method methodPrivate = Employee.class.getDeclaredMethod("setName", String.class);
+    Method methodPublic  = Employee.class.getDeclaredMethod("setNamePublic", String.class);
+
+    methodPublic.invoke(new Employee(), "hello");
+
+    // AT COMPILE TIME Reflections cannot access a member of class org.example.Employee with modifiers "private"
+    methodPrivate.setAccessible(true);
+    methodPrivate.invoke(new Employee(), "hello");
+  }
+}
+// OUTPUT
+/*
+setNamePublic executed
+setName executed
+*/
+```
+- Metgod, Field and Constructor are reflected objects
+- установить и прочитать значение из поля с помощью рефлексии
+```Java
+
+@AllArgsConstructor
+class Employee {
+  private String name;
+}
+
+public class Reflections {
+  public static void main(String[] args) throws NoSuchMethodException,
+    InvocationTargetException, IllegalAccessException, NoSuchFieldException {
+
+    Employee emp = new Employee("username");
+
+    Field fldName = Employee.class.getDeclaredField("name");
+
+//    fldName.setAccessible(true);  // IllegalAccessException
+
+    System.out.println(fldName.get(emp));  // username
+    fldName.set(emp, "new name");
+    System.out.println(fldName.get(emp));  // new name
+  }
+}
+```
+### Calculator via reflection
+```Java
+
+class Calculator {
+  int a;
+  int b;
+
+  int sum(int a, int b) {
+    return a + b;
+  }
+
+  int division(int a, int b) {
+    return a / b;
+  }
+
+  int multiply(int a, int b) {
+    return a * b;
+  }
+
+  int subtraction(int a, int b) {
+    return a - b;
+  }
+}
+
+public class Reflections {
+  public static void main(String[] args) {
+
+    Calculator calculator = new Calculator();
+
+    Method[] declaredMethods = calculator.getClass().getDeclaredMethods();
+
+    try (BufferedReader reader = new BufferedReader(new FileReader("tasks.txt"))) {
+      String methodName = reader.readLine();
+      Integer num1 = Integer.parseInt(reader.readLine());
+      Integer num2 = Integer.parseInt(reader.readLine());
+
+      Integer invocationResult = null;
+
+      for (Method method : declaredMethods) {
+        if (method.getName().equals(methodName)) {
+          invocationResult = (Integer) method.invoke(calculator, num1, num2);
+          break;
+        }
+      }
+
+      if (invocationResult != null) {
+        System.out.printf("Executed %s: a=%s, b=%s, result=%s%n", methodName, num1, num2, invocationResult);
+      } else {
+        System.out.printf("Method: %s not found in class: %s%n", methodName, Calculator.class.getSimpleName());
+      }
+
+    } catch (IOException | InvocationTargetException | IllegalAccessException e) {
+      throw new RuntimeException(e);
+    }
+
+  }
+}
+```
