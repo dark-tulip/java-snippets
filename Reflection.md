@@ -317,6 +317,7 @@ System.out.println("Modifier: " + Modifier.toString(-1));
 // Modifier: public protected private abstract static final transient volatile synchronized native strictfp interface
 ```
 ### Declare constructor
+
 ```Java
 // INIT CLASS
 class Person2<T extends String, E> {
@@ -360,4 +361,48 @@ Person2
 [T, E]
 true
 */
+```
+### Method invoke via reflection
+1) getMethod
+2) `Object args` если метод принимает параметры
+3) `method.invoke(ЭКЗЕМПЛЯР_КЛАССА obj, ПАРАМЕТРЫ_ИСПОЛНЯЕМОГО МЕТОДА args)`
+4) если метод статичный  - obj может быть null
+5) returns объект, возвращенный методом
+6) результат примитивных типов боксируется
+```Java
+class Person2<T extends String, E> {
+  T genericTypeVarT;
+  E genericTypeVarE;
+  public Person2(T t, E e, int n, String... str) throws RuntimeException {
+    this.genericTypeVarT = t;
+    this.genericTypeVarE = e;
+  }
+  public void setT(T value) {
+    genericTypeVarT = value;
+    System.out.println("setT, new value: " + genericTypeVarT + " class: " + genericTypeVarT.getClass().getSimpleName());
+  }
+  public static int getOne() {
+    return 111;
+  }
+  public static void staticMethod(Object value) {
+    System.out.println("staticMethod, value: " + value + " class: " + value.getClass().getSimpleName());
+  }
+
+}
+
+public class Reflections {
+  public static void main(String[] args) throws NoSuchMethodException,
+    InvocationTargetException, IllegalAccessException {
+    Method setT = Person2.class.getDeclaredMethod("setT", String.class);
+    Method staticMethod = Person2.class.getDeclaredMethod("staticMethod", Object.class);
+    Method getOne = Person2.class.getDeclaredMethod("getOne");
+
+    Person2<String, String> person2 = new Person2<>("TTT", "EEE", 123, "str", "str2");
+    setT.invoke(person2, "hello");
+    staticMethod.invoke(null, "hello");  // статичный метод можно исполнять без obj
+    System.out.println(getOne.invoke(null).getClass().getSimpleName());  // примитивы кастятся в класс
+    System.out.println(int.class.getSimpleName());  
+  }
+}
+
 ```
