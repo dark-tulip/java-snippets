@@ -495,6 +495,7 @@ class Calculator {
 }
 
 public class Reflections {
+
   public static void main(String[] args) {
 
     Calculator calculator = new Calculator();
@@ -527,4 +528,15 @@ public class Reflections {
 
   }
 }
+
+/* FILE INPUT: tasks.txt
+subtraction
+1
+2
+*/
+
+// OUTPUT:
+/*
+Executed subtraction: a=1, b=2, result=-1
+*/
 ```
