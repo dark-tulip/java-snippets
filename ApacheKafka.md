@@ -1,0 +1,4 @@
+- distributed streaming system
+- horizontal scaling via brokers
+- позволяет уменьшить количество интеграций
+- успешна на real time переносах данных
