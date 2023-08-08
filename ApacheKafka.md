@@ -35,3 +35,11 @@
 - timestamp
 #### Формат передачи данных из кафки
 - accepts ONLY BYTES as an input, and sends bytes as an output to consumers
+- `kafka message serializer` - собирает кафка мэссейджы затем преобразует KEY и VALUE сообщения в байтовый формат
+- serialization means transform data into bytes
+
+### Kafka message key hashing
+- каждое сообщение чиатется **Producer Partitioner Logic**, которая решает в какую партицию попадет сообщение
+- `record` -> `.send()` -> `Kafka Partitioner` -> `.assignPartition()` -> `Partition`
+- default key hashing algorythm is murmur2
+` targetPartition = Math.abs(Utils.murmur2(keyBytes)) % (numPartitions - 1)`
