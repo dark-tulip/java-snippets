@@ -1,5 +1,8 @@
 **Public APIs are forever, you have one chance to get it right**
 - minimize accessibility
+- allow or restrict inheritance
+
+<br>
 - use UUID
 - берегитесь инкрементальных ИД
 - NEVER send token througn URL
