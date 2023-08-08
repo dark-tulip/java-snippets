@@ -1,5 +1,5 @@
-**public APIs are forever, you have one chance to get it right**
-
+**Public APIs are forever, you have one chance to get it right**
+- minimize accessibility
 - use UUID
 - берегитесь инкрементальных ИД
 - NEVER send token througn URL
