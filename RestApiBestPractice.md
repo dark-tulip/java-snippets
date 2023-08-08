@@ -1,3 +1,5 @@
+**public APIs are forever, you have one chance to get it right**
+
 - use UUID
 - берегитесь инкрементальных ИД
 - NEVER send token througn URL
