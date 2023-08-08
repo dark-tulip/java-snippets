@@ -25,3 +25,13 @@
 - продюсеру можно назначить message-key (определяет в какую партицию попадут данные)
 - сообщения с одним и тем же message-key запишутся в одну и ту же партицию (hashing)
 - null message key means round-robin between partitions
+
+## Kafka message consists of
+- msg key (binary)
+- value (binary)
+- compression type
+- headers (optional)
+- partition + offset
+- timestamp
+#### Формат передачи данных из кафки
+- accepts ONLY BYTES as an input, and sends bytes as an output to consumers
