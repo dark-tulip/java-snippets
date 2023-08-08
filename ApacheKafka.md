@@ -41,5 +41,9 @@
 ### Kafka message key hashing
 - каждое сообщение чиатется **Producer Partitioner Logic**, которая решает в какую партицию попадет сообщение
 - `record` -> `.send()` -> `Kafka Partitioner` -> `.assignPartition()` -> `Partition`
-- default key hashing algorythm is murmur2
+- default key hashing algorithm is murmur2
 ` targetPartition = Math.abs(Utils.murmur2(keyBytes)) % (numPartitions - 1)`
+
+## Consumers
+- Кафка брокер НЕ кидает в консюмеры,
+- консюмеры читают из брокера 
