@@ -1,3 +1,8 @@
+/**
+VOLATILE не поможет когда мы с двух потоков одновременно будем изменять данные - DATA RACE
+- 1) работает с main memory
+- 2) happens before to read and write operations 
+*/
 public class VolatileEx {
 
     volatile int  x = 0;  // если убрать volatile, нарушится принцип happens before, 
