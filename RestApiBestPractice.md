@@ -1,8 +1,10 @@
 **Public APIs are forever, you have one chance to get it right**
 - minimize accessibility
 - allow or restrict inheritance
+- версия это важный источник информации о совместимости (Major.Minor.Patch-Label)
 
 <br>
+
 - use UUID
 - берегитесь инкрементальных ИД
 - NEVER send token througn URL
