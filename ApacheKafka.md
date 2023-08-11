@@ -84,4 +84,10 @@
 - producers send data only for leader broker
 - все реплики называются ISR - **IN SYNC REPLICA**
 - у каждой партиции может быть только один ЛИДЕР, в которую записыввают и по умолчанию читают данные
-- реплики ТОЛЬКО РАДИ репоикации данных (since v2.4+ can read from closest ISR)
+- реплики ТОЛЬКО РАДИ репоикации данных (since v2.4+ can read from closest ISR - why? - network cost and latency)
+
+## Producer Acknowledgements (acks) and durability
+- acks=0 - won't wait acknowledgement (possible data loss)
+- acks=1 - leader acknowledgement (limited data loss)
+- acks=all - leader + replicas acknowledgement (no data loss)
+- имея фактор репликации в N, имея выбивших из строя N-1 брокера, можно восстановить данные
