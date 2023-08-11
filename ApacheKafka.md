@@ -47,8 +47,15 @@
 ## Consumers
 - Кафка брокер НЕ кидает в консюмеры,
 - консюмеры читают из брокера
-- по умолчанию консюмеры на Java автоматически публикуют consumer offset (at least once)
-
+- consumers request data from kafka brokers (servers) - PULL MODEL
+- value and key of the message deserializes (from bytes into objects) by `Consumer Deserializer`
+- если вы хотите изменить формат сериализации или десериализации - СОЗДАЙТЕ НОВЫЙ ТОПИК
+### Consumer groups
+- консюмеры могут читать группой из одного и того же топика
+- кол-во консюмеров может быть больше числа партиций - they will be inactive
+- из одного топика могут читать несколько консюмер-групп НО из каждой консюмер-группы каждую партицию в топике читает ТОЛЬКО ОДИН консюмер
+- чтобы добавить консюмер в группу use `group.id` property to consumer
+  
 ### Delivery semantics
 **at least once**
 - консюмеры коммитят каждое чтение один раз
