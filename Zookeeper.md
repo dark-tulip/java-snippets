@@ -1,0 +1,4 @@
+- zookeeper used to manage kafka brokers
+- helps to perform leader elections
+- kafka 2.* cannot work without zookeeper (goes together)
+- kafka 3.* may have kafka raft instead of zookeeper
