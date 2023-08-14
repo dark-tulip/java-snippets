@@ -19,4 +19,8 @@
         return http.build();
     }
 ```
+- при успешном логине создается сессия для пользователя (при каждом запросе передается JSESSIONID=4B1BFFE699BF33C51220DFDD8EBF2E5D)
+- после перезапуска приложения все сессии истекают
+![image](https://github.com/dark-tulip/course-java/assets/89765480/64dc429e-347f-41b7-96f0-f1455f05d7e3)
+
 http://localhost:8080/api/v1/developers/1
