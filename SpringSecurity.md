@@ -24,3 +24,5 @@
 ![image](https://github.com/dark-tulip/course-java/assets/89765480/64dc429e-347f-41b7-96f0-f1455f05d7e3)
 
 http://localhost:8080/api/v1/developers/1
+
+`SpringSecurityHolder` хранит весь secure-ный контекст (кто куда имеет доступ)
