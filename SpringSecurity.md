@@ -26,3 +26,7 @@
 http://localhost:8080/api/v1/developers/1
 
 `SpringSecurityHolder` хранит весь secure-ный контекст (кто куда имеет доступ)
+- user Authentication который хранит в себе
+- - authorities
+  - username
+  - isValid
