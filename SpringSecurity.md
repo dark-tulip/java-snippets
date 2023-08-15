@@ -30,3 +30,9 @@ http://localhost:8080/api/v1/developers/1
 - - authorities
   - username
   - isValid
+
+
+### Local postgres in docker
+```
+docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgres
+```
