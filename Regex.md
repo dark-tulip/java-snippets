@@ -373,8 +373,9 @@ dsf: 11112222333344442807425
     System.out.printf("%-10s%n", Integer.toBinaryString(99));   // 1100011
 ```
 ### Regex for replace sources inside image tag
-- `?:` это игнорироват группу вхождений
+- `?:` - это игнорироват группу вхождений - NON capturing group - группы без захвата - не сохраняет совпадающую последовательность симвовлов
 - `+` - обязательное вхождение
+- `$1` - это обратная ссылка в шаблоне
 ```Java
     final String SEARCH_PATTERN = "src=\"https?://(?:[.a-z\\d]+/+)+([-.a-z\\d]+)\"+";
 
