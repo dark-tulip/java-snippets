@@ -372,3 +372,16 @@ dsf: 11112222333344442807425
     System.out.printf("%10s%n", Integer.toBinaryString(99));    //    1100011
     System.out.printf("%-10s%n", Integer.toBinaryString(99));   // 1100011
 ```
+### Regex for replace sources inside image tag
+- ?: это игнорироват группу вхождений
+- + - обязательное вхождение
+```Java
+    final String SEARCH_PATTERN = "src=\"https?://(?:[.a-z\\d]+/+)+([-.a-z\\d]+)\"+";
+
+    String str1 = "<img src=\"http://cdn.pixabay.com/photo/2015/04/23/22/tree-7368851280.jpeg\">";
+    Pattern pattern = Pattern.compile(SEARCH_PATTERN);
+    Matcher matcher = pattern.matcher(str1);
+    String str = matcher.replaceAll("src=\"[fileId:$1]\"");
+    
+    System.out.println(str);  // <img src="[fileId:tree-7368851280.jpeg]">
+```
