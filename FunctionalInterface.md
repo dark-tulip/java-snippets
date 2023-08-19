@@ -78,7 +78,7 @@ public class Main {
 ### Scope visibility
 - inner class and lambda expression difference in their scope by `this` keywork
 
-```
+```Java
 public class TestScope {
   
   @FunctionalInterface
