@@ -74,3 +74,40 @@ public class Main {
     }
 }
 ```
+
+### Scope visibility
+- inner class and lambda expression difference in their scope by `this` keywork
+
+```
+public class TestScope {
+  
+  @FunctionalInterface
+  interface IMovable {
+    void move();
+  }
+  
+  String animal = "GLOBAL_ANIMAL";
+  
+  void testScopes() {
+    IMovable iMovable1 = new IMovable() {
+      String animal = "iMovable1";
+      public void move() {
+        System.out.println("anonymous class: " + this.animal);  // iMovable1
+      }
+    };
+
+    IMovable iMovable2 = () -> {
+      String animal = "iMovable2";
+      System.out.println("functional interface: "  + this.animal);  // GLOBAL_ANIMAL
+      System.out.println("functional interface: "  + animal);       // iMovable2
+    };
+
+    iMovable1.move();
+    iMovable2.move();
+  }
+
+  public static void main(String[] args) {
+   new TestScope().testScopes();
+  }
+}
+```
