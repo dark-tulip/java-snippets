@@ -113,8 +113,9 @@ public class TestScope {
 ```
 ## Effectively final
 - effectively final переменные - которые не объявлены как final и
-- после инициализации не меняют свое значение
-- анонимные классы позволяют use only final or effectively final variables
+- **после инициализации не меняют свое значение**
+- to avoid concurrency issues use only final or effectively final variables
+- only for anonymous classes and lambda expressions
 ```
     int[] arr = new int[]{1, 1, 1};
     int a = 10;
@@ -129,3 +130,4 @@ public class TestScope {
     
     System.out.println(arr[0]);  // 11
 ```
+- оптимизатор НЕ отпимизирует effectivel final переменные, только те, что явно объявлены как final
