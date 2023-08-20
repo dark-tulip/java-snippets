@@ -116,7 +116,7 @@ public class TestScope {
 - **после инициализации не меняют свое значение**
 - to avoid concurrency issues use only final or effectively final variables
 - only for anonymous classes and lambda expressions
-```
+```Java
     int[] arr = new int[]{1, 1, 1};
     int a = 10;
     
