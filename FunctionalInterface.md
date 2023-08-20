@@ -111,3 +111,21 @@ public class TestScope {
   }
 }
 ```
+## Effectively final
+- effectively final переменные - которые не объявлены как final и
+- после инициализации не меняют свое значение
+- анонимные классы позволяют use only final or effectively final variables
+```
+    int[] arr = new int[]{1, 1, 1};
+    int a = 10;
+    
+    Runnable runnable = () -> {
+      arr[0] += a; // allowed
+      // a++;      // NOT allowed
+    };
+    runnable.run();
+    
+    // a++;  // NOT allowed
+    
+    System.out.println(arr[0]);  // 11
+```
