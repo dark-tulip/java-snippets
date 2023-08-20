@@ -91,3 +91,6 @@
 - acks=1 - leader acknowledgement (limited data loss)
 - acks=all - leader + replicas acknowledgement (no data loss)
 - имея фактор репликации в N, имея выбивших из строя N-1 брокера, можно восстановить данные
+
+## Zookeeper 
+- используется для упраления брокерами кафки, точнее хранит их список
