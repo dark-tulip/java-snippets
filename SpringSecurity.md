@@ -36,3 +36,6 @@ docker run --name postgres -p 5432:5432 -e POSTGRES_PASSWORD=postgres -d postgre
 ### JWT
 - iat - issued at time (время создания токена)
 - c помощью аннотации `@Value("${jwt.secret}")` можно достать значение параметра из `application.properties`
+- Filter -> (check token) -> Gateway -> application
+- при запросе попадаем на токен фильтер, который использует JwtConfigurer
+- `JwtСonfigurer` -> `JwtTokenFilter` (любой запрос проходит через фильтер) -> `JwtTokenProvider` (для получения аутентификации и добавления в securityContext) -> передает дальше по цепочке `FilterChain`
