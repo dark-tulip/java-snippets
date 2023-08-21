@@ -1,0 +1,64 @@
+# curl --location --request GET 'http://localhost:8080/api/v1/developers'
+GET http://localhost:8080/api/v1/developers
+
+### Response: JwtAuthException: Jwt token is expired or invalid
+
+################################################################################################################
+
+# curl --location --request POST 'localhost:8080/api/v1/auth/login'
+#--header 'Content-Type: application/json'
+#--data-raw '{
+#    "email": "user@user.ru",
+#    "password": "asdasdasd"
+#}'
+POST localhost:8080/api/v1/auth/login
+Content-Type: application/json
+
+{
+  "email": "user@user.ru",
+  "password": "asdasdasd"
+}
+
+### Response:
+
+#{
+#    "email": "user@user.ru",
+#    "token": "eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHVzZXIucnUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY5MjYyNzk3MSwiZXhwIjoxNjkyNjI4NTc2fQ.2ppNcjFfaJIxVYive4guzXp0PYLRB2BQedDCDIr-WQI"
+#}
+
+
+################################################################################################################
+
+
+# curl --location --request GET 'http://localhost:8080/api/v1/developers'
+#--header 'Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHVzZXIucnUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY5MjYyNzk3MSwiZXhwIjoxNjkyNjI4NTc2fQ.2ppNcjFfaJIxVYive4guzXp0PYLRB2BQedDCDIr-WQI'
+GET http://localhost:8080/api/v1/developers
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJ1c2VyQHVzZXIucnUiLCJyb2xlIjoiVVNFUiIsImlhdCI6MTY5MjYyNzk3MSwiZXhwIjoxNjkyNjI4NTc2fQ.2ppNcjFfaJIxVYive4guzXp0PYLRB2BQedDCDIr-WQI
+
+### Response:
+
+#[{"id":1,"name":"name1","surname":"surname1"},{"id":2,"name":"name2","surname":"surname2"},{"id":3,"name":"name3","surname":"surname3"}]
+
+
+################################################################################################################
+
+# curl --location --request POST 'http://localhost:8080/api/v1/developers'
+#--header 'Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5ydSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjYyODIwNSwiZXhwIjoxNjkyNjI4ODEwfQ.TpXQNB640URP-_8BI3BpXYDQZ7ZFM5bfcrXI1ZR9B4Y'
+#--header 'Content-Type: application/json'
+#--data-raw '    {
+#        "id": 4,
+#        "name": "name1",
+#        "surname": "surname1"
+#    }'
+POST http://localhost:8080/api/v1/developers
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiJhZG1pbkBhZG1pbi5ydSIsInJvbGUiOiJBRE1JTiIsImlhdCI6MTY5MjYyODIwNSwiZXhwIjoxNjkyNjI4ODEwfQ.TpXQNB640URP-_8BI3BpXYDQZ7ZFM5bfcrXI1ZR9B4Y
+Content-Type: application/json
+
+{
+  "id": 4,
+  "name": "name1",
+  "surname": "surname1"
+}
+
+### Response: OK, created
+
