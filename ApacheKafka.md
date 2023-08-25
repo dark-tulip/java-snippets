@@ -161,3 +161,8 @@ then start kafka
 ```bash
 kafka-server-start /opt/homebrew/etc/kafka/server.properties
 ```
+## Start Kafka in KRaft mode
+generate id for cluster
+```bash
+kafka-storage random-uuid
+```
