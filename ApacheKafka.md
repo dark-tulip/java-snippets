@@ -134,3 +134,29 @@
 - другие контроллеры читают события leader quorum controller-a, и сохраняют в своем журнале
 - так пропущенные события могут легко восстановиться по журанлу событий
 - **metadata топик** is events store
+
+
+## Install kafka on Mac M1
+
+```bash
+## Install via brew
+brew install kafka
+
+## Kafka configs
+cd /opt/homebrew/etc/kafka
+
+## Zookeeper configs
+cd /opt/homebrew/etc/kafka
+
+## Location for kafka data
+cd /opt/homebrew/var/log/kafka
+```
+
+### Zookeeper server start
+```bash
+zookeeper-server-start /opt/homebrew/etc/zookeeper/zoo.cfg
+```
+
+```bash
+kafka-server-start /opt/homebrew/etc/kafka/server.properties
+```
