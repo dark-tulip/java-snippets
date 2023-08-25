@@ -162,7 +162,32 @@ then start kafka
 kafka-server-start /opt/homebrew/etc/kafka/server.properties
 ```
 ## Start Kafka in KRaft mode
-generate id for cluster
+- generate id for cluster
+
 ```bash
 kafka-storage random-uuid
+```
+
+- location of kraft server properties
+```bash
+/opt/homebrew/etc/kafka/kraft/server.properties
+```
+
+- format log dir and replace in the config/kraft/server.properties file, default /tmp/kraft/combined-logs
+```bash
+kafka-storage format -t 1l18DkhPTemKEvKEcwYEbA -c /opt/homebrew/etc/kafka/kraft/server.properties
+# Formatting /opt/homebrew/var/lib/kraft-combined-logs with metadata.version 3.4-IV0.
+```
+
+- если прочитать содержимое:
+```
+...
+# A comma separated list of directories under which to store log files
+# log.dirs=/opt/homebrew/var/lib/kraft-combined-logs
+...
+```
+
+start kafka with kraft properties
+```bash
+kafka-server-start /opt/homebrew/etc/kafka/kraft/server.properties 
 ```
