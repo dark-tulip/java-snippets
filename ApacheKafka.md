@@ -152,11 +152,12 @@ cd /opt/homebrew/etc/kafka
 cd /opt/homebrew/var/log/kafka
 ```
 
-### Zookeeper server start
+## Kafka with Zookeeper server start
+start zookeeper first
 ```bash
 zookeeper-server-start /opt/homebrew/etc/zookeeper/zoo.cfg
 ```
-
+then start kafka
 ```bash
 kafka-server-start /opt/homebrew/etc/kafka/server.properties
 ```
