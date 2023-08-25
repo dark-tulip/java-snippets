@@ -191,3 +191,10 @@ start kafka with kraft properties
 ```bash
 kafka-server-start /opt/homebrew/etc/kafka/kraft/server.properties 
 ```
+## Kafka topics CLI
+
+```
+kafka-topics playground.config --bootstrap-server cluster.playground.cdkt.io:9092
+```
+
+### 
