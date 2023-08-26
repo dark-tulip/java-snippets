@@ -40,10 +40,10 @@ enum Acks {
  Leader = 1,
  All=-1
 }
-
-```
 ```
 
+```
+Topic config: min.insync.replicas = 2
 ```
 
 ## Connect to conductor cluster
