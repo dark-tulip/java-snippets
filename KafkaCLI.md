@@ -57,7 +57,7 @@ Topic config: min.insync.replicas = 2
 - ВАЖНО! по умолчанию консюмится пачка, но на прикладной код отдается ПО ОДНОМУ СОБЫТИЮ
 - при восстановлении - начинает обратно читать с последнего `commit offset `
     - at least oncle (process - then commit)
-    - mostly once (commit then process)
+    - mostly once (commit - then process - закомитить - после обработать)
 
 ## Connect to conductor cluster
 1. 
