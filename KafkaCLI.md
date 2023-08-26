@@ -109,3 +109,8 @@ kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replica
 kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replication-factor=1 
 # Created topic hello3.
 ```
+
+### Удалить топик
+```bash
+kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
+```
