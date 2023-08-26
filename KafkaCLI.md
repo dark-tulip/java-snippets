@@ -88,11 +88,24 @@ Errors = 2
 - очереди с приоритетом (всегда пишем в конец)
 - TTL на сообщение (есть только в рамах сегмента)
   
-## Connect to conductor cluster
-1. 
-
-## create topic
-
+# CLI commands
+### Создать топик
 ```bash
-
+kafka-topics --bootstrap-server localhost:9092 --create --topic hello
+kafka-topics --bootstrap-server localhost:9092 --create --topic hello2 --partitions=3
+```
+### Cписок топиков
+```
+ kafka-topics --bootstrap-server localhost:9092 --list
+```
+### Описание топиков
+```
+kafka-topics --bootstrap-server localhost:9092  --describe
+```
+### Replication factor cannot be more than the number of brokers
+```
+kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replication-factor=2
+# InvalidReplicationFactorException: The target replication factor of 2 cannot be reached because only 1 broker(s) are registered.
+kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replication-factor=1 
+# Created topic hello3.
 ```
