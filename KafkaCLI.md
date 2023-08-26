@@ -41,7 +41,7 @@ enum Acks {
  All=-1
 }
 ```
-
+если будем ждать подтверждения от всех реплик, запись застрянет, to avoid use:
 ```
 Topic config: min.insync.replicas = 2
 ```
