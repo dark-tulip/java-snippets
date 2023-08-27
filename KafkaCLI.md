@@ -114,3 +114,6 @@ kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replica
 ```bash
 kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
 ```
+### Producers
+- with key (distributes across all partitions)
+- without key (same key always go to the same partition)
