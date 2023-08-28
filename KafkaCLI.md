@@ -114,12 +114,11 @@ kafka-topics --bootstrap-server localhost:9092 --create --topic hello3 --replica
 ```bash
 kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
 ```
-### Producers
+# Kafka Console Producer CLI
 - with key (distributes across all partitions)
 - without key (same key always go to the same partition)
 
-
-# Kafka console producing 
+### producer 
 ```
  kafka-console-producer --bootstrap-server localhost:9092 --topic hello2
 ```
@@ -129,6 +128,7 @@ kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
 ```
 kafka-console-producer --bootstrap-server localhost:9092 --topic hello2 --producer-property acks=all
 ```
+
 ### add to not declared topic 
 - не объявленный топик кинет предупреждение и создастся (worked on loccalhost with one partition)
 
@@ -157,7 +157,8 @@ org.apache.kafka.common.KafkaException: No key separator found on line number 2:
 	at kafka.tools.ConsoleProducer.main(ConsoleProducer.scala)
 ```
 
-### Kafka Console Consumer CLI
+# Kafka Console Consumer CLI
+
 - by default 16 KB of data goes to the same partition
 - чтение --from-beginning начинается с самого начала когда продюсер производит хоть одно сообщение
 ```
@@ -165,29 +166,26 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --from-b
 ```
 <img width="928" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/199f9781-ca81-4175-85af-fce21f658c31">
 
-
-<img width="1428" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/41d85f11-bdac-4cd4-a321-7dd7d1a43be4">
-
 ### Round robin producer 
 - отправлять в партиции методом раунд робина (ТОЛЬКО для текущего продюсера)
 ```
 kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic hello2
 ```
-### DefaultMessageFormatter
+
+### DefaultMessageFormatter for consumer CLI
 - напечатать сообщения с форматтером на консоли
 ```
-kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --formatter kafka.tools.DefaultMessageFormatter --from-beginning --property print.timestamp=true --property print.partition=true --property print.value=true --property print.key=true
+kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --formatter \ kafka.tools.DefaultMessageFormatter --from-beginning --property print.timestamp=true --property \ print.partition=true --property print.value=true --property print.key=true
 ```
 
-<img width="1000" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3f043b9-19a4-4f20-94a4-1b17d82e7eb3">
-
+<img width="1428" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/41d85f11-bdac-4cd4-a321-7dd7d1a43be4">
 
 - produce without round robin
 
-<img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
-
+<img width="1000" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3f043b9-19a4-4f20-94a4-1b17d82e7eb3">
 
 - produce with round robin
 
-![Uploading image.png…]()
+<img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
+
 
