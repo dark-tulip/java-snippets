@@ -117,3 +117,21 @@ kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
 ### Producers
 - with key (distributes across all partitions)
 - without key (same key always go to the same partition)
+
+
+# Kafka console producing 
+```
+ kafka-console-producer --bootstrap-server localhost:9092 --topic hello2
+```
+<img width="920" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/c9c03aee-f3a3-483f-aa44-5804521542d2">
+
+### with producer property keys
+```
+kafka-console-producer --bootstrap-server localhost:9092 --topic hello2 --producer-property acks=all
+```
+### add to not declared topic 
+- не объявленный топик кинет предупреждение и создастся
+```
+kafka-console-producer --bootstrap-server localhost:9092 --topic new_non_found_topic 
+```
+<img width="1293" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/aead86db-4049-4830-b5ab-719387ee4847">
