@@ -161,6 +161,7 @@ org.apache.kafka.common.KafkaException: No key separator found on line number 2:
 
 - by default 16 KB of data goes to the same partition
 - чтение --from-beginning начинается с самого начала когда продюсер производит хоть одно сообщение
+- to consume from the beginning use `--from-beginning` (по умолчанию после поделючения начинает консюмить только новые сообщения)
 ```
 kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --from-beginning 
 ```
