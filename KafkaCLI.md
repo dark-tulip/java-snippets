@@ -166,11 +166,6 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --from-b
 ```
 <img width="928" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/199f9781-ca81-4175-85af-fce21f658c31">
 
-### Round robin producer 
-- отправлять в партиции методом раунд робина (ТОЛЬКО для текущего продюсера)
-```
-kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic hello2
-```
 
 ### DefaultMessageFormatter for consumer CLI
 - напечатать сообщения с форматтером на консоли
@@ -180,12 +175,15 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --format
 
 <img width="1428" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/41d85f11-bdac-4cd4-a321-7dd7d1a43be4">
 
-- produce without round robin
+- produce without round robin (по умолчанию пока не заполнится 16 КБ)
 
 <img width="1000" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3f043b9-19a4-4f20-94a4-1b17d82e7eb3">
 
-- produce with round robin
-
+- produce with **Round robin producer** - отправлять в партиции методом раунд робина (ТОЛЬКО для текущего продюсера)
+  
+```
+kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic hello2
+```
 <img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
 
 
