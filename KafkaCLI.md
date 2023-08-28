@@ -130,8 +130,64 @@ kafka-topics --bootstrap-server localhost:9092 --delete --topic hello
 kafka-console-producer --bootstrap-server localhost:9092 --topic hello2 --producer-property acks=all
 ```
 ### add to not declared topic 
-- не объявленный топик кинет предупреждение и создастся
+- не объявленный топик кинет предупреждение и создастся (worked on loccalhost with one partition)
+
 ```
 kafka-console-producer --bootstrap-server localhost:9092 --topic new_non_found_topic 
 ```
+
 <img width="1293" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/aead86db-4049-4830-b5ab-719387ee4847">
+
+- если эту команду запустить для распределенного кластера кинет ошибку
+
+```
+TimeOutException - ERROR when sending message to topic new_topic with key: null. ... Topic not present in metadata after 60000 ms
+```
+
+### Produce with keys
+```
+kafka-console-producer --bootstrap-server localhost:9092 --topic hello2 --property parse.key=true --property key.separator=:
+
+>hello:value
+>hhh
+org.apache.kafka.common.KafkaException: No key separator found on line number 2: 'hhh'
+	at kafka.tools.ConsoleProducer$LineMessageReader.parse(ConsoleProducer.scala:381)
+	at kafka.tools.ConsoleProducer$LineMessageReader.readMessage(ConsoleProducer.scala:356)
+	at kafka.tools.ConsoleProducer$.main(ConsoleProducer.scala:50)
+	at kafka.tools.ConsoleProducer.main(ConsoleProducer.scala)
+```
+
+### Kafka Console Consumer CLI
+- by default 16 KB of data goes to the same partition
+- чтение --from-beginning начинается с самого начала когда продюсер производит хоть одно сообщение
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --from-beginning 
+```
+<img width="928" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/199f9781-ca81-4175-85af-fce21f658c31">
+
+
+<img width="1428" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/41d85f11-bdac-4cd4-a321-7dd7d1a43be4">
+
+### Round robin producer 
+- отправлять в партиции методом раунд робина (ТОЛЬКО для текущего продюсера)
+```
+kafka-console-producer --bootstrap-server localhost:9092 --producer-property partitioner.class=org.apache.kafka.clients.producer.RoundRobinPartitioner --topic hello2
+```
+### DefaultMessageFormatter
+- напечатать сообщения с форматтером на консоли
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic hello2 --formatter kafka.tools.DefaultMessageFormatter --from-beginning --property print.timestamp=true --property print.partition=true --property print.value=true --property print.key=true
+```
+
+<img width="1000" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3f043b9-19a4-4f20-94a4-1b17d82e7eb3">
+
+
+- produce without round robin
+
+<img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
+
+
+- produce with round robin
+
+![Uploading image.png…]()
+
