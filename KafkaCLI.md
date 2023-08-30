@@ -224,3 +224,36 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group
 ```
 [2023-08-30 20:42:13,399] WARN [Consumer clientId=console-consumer, groupId=group1] Offset commit failed on partition mytopic-2 at offset 6: This server does not host this topic-partition. (org.apache.kafka.clients.consumer.internals.ConsumerCoordinator)
 ```
+
+# Kafka consumer group CLI
+
+- consumer without group will accept all data from topic
+- consumer without group has temporary group
+
+
+### List of consumer groups
+
+```
+kafka-consumer-groups --bootstrap-server localhost:9092 --list
+```
+<img width="841" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/76dbfb24-5ed0-4069-9fbe-5c0754cbefb7">
+
+### Descibe one consumer group
+
+- по `consumer ID` можно узнать, какой консюмер читает из какой партиции
+```
+kafka-consumer-groups --bootstrap-server localhost:9092 --group group1 --describe
+```
+<img width="1254" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/9b646340-375a-42f9-aa9c-0d127e805716">
+
+## LAG - when messages produced but not consumed or committed
+
+- `Consumer group 'group1' has no active members.`
+  
+<img width="1020" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/2f833314-e73f-4481-aa09-83ab151d7464">
+
+- если подключить консюмер данной группы - ЛАГ исчезнет
+
+<img width="1283" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/4d9b2a0e-ad5f-4fc4-9d10-d09db1923432">
+
+
