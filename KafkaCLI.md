@@ -227,11 +227,13 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group
 
 # Kafka consumer group CLI
 
-- consumer without group will accept all data from topic
-- consumer without group has temporary group
+
 
 
 ### List of consumer groups
+
+- consumer without group will accept all data from topic
+- consumer without group has temporary group (`f.e. console-consumer-25698`)
 
 ```
 kafka-consumer-groups --bootstrap-server localhost:9092 --list
