@@ -188,7 +188,9 @@ kafka-console-producer --bootstrap-server localhost:9092 --producer-property par
 <img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
 
 ### Consumer groups
-
+- лишние консюмеры в консюмер группе будут неактивными
+- не имеет смысл регистрировать больше консюмеров чем кол-во партиций в топике
+- если для консбмера не указать группу - он создаст temporary consumer-group
 1) create topic
 ```
 (base) tansh@MBP-tansh ~ % kafka-topics --bootstrap-server localhost:9092 --create --topic mytopic         Created topic mytopic.
@@ -214,5 +216,11 @@ kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group
 <img width="1235" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/e1fde7c1-d12d-4bcd-b102-d69c76dc0206">
 
 5) каждое сообщение из продюсера направится во все группы
-
+- each consumer-group has the same data
+- each consumer-group has its own independent offset
 <img width="1213" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/08f19002-be4d-40d7-b5e0-18c46e6b3aae">
+
+- нельзя уменьшать кол-во партиций, если из нее читает группа консюмеров
+```
+[2023-08-30 20:42:13,399] WARN [Consumer clientId=console-consumer, groupId=group1] Offset commit failed on partition mytopic-2 at offset 6: This server does not host this topic-partition. (org.apache.kafka.clients.consumer.internals.ConsumerCoordinator)
+```
