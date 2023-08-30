@@ -187,4 +187,32 @@ kafka-console-producer --bootstrap-server localhost:9092 --producer-property par
 ```
 <img width="1440" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/ddc87de1-5192-46ec-9682-1cd475fb87b7">
 
+### Consumer groups
 
+1) create topic
+```
+(base) tansh@MBP-tansh ~ % kafka-topics --bootstrap-server localhost:9092 --create --topic mytopic         Created topic mytopic.
+```
+2) append producer
+
+<img width="1437" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/dbeade21-bb5e-45e6-971b-f0b1084773e1">
+
+3) Добавьте группу консюмеров (может быть больше числа партиций в топике)
+- опция --from-beginning имеет место только для первого консюмера, остальные повторы не начинают чтение сообщений с начала в рамках группы
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group group1 --from-beginning
+kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group group1 --from-beginning
+kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group group1 --from-beginning
+kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group group1 --from-beginning
+```
+
+4) Консюмер другой группы - начнет чтение с начала
+```
+kafka-console-consumer --bootstrap-server localhost:9092 --topic mytopic --group group2 --from-beginning
+```
+
+<img width="1235" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/e1fde7c1-d12d-4bcd-b102-d69c76dc0206">
+
+5) каждое сообщение из продюсера направится во все группы
+
+<img width="1213" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/08f19002-be4d-40d7-b5e0-18c46e6b3aae">
