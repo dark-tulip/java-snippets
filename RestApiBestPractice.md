@@ -1,4 +1,6 @@
 - утилизация = это время нагрузки / общее время работы
+
+
 **Public APIs are forever, you have one chance to get it right**
 - minimize accessibility
 - allow or restrict inheritance
