@@ -259,3 +259,19 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --group group1 --describ
 <img width="1283" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/4d9b2a0e-ad5f-4fc4-9d10-d09db1923432">
 
 
+# Reset consumer-group-offsets
+
+- `--dry-run` показывает, какие партиции в топике будут сброшены
+- `-execute` исполняет сброс
+  
+```bash
+kafka-consumer-groups --bootstrap-server localhost:9092 --group group1 --reset-offsets --to-earliest --topic mytopic --dry-run
+```
+```bash
+kafka-consumer-groups --bootstrap-server localhost:9092 --group group1 --reset-offsets --to-earliest --topic mytopic --execute
+```
+<img width="1405" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/97a70a96-e49e-43f3-8942-1d1ba9d3096b">
+
+
+<img width="1060" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/c5de2569-9c8d-466d-a322-2285064ad381">
+
