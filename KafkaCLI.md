@@ -275,3 +275,14 @@ kafka-consumer-groups --bootstrap-server localhost:9092 --group group1 --reset-o
 
 <img width="1060" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/c5de2569-9c8d-466d-a322-2285064ad381">
 
+- вы не можете сбросить пока не остановите всех консюмеров из группы
+```
+Error: Assignments can only be reset if the group 'group1' is inactive, but the current state is Stable.
+```
+
+- `--to-latest` - default option - подключенный консюмер читает с последнего коммита (c накопленных лагов)
+- `--to-earliest` - чтение с самого начала
+
+<img width="1341" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/6358a5dc-709e-4e8c-83fc-ca589aae6542">
+
+
