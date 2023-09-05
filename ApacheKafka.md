@@ -197,4 +197,29 @@ kafka-server-start /opt/homebrew/etc/kafka/kraft/server.properties
 kafka-topics playground.config --bootstrap-server cluster.playground.cdkt.io:9092
 ```
 
-### 
+### Java
+### Worker thread
+```Java
+profucer.send(
+  new ProducerRecord<>(topic, partition, key, value), callback);
+)
+```
+`max.block.ms` - сколько времени может занять send (DEFAULT 60 sec)
+-> `Metadata` - куда должно попасть сообщение, which broker
+-> `Serializer` - сериализация ключа и сообщения
+-> `Partitioner` - в какую партицию попадет partitioner.class
+=> RecordAccumulator - сбор пачки данных и этап компрессии `[-> Compressor]` (here `batch.size`)
+
+
+### Sender thread
+
+-> Sender Thread - выбирает какая партиция попадет на какого брокера (drain batches - сливать порции данных)
+`linger.ms` - забирать пачку при превышении таймаута
+`acks` - уровень гарантии доставки данных 
+
+```
+Drain batches (слить батчи) -> Make requests (составить запросы) -> Poll connections (стянуть соединения) -> Fire callbacks (запустить колбэки)
+```
+
+### Network thread
+- send bathces to brokers in cluster
