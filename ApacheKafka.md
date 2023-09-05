@@ -200,7 +200,7 @@ kafka-topics playground.config --bootstrap-server cluster.playground.cdkt.io:909
 ### Java
 ### Worker thread
 ```Java
-profucer.send(
+producer.send(
   new ProducerRecord<>(topic, partition, key, value), callback);
 )
 ```
