@@ -223,3 +223,13 @@ Drain batches (слить батчи) -> Make requests (составить за�
 
 ### Network thread
 - send bathces to brokers in cluster
+
+
+- throughput (bps) - bytes per second
+- throughput (rps) - requests per second (record-send-rate)
+
+### Total latency = worker latency + sender latency + callback latency
+
+worker latency - время выполнения producer.send()
+sender latency - время до получения ответа от брокера (внутренний код кафки)
+callback latency - не влияет на e2e latency 
