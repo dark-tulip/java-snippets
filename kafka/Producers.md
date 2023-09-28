@@ -1,3 +1,97 @@
+## Producers
+- записывают данные в партицию топика
+- одна партиция может читать данные из нескольких продюсеров
+- продюсеру можно назначить message-key (определяет в какую партицию попадут данные)
+- сообщения с одним и тем же message-key запишутся в одну и ту же партицию (hashing)
+- null message key means round-robin between partitions
+
+## Kafka message consists of
+- msg key (binary)
+- value (binary)
+- compression type
+- headers (optional)
+- partition + offset
+- timestamp
+
+#### Формат передачи данных из кафки
+- accepts ONLY BYTES as an input, and sends bytes as an output to consumers
+- `kafka message serializer` - собирает кафка мэссейджы затем преобразует KEY и VALUE сообщения в байтовый формат
+- serialization means transform data into bytes
+
+### Kafka message key hashing
+- каждое сообщение чиатется **Producer Partitioner Logic**, которая решает в какую партицию попадет сообщение
+- `record` -> `.send()` -> `Kafka Partitioner` -> `.assignPartition()` -> `Partition`
+- default key hashing algorithm is murmur2
+  ` targetPartition = Math.abs(Utils.murmur2(keyBytes)) % (numPartitions - 1)`
+
+# Kafka Producers
+- выбирает партицию куда записывать
+- отвечает за гарантию доставки
+- тюнинг производительности (отправлять batch-ами, по времени, по размеру, по кол-ву сообщений, использоватние сжатия*)
+- сжатие только для больших данных, есть весь CPU
+
+### Гарантии доставки событий продюсеру
+```C#
+enum Acks {
+ None = 0,
+ Leader = 1,
+ All=-1
+}
+```
+если будем ждать подтверждения от всех реплик, запись застрянет, to avoid use:
+(PS сколько готовы потерять брокеров, и продолжить работу)
+```
+Topic config: min.insync.replicas = 2
+```
+
+### Java producer
+
+### Размеры сообщений, смотрите на согласованность
+```
+BROKER   `message.max.bytes`         (1_000_012)
+PRODUCER `request.max.size`          (1_048_576)
+CONSUMER `max.partition.fetch.bytes` (1_048_576)
+```
+- batch.size - набирает пачку в 16КВ
+
+### Блокирующий вызов send
+- у кафки крутой синхронный API, если метаданные с кластера блокируются, зависает - до 60 сек
+- если метаданные не доступны, producer.send() блокируется
+- max.block.ms = 60_000
+- 
+### Worker thread
+```Java
+producer.send(
+  new ProducerRecord<>(topic, partition, key, value), callback);
+)
+```
+`max.block.ms` - сколько времени может занять send (DEFAULT 60 sec)
+- -> `Metadata` - куда должно попасть сообщение, which broker
+- -> `Serializer` - сериализация ключа и сообщения
+- -> `Partitioner` - в какую партицию попадет partitioner.class
+  => RecordAccumulator - сбор пачки данных и этап компрессии `[-> Compressor]` (here `batch.size`)
+
+
+### Sender thread
+- Sender Thread - выбирает какая партиция попадет на какого брокера (drain batches - сливать порции данных)
+- `linger.ms` - забирать пачку при превышении таймаута
+- `acks` - уровень гарантии доставки данных
+```
+Drain batches (слить батчи) -> Make requests (составить запросы) -> Poll connections (стянуть соединения) -> Fire callbacks (запустить колбэки)
+```
+
+### Network thread
+- send bathces to brokers in cluster
+- throughput (bps) - bytes per second
+- throughput (rps) - requests per second (record-send-rate)
+
+### Total latency = worker latency + sender latency + callback latency
+
+- `worker latency` - время выполнения producer.send()
+- `sender latency` - время до получения ответа от брокера (внутренний код кафки)
+- `callback latency` - не влияет на e2e latency
+
+
 ## Create producer
 
 - когда забыли указать параметры сериализации сообщений для продюсера
@@ -15,13 +109,13 @@ Invalid value null for configuration key.serializer: must be non-null.
 - `max.block.ms` - cколько максимально времени дается команде producer.send() - default 1 min
 - CompressionType - none is by default
 - `acks` - запрос не считается завершенным пока не сработает подтверждение заданного уровня
---`0` - no any ack
--- `1` оnly leader, without acknowledgement on followers 
--- `-1` or `all` - default
+  --`0` - no any ack
+  -- `1` оnly leader, without acknowledgement on followers
+  -- `-1` or `all` - default
 
 
 Callbacks guarantee execution order
-- все вызовы producer.send() являются асинхронными и возвращают java.concurrent.Future<RecordMetadata>, 
+- все вызовы producer.send() являются асинхронными и возвращают java.concurrent.Future<RecordMetadata>,
 - вывоз метода get() сделает его блокирующим вызовом (из асинхронного синхронный код)
 
 
@@ -160,39 +254,3 @@ Partition:1	key: 7	value: 7
 Partition:0	key: 8	value: 8
 Partition:1	key: 9	value: 9
 ```
-
-## Consumer
-- consumer polls (Duration timeout)
-
-### `auto.offset.reset`
-- `none` - if we don't have consumer group, we will fail before starting the application
-- `earliest` - start from the beginning of the topic
-- `latest` - read from the latest offset
-при след запуске для одной и той же группы, опция earliest будет читать с последнего offset-a
-
-### ConsumerCoordinator
-- Discovered group coordinator
-- (Re-)joining group
-- assign memberId
-- assign partitions for member
-- setting offsets for all partitions in topic
-consumer is joining a group
-
-- consumers are not thread safe
-- to close it from another thread call consumer.wakeup()
-- консюмер может оставаться в группе пока он
-  - sends heartbeat (периодически отправляет на сервер, its liveness when `session.timeout.ms`)
-  - polls records (`max.poll.interval.ms`)
-
-### WARNING - закрытие консюмера
-- вызывайте `consumer.wakeup()` из потока закрывающего консюмер (прерывает поллинг), 
-- поллинг консюмера в try-catch блок, который обрабатывает WakeupException
-- в finally секции `consumer.close()`
-
-### Why do we need gracefully shutting down the consumer with `consumer.close()` methosd?
-- to close sockets and network connections
-- to gracefully rebalance consumers, before group coordinator discover that consumer was lost
-
-при поднятии нового консюмера той же группы - группа перераспределит партиции между собой
-- `Adding newly assigned partitions: topic1-2`
-- когда партиций меньше чем консюмеров в группе - они будут пустовать
