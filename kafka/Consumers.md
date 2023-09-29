@@ -86,14 +86,115 @@ Errors = 2
 - when new partition adds into a topic
 
 ## Consumer re-balancing strategies
-**Eager rebalance**
+**Eager re-balance**
 - в течение ребалансировки отключается вся группа консюмеров
 - заново перераспределяются (рандомно, консюмер который читал из одной партиции может читать из другой)
 
-**Cooperative rebalance (Incremental)**
+**Cooperative re-balance (Incremental)**
 - reassign small subset
 - other consumers will not be interrupted (and continue working on the same partition)
 - minimizes the number of partitions for reassignment, works smart
 
-### Use `partition.assignment.strategy`
-- RandomAssignor 
+- есть распределение консюмеров по партициям:
+- учитывающие ие подписки на топики 
+- и НЕ учитывающие подписки на топики
+### Use `partition.assignment.strategy` for consumer in Properties
+**1. RangeAssignor**
+- число партиций делится на кол-во консюмеров (может неравномерно)
+- работает в рамках топика
+- разделяет диапазоны партиций по группам и присваивает каждому консюмеру
+Например, если у вас есть 10 партиций и 2 консюмера, один потребитель получит партиции с 0 по 4, а другой - с 5 по 9.
+
+**2. Round Robin Assignor**
+- используется для минимизации нерабочих консюмеров (когда число консюмеров больше кол-ва партиций)
+- не сбалансирован когда консюмеры неравномерно подписаны на топики* - whatch 2nd example in the source code
+
+```bash
+For example, we have three consumers C0, C1, C2, 
+and three topics t0, t1, t2, with 1, 2, and 3 partitions, respectively. 
+Therefore, the partitions are t0p0, t1p0, t1p1, t2p0, t2p1, t2p2. 
+C0 is subscribed to t0; 
+C1 is subscribed to t0, t1; and 
+C2 is subscribed to t0, t1, t2.
+
+That assignment will be:
+C0: [t0p0]
+C1: [t1p0]
+C2: [t1p1, t2p0, t2p1, t2p2]
+```
+
+**3. Sticky assignor**
+- eager rebalance protocol
+- revokes all partitions during joining group
+
+**4. Cooperative Sticky Assignors**
+- consumers can keep on consuming from the topic
+
+### Static group membership
+- Когда консюмер покидает группу, его партиции revokes and reassigns
+- когда упавший консюмер возвращается в группу, it will have new `member-id` and new partition assigned
+- `group.instance.id` делает консюмер статичным членом (uniq id of consumer in consumer group)
+- пока не пройдет `session.timeout.ms` времени, партиция будет ожидадть оживления консюмера
+- если консюмер не восстановится в течение `session.timeout.ms`, it will trigger partition rebalance
+- `group.instance.id = null` which is default null
+- WARNING! consumer will be static when `group.instance.id` has value, and until `session.timeout.ms expires = 45000`, group will not be rebalanced!
+- Why we use? - To avoid group re-balances with larger timeout (or revoking all partitions)
+- `heartbeat.interval.ms` = 3000 is used by default with dynamic members
+- задав эту настройку мы только через 45 сек узнаем что консюмер упал `properties.setProperty(ConsumerConfig.GROUP_INSTANCE_ID_CONFIG, "444");`
+
+по умолчанию используется 
+```log
+partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAssignor, class org.apache.kafka.clients.consumer.CooperativeStickyAssignor]
+```
+### how to upgrade configs?
+- use rolling bounce (последовательный перезапуск консюмеров)
+- чтобы поочередно перезапустить каждый консюмер и изменить стратегию assign-мента для каждого консюмера в группе
+- тем самым предотвратив stop the world from consumer group
+- избежать простоя системы
+
+```log
+properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
+```
+```log
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Updating assignment with
+    Assigned partitions:                       [topic1-0, topic1-1, topic1-2]
+    Current owned partitions:                  []
+    Added partitions (assigned - owned):       [topic1-0, topic1-1, topic1-2]
+    Revoked partitions (owned - assigned):     []
+
+################# after adding new consumer:
+
+	Assigned partitions:                       [topic1-0, topic1-1]
+	Current owned partitions:                  [topic1-0, topic1-1, topic1-2]
+	Added partitions (assigned - owned):       []
+	Revoked partitions (owned - assigned):     [topic1-2]
+	
+	Assigned partitions:                       [topic1-0, topic1-1]
+	Current owned partitions:                  [topic1-0, topic1-1]
+	Added partitions (assigned - owned):       []
+	Revoked partitions (owned - assigned):     []
+```
+
+added the second consumer instance 
+
+```log
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Updating assignment with
+	Assigned partitions:                       []
+	Current owned partitions:                  []
+	Added partitions (assigned - owned):       []
+	Revoked partitions (owned - assigned):     []
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Notifying assignor about the new Assignment(partitions=[])
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Adding newly assigned partitions: 
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Request joining group due to: group is already rebalancing
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] (Re-)joining group
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Successfully joined group with generation Generation{generationId=14, memberId='consumer-group1-1-6eeb01f3-c08a-45d0-b2f1-8653c921bb75', protocol='cooperative-sticky'}
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Successfully synced group in generation Generation{generationId=14, memberId='consumer-group1-1-6eeb01f3-c08a-45d0-b2f1-8653c921bb75', protocol='cooperative-sticky'}
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Updating assignment with
+	Assigned partitions:                       [topic1-2]
+	Current owned partitions:                  []
+	Added partitions (assigned - owned):       [topic1-2]
+	Revoked partitions (owned - assigned):     []
+
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Notifying assignor about the new Assignment(partitions=[topic1-2])
+[main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Adding newly assigned partitions: topic1-2
+```
