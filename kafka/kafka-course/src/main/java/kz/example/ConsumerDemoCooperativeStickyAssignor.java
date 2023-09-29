@@ -14,9 +14,6 @@ public class ConsumerDemoCooperativeStickyAssignor {
   static final Logger logger = LoggerFactory.getLogger(ProducerDemo.class);
 
   public static void main(String[] args) {
-
-    logger.info("Hello");
-
     String CONSUMER_GROUP_ID = "group1";
     String TOPIC_NAME = "topic1";
 
@@ -38,18 +35,15 @@ public class ConsumerDemoCooperativeStickyAssignor {
 
     final Thread mainThread = Thread.currentThread();
 
-    Runtime.getRuntime().addShutdownHook(new Thread() {
-      @Override
-      public void run() {
-        logger.info("Shutdown hook executed to close consumers normally");
-        consumer.wakeup();
-        try {
-          mainThread.join();
-        } catch (InterruptedException e) {
-          throw new RuntimeException(e);
-        }
+    Runtime.getRuntime().addShutdownHook(new Thread(() -> {
+      logger.info("Shutdown hook executed to close consumers normally");
+      consumer.wakeup();
+      try {
+        mainThread.join();
+      } catch (InterruptedException e) {
+        throw new RuntimeException(e);
       }
-    });
+    }));
 
     consumer.subscribe(List.of(TOPIC_NAME));
 

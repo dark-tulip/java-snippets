@@ -86,11 +86,11 @@ Errors = 2
 - when new partition adds into a topic
 
 ## Consumer re-balancing strategies
-**Eager re-balance**
+**(1) Eager re-balance (STW)**
 - в течение ребалансировки отключается вся группа консюмеров
 - заново перераспределяются (рандомно, консюмер который читал из одной партиции может читать из другой)
 
-**Cooperative re-balance (Incremental)**
+**(2) Cooperative re-balance (Incremental)**
 - reassign small subset
 - other consumers will not be interrupted (and continue working on the same partition)
 - minimizes the number of partitions for reassignment, works smart
@@ -98,17 +98,18 @@ Errors = 2
 - есть распределение консюмеров по партициям:
 - учитывающие ие подписки на топики 
 - и НЕ учитывающие подписки на топики
+
+
 ### Use `partition.assignment.strategy` for consumer in Properties
+- некоторые старые версии не учитывают подписанные топики
 **1. RangeAssignor**
 - число партиций делится на кол-во консюмеров (может неравномерно)
-- работает в рамках топика
 - разделяет диапазоны партиций по группам и присваивает каждому консюмеру
 Например, если у вас есть 10 партиций и 2 консюмера, один потребитель получит партиции с 0 по 4, а другой - с 5 по 9.
 
 **2. Round Robin Assignor**
 - используется для минимизации нерабочих консюмеров (когда число консюмеров больше кол-ва партиций)
 - не сбалансирован когда консюмеры неравномерно подписаны на топики* - whatch 2nd example in the source code
-
 ```bash
 For example, we have three consumers C0, C1, C2, 
 and three topics t0, t1, t2, with 1, 2, and 3 partitions, respectively. 
@@ -152,9 +153,11 @@ partition.assignment.strategy = [class org.apache.kafka.clients.consumer.RangeAs
 - тем самым предотвратив stop the world from consumer group
 - избежать простоя системы
 
+### How Cooperative Sticky Assignor works?
 ```log
 properties.setProperty(ConsumerConfig.PARTITION_ASSIGNMENT_STRATEGY_CONFIG, CooperativeStickyAssignor.class.getName());
 ```
+first instance
 ```log
 [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Updating assignment with
     Assigned partitions:                       [topic1-0, topic1-1, topic1-2]
