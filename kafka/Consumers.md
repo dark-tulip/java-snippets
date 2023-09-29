@@ -201,3 +201,14 @@ added the second consumer instance
 [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Notifying assignor about the new Assignment(partitions=[topic1-2])
 [main] INFO org.apache.kafka.clients.consumer.internals.ConsumerCoordinator - [Consumer clientId=consumer-group1-1, groupId=group1] Adding newly assigned partitions: topic1-2
 ```
+
+## Consumer offsets
+- default at least once 
+- when you call `poll()` and `auto.commit.interval.ms` has ellapsed
+- `auto.commit.interval.ms = 5000` and `enable.auto.commit = true` is default
+- оно срабатывает когда с момента последнего поллинга данных прошло больше 5ти сек, проходит автокоммит ДО след poll()
+- WARNING! you've already proceeded all messages before commit (and poll()) again!
+- когда вы отключили автокоммит, и обрабатываете данные, возможно в другом потоке, `commitSync()`, `commitAsync()` with the correct offsets manually
+
+# <b>ПОВТОРИ ПРИМЕРЫ Java Kafka Examples</b>
+### https://www.conduktor.io/kafka/advanced-kafka-consumer-with-java/
