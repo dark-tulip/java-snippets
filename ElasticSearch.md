@@ -13,3 +13,16 @@
 
 Индекс это database in elastic
 Mapping это аналог таблицы
+
+## ElasticStack
+# Kibana
+- data analyzis and visualization platform
+# Logstash
+- An event processing pipeline
+- input plugins -> filter plugins -> outputs
+# X-pack - elastic extension tools
+- security (authZ, authZ by AD or etc)
+- notification about CPU usage
+- enables ML
+- Reporting data in csv, pdf
+- forecasting for scaling

@@ -41,3 +41,11 @@
 
 ## Http headers
 - `must-revalidate and max-age: 0 is same as no-cache`
+
+
+## Circuit breaker
+- ресурсоемкий по отношению к основному приложению
+- **OPEN**
+- **HALF-OPEN**
+- **CLOSED**
+- памяти затратно (if only you use redis or memcache)
