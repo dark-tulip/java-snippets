@@ -91,7 +91,7 @@ Errors = 2
 - заново перераспределяются (рандомно, консюмер который читал из одной партиции может читать из другой)
 
 **(2) Cooperative re-balance (Incremental)**
-- reassign small subset
+- reassigns small subset of partitions 
 - other consumers will not be interrupted (and continue working on the same partition)
 - minimizes the number of partitions for reassignment, works smart
 
@@ -99,9 +99,9 @@ Errors = 2
 - учитывающие ие подписки на топики 
 - и НЕ учитывающие подписки на топики
 
-
 ### Use `partition.assignment.strategy` for consumer in Properties
 - некоторые старые версии не учитывают подписанные топики
+
 **1. RangeAssignor**
 - число партиций делится на кол-во консюмеров (может неравномерно)
 - разделяет диапазоны партиций по группам и присваивает каждому консюмеру
@@ -210,5 +210,52 @@ added the second consumer instance
 - WARNING! you've already proceeded all messages before commit (and poll()) again!
 - когда вы отключили автокоммит, и обрабатываете данные, возможно в другом потоке, `commitSync()`, `commitAsync()` with the correct offsets manually
 
+
+<a href='https://www.youtube.com/watch?v=NXU_F_7STSM&list=WL&index=42'>Григорий Кошелев — Когда всё пошло по Кафке 3: Apache Kafka и Consumer</a>
+
+#### LogEndOffset - когда добавилась запись из продюсера (но не факт, что фолловеры подгрузили)
+#### HighWatermark - оффсет, среплицированный фоловерами (now consumers can consume the data)
+
+### Consumer под капотом
+- KafkaConsumer - consumes records from kafka cluster (взаимодействуем по коду)
+- ConsumerMetadata - metadata (кто лидер, кто не лидер) - updating timer
+- SubscriptionState - следит за подписками (tracks topic, partition and offsets) may be `USER_ASSGNED` or `AUTO`
+- ConsumerNetworkClient (обертка для сетевого клиента консюмера)
+- NetworkClient (async request/response network i/o, TCP connections, implements KafkaClient interface)
+- ConsumerCoordinator - consumer group management strategy and polling the data
+- Fetcher - чтение с нужной позиции в нужном колве
+
+### assign VS subscribe 
+
+#### assign - ручками
+- `assign(Collection<TopicPartitons> partitions)`
+- adding partitions (NOT topics!!!) by hand
+- добавление / изменение кол-ва нужно обновлять ручками
+- чтение конкретных событий
+#### subscribe 
+- `subscribe(Collection<String> topics)`
+- auto assigning of new partitions
+- `subscribe(Pattern pattern)` auto subscription to topics by regex 
+
+```log
+assign (consumer) 
+-> assignFromUser (subscription) 
+-> requestUpdateForNewTopics (metadata) 
+-> call seek (consumer)
+-> poll (consumer)
+-> validate and reset offsets (consumer from fetcher)
+-> fetcher goes to subscription -> send to client by queue
+-> client wait for networkClient
+-> networkClient goes to kafka cluster
+```
+- после - консюмер вообще не ждет получения метаданных от кафки и сразу же отправляет следующий запрос
+
+### Seek strategies (will change coordinates)
+- from beginning
+- from end
+- from given position
+
+#### default polling size:
+- `max.poll.records=500` 
 # <b>ПОВТОРИ ПРИМЕРЫ Java Kafka Examples</b>
 ### https://www.conduktor.io/kafka/advanced-kafka-consumer-with-java/
