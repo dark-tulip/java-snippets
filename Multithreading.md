@@ -1,3 +1,4 @@
+- synchronized гарантирует освобождение монитора доступа к объекту ТОЛЬКО  после завершения synchronized метода 
 ```Java
 /**
  * Thread-0 x=2 y=2
@@ -32,20 +33,19 @@ public class Main implements Runnable {
     }
   }
 }
+```
 
-
+- реализация класса обертки возьмет вверх над объектом при переопределении метода
+```Java
 class Test extends Thread {
   public Test() {}
   public Test(Runnable r) {
     super(r);
   }
-
   public void run() {
     System.out.println("Inside Test");
   }
-
 }
-
 
 /**
  *  Inside Test
@@ -53,11 +53,11 @@ class Test extends Thread {
  */
 class CallWrappedClass {
   public static void main(String[] args) {
-    // реализация класса обертки возьмет вверх над объектом
     new Test().start();
     new Test(new RunnableImpl()).start();
   }
 }
+
 class RunnableImpl implements Runnable {
   public void run() {
     System.out.println("Inside runnable");
