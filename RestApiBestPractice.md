@@ -1,6 +1,12 @@
 - утилизация = это время нагрузки / общее время работы
 
+### Идемпотентность 
+- при повторных вызовах - не меняет исходное состояние данных
+- возвращает один и тот же результат
+- HTTP headers - `Idempotency-Key: *UUID*`
+- например, избежать двойного списания с карты*
 
+  
 **Public APIs are forever, you have one chance to get it right**
 - minimize accessibility
 - allow or restrict inheritance

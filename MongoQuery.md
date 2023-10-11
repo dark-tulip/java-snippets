@@ -1,4 +1,5 @@
 # Props of using mongoDB (large amount of data)
+- mongodb has flexible schema, but it doesn't mean you can ignore design
 - нет схемы и динамическая структура данных (НО! лучше когда в коде есть структура)
 - flexible масштабирование (добавление шардов)
 - преимущество!! для SQL пишут целые книги как добавить столбец в таблицу
