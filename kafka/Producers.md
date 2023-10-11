@@ -30,11 +30,15 @@
 
 ## Producer Acknowledgements (acks) and durability
 Гарантии доставки событий продюсеру
-- acks=0 - won't wait acknowledgement (possible data loss)
-- acks=1 - leader acknowledgement (limited data loss)
-- acks=all - leader + replicas acknowledgement (no data loss)
+- `acks=0` - won't wait acknowledgement (possible data loss) - metrics, logging
+- `acks=1` - leader acknowledgement (limited data loss) - sends response for each successful write request - NO guarantee that data replicated
+- `acks=all` - leader + replicas acknowledgement (no data loss) or (`acks=-1`) - the safest data guarantee (accepted by all ISR)
 - имея фактор репликации в N, имея выбивших из строя N-1 брокера, можно восстановить данные
 
+## Мин кол-во ISR реплик при `acks=all`
+- `min.insync.replicas` - `acks=all` goes hand by hand with this setting
+- `min.insync.replicas=1` - only leader accepted the data
+- `min.insync.replicas=2` - one leader and one replica accepted the data
 ```C#
 enum Acks {
  None = 0,
@@ -48,6 +52,11 @@ enum Acks {
 Topic config: min.insync.replicas = 2
 ```
 
+#### Самое устойчивое (popular)
+- иметь три брокера
+- фактор репликации `min.insync.replicas=2` (можем потерять 1 ISR без боли)
+- уровень согласованности `acks=all`
+- !!! если изменить только `acks=all` чревато NOT ENOUGH REPLICA EXCEPTION (когда одна из реплик упадет)
 ### Java producer
 
 ### Размеры сообщений, смотрите на согласованность
@@ -255,3 +264,30 @@ Partition:1	key: 7	value: 7
 Partition:0	key: 8	value: 8
 Partition:1	key: 9	value: 9
 ```
+
+
+## Producer retries (обработка ошибок на стороне разработчика)
+- чтобы избежать транзиентных ошибок
+- в кафке до 2.0 deefault 0 retries
+- Integer.MAX_VALUE (2147483647) for kafka >= 2.1
+- `retry.backoff.ms=100` by default RETRY_BACKOFF_MS_CONFIG - how much time wait before the next retry
+- `delivery.timeout.ms` определяет через какое время сообщение считается не отправленным в случае сбоя (default 120sec)
+#### `delivery.timeout.ms>= linger.ms + retry.backoff.ms + request.timeout.ms`
+-> `send()` -> `batching` -> `await send()` -> `retries` -> `inflight`
+
+- из-за retries сообщения могут записываться вне порядка (out of order) 
+- `max.in.flight.requests.per.connection = 5` - максимальное кол-во запросов, которые могут быть отправлены клиенту без подтверждения
+- `enable.idempotence = true` and `max.in.flight.requests.per.connection = 1` для устранения дубликатов, и гарантии порядка доставки сообщений 
+
+#### Идемпотентный продюсер (по умолчанию с kafka 3.0)
+- !!!idempotent producer don't will commit twice due to network issues
+
+
+# General producer configuration !!! Pay attention for this configs
+## Особенно если версия кафки <= 2.8!!!
+- acks=all (to work with min.insync.replicas)
+- min.insync.replicas=2 (stable guarantee of data storing)
+- enable.idempotency=true (to avoid duplicates due to network issues)
+- max.inflight.requests.per.connection=5 (keep msg ordering and max performance)
+- retries=Integer.MAX_INT (повторять до истечения `delivery.timeout.ms`)
+- delivery.timeout.ms=120000 (fail after retrying for 2 min-s)
