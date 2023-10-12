@@ -1,4 +1,4 @@
-### Runnable on turbo assembler, ms dos
+# Runnable on turbo assembler, MSDOS, TASM language
 ```asm
 ; The program to solve given expression
 ; Z=((a+2)*(b-2))/((c-d)^2) 
