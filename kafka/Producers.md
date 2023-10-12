@@ -291,3 +291,53 @@ Partition:1	key: 9	value: 9
 - max.inflight.requests.per.connection=5 (keep msg ordering and max performance)
 - retries=Integer.MAX_INT (повторять до истечения `delivery.timeout.ms`)
 - delivery.timeout.ms=120000 (fail after retrying for 2 min-s)
+
+```log
+Properties properties = new Properties();
+properties.setProperty(ProducerConfig.BOOTSTRAP_SERVERS_CONFIG, BOOTSTRAP_SERVER);
+properties.setProperty(ProducerConfig.KEY_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+properties.setProperty(ProducerConfig.VALUE_SERIALIZER_CLASS_CONFIG, StringSerializer.class.getName());
+
+// for safe producer configs (kafka <= 2.8)
+properties.setProperty(ProducerConfig.ENABLE_IDEMPOTENCE_CONFIG, "true");
+properties.setProperty(ProducerConfig.ACKS_CONFIG, "all");
+properties.setProperty(ProducerConfig.RETRIES_CONFIG, Integer.MAX_VALUE + "");
+properties.setProperty(ProducerConfig.MAX_IN_FLIGHT_REQUESTS_PER_CONNECTION, "5");
+properties.setProperty(ProducerConfig.DELIVERY_TIMEOUT_MS_CONFIG, "120000");
+```
+
+
+### Message compression
+- применимо когда большой размер сообщения
+can be applied on:
+- (1) broker level (to all topics)
+- (2) topic level
+- компрессия идет на уровне пачки (все сообщения из одной пачки, к примеру можно до 4х раз уменьшить) 
+- уменьшение нагрузки на сеть
+- выше пропускная способность
+- меньше размер хранения на диске
+- МИНУС нагрузка на CPU для продюсеров
+- МИНУС нагрузка на CPU для консюмеров
+- `compression.type=producer` - broker takes compressed batch from prodecer and writes direct to the topics log without recompression
+- `compression.type=none` - all batches decompressed on broker
+- !!! если типы компрессии различаются на продюсере и на брокере, данные при сохранении в диск будут декомпрессироваться и обратно сжиматься
+- if broker/topic level compression matches producers' setting, data will be stored as is
+- if different compression setting - batches will be decompressed by the broker and recompressed again using specified algorithm
+
+
+## Механизм батчинга
+- `linger.ms` (default 0) - how long to wait until we send a batch (сколько времени ожидать сборки пачки)
+- `batch.size` - *максимальный размер пачки в байтах* увеличьте, если батч переполнился до истечения `linger.ms`
+- по умолчанию кафка продюсеры отправляют сообщения ASAP (сразу же, while linger.ms=0)
+- - kafka is smart, пока есть `max.inflight.requests.per.connection=5` сообщений на лету, копится следующая пачка
+- ONE BATCH = ONE REQUEST (max.size is batch size)
+- batch.size=16 KB default, (may set 32KB or 64 KB)
+- если сообщение больше batch.size оно сразу же отправится
+- batch is allocated per partition (each batch goes to one partition)
+
+### для увеличения пропуской способности (! но пожертвовав cpu и задержкой linger.ms)
+```log
+properties.setProperty("batch.size", Integer.toString(64 * 1024));
+properties.setProperty("linger.ms", "20");
+properties.setProperty("compression.type", "snappy");
+```
