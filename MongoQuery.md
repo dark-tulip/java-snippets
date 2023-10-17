@@ -1,3 +1,8 @@
+Performance is: 
+- about testing,
+- about tuning about making sure that all the components working together,
+- about identifying what is bottleneck
+
 # Premature optimisation is the root of all EVIL!!!
 *so, programmers waiste enormous amounts of time... worrying about.. the speed of noncritical parts*  
 - each index reduces write performance
