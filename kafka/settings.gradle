@@ -1,0 +1,4 @@
+rootProject.name = 'kafka'
+include 'kafka-course'
+include 'kafka-producer-wikimedia'
+include 'kafka-consumer-opensearch'
