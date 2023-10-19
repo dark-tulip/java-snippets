@@ -1,3 +1,39 @@
+Performance is: 
+- about testing,
+- about tuning about making sure that all the components working together,
+- about identifying what is bottleneck
+
+# Premature optimisation is the root of all EVIL!!!
+*so, programmers waiste enormous amounts of time... worrying about.. the speed of noncritical parts*  
+- each index reduces write performance
+- field order matters in the compound inxdex
+
+## 4 principles of chosing SHARDING KEY
+- **HIGH CARDINALITY** Высокая кардинальность (большое кол-во уникальных значений, например гендер будет обладать низкой кардинальностью)
+- **EVEN DISTRIBUTION** равномерное распределение, каждое значение не должно повторяться (age = uneven distribution, because you may have more younger users that the older ones)
+- **FREQUENTLY USED IN QUERIES** - так, чтобы по запросу было понятно в какой шард идти, key should be part of the query, but id is a bad example cause of it is scatter/gather query (требует перебора по всем шардам для находжения документа)
+- **NON MONOTONIC** - не монотонно возврастающий ключ
+
+## Решение
+- хэширование ключа подходит в большистве случаев - делает любое поле рандомно распределяемым
+- подумайте распределение шардов по зонам
+- составной ключ с низкой кардинальностью (с рандомным значением) в симбиозе ascending id
+
+## Перебалансировка данных в шардах
+- балансировка построена на шардах
+- с 5.0 версии монги поддерживается live rebalancing between shards
+- данные в кластере разбиваются по чанкам,
+- за равномерное распределение чанков отвечают шарды
+- шард отвечает за хранение и обслуживание чанков 
+- чанки это наборы документов
+- когда **balancer window** выявляет перегруженные шарды, он может включить процесс миграции чанков в другой шард (наименее загруженный), этот процесс называется **CHUNK MIGRATION** - миграция фрагментов
+- запустить балансировку можно вручную `sh.stopBalancer()` и `sh.startBalancer()`
+- sharding key это поле или набор полей которые выбираются для разделения данных по чанкам
+- данные с одинаковым ключом шардирования попадают в один и тот же чанк
+- balancer window enabled by default in mongodb 4.2
+  
+**HOT SPOTS** - горячая точка, когда один шард получает слишком много запросов изза неравномерного распределения
+
 # Props of using mongoDB (large amount of data)
 - mongodb has flexible schema, but it doesn't mean you can ignore design
 - нет схемы и динамическая структура данных (НО! лучше когда в коде есть структура)
