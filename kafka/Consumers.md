@@ -35,6 +35,7 @@
     - enable auto commit = true
     - AutoCommitIntervalMs=5000ms (you need to StoreOffsetsr
 - следите чтобы оффсеты не протухали
+- Если консюмеру не указать топики - кинет исключение (consumer is not subscribed to any topics or assigned any partitions)
 ```
 # AutoOffsetReset
 Latest = 0,
