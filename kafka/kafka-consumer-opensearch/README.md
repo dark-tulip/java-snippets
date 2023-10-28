@@ -78,3 +78,5 @@ curl localhost:9200/wikimedia/_doc/boz3dosBhqmSp26FAzFv | json
 lag is increasing when only producer works
 
 ![img_1.png](img_1.png)
+
+

@@ -260,3 +260,16 @@ assign (consumer)
 - `max.poll.records=500` 
 # <b>ПОВТОРИ ПРИМЕРЫ Java Kafka Examples</b>
 ### https://www.conduktor.io/kafka/advanced-kafka-consumer-with-java/
+
+## Delivery semantics
+**at most once**
+- `accept batch -> commit -> process`
+- НЕ прочитает первую пачку обратно, начнет читать с коммита (точнее с пачки2)
+- `| (batch1) OK OK OK X X | (batch2) OK OK OK OK OK`
+
+**at least once (recommend)**
+- `accept batch -> process -> commit` 
+- прочитает первую пачку обратно, потому что первая пачка еще не закоммитилась
+- `| (batch1) OK OK OK X X | (batch1) OK OK OK OK ОК`
+
+
