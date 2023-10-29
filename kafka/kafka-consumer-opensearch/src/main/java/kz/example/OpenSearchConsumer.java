@@ -1,5 +1,6 @@
 package kz.example;
 
+import com.google.gson.JsonParser;
 import org.apache.http.HttpHost;
 import org.apache.http.auth.AuthScope;
 import org.apache.http.auth.UsernamePasswordCredentials;
@@ -58,7 +59,7 @@ public class OpenSearchConsumer {
 
     // we build a URI from the connection string
     RestHighLevelClient restHighLevelClient;
-    URI connUri = URI.create(connString);
+    URI                 connUri = URI.create(connString);
     // extract login information if it exists
     String userInfo = connUri.getUserInfo();
 
@@ -76,20 +77,16 @@ public class OpenSearchConsumer {
       CredentialsProvider cp = new BasicCredentialsProvider();
       cp.setCredentials(AuthScope.ANY, new UsernamePasswordCredentials(auth[0], auth[1]));
 
-      restHighLevelClient = new RestHighLevelClient(
-        RestClient.builder(new HttpHost(connUri.getHost(), connUri.getPort(), connUri.getScheme()))
-          .setHttpClientConfigCallback(
-            httpAsyncClientBuilder -> httpAsyncClientBuilder.setDefaultCredentialsProvider(cp)
-              .setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy())));
+      restHighLevelClient = new RestHighLevelClient(RestClient.builder(new HttpHost(connUri.getHost(), connUri.getPort(), connUri.getScheme())).setHttpClientConfigCallback(httpAsyncClientBuilder -> httpAsyncClientBuilder.setDefaultCredentialsProvider(cp).setKeepAliveStrategy(new DefaultConnectionKeepAliveStrategy())));
     }
 
     return restHighLevelClient;
   }
 
   public static void main(String[] args) throws IOException {
-    RestHighLevelClient openSearchClient = createOpenSearchClient();
-    CreateIndexRequest createIndexRequest = new CreateIndexRequest("wikimedia");
-    KafkaConsumer<String, String> consumer = createKafkaConsumer();
+    RestHighLevelClient           openSearchClient   = createOpenSearchClient();
+    CreateIndexRequest            createIndexRequest = new CreateIndexRequest("wikimedia");
+    KafkaConsumer<String, String> consumer           = createKafkaConsumer();
 
     try (openSearchClient; consumer) {
 
@@ -114,22 +111,65 @@ public class OpenSearchConsumer {
 
         for (ConsumerRecord<String, String> record : records) {
           // send record to the opensearch
-          try {
-            IndexRequest request = new IndexRequest("wikimedia");
 
-            request.source(record.value(), XContentType.JSON);
+          // Обеспечение идемпотентности
+          // 1 способ - составить идентификатор из метаданных сообщения кафки (будут уникальны, если нет никаких ИД)
+          // String msgId = record.topic() + "_" + record.partition() + "_" + record.offset();
 
-            IndexResponse response = openSearchClient.index(request, RequestOptions.DEFAULT);
+          // 2 способ - вынуть идентификатор из самого сообщения
+          String msgId = parseRecordId(record.value());
 
-            logger.info("Inserted doc to openSearch: " + response.getId());
+          for (int i = 0 ; i < 2; i++) {
+            try {
+              IndexRequest request = new IndexRequest("wikimedia");
 
-          } catch (ElasticsearchStatusException e) {
-            // 	Suppressed: org.elasticsearch.client.ResponseException: method [POST], host [http://localhost:9200], URI [/wikimedia/_doc?timeout=1m], status line [HTTP/1.1 400 Bad Request]
-            logger.error("record couldn't be send: " + record);
+              request.source("{\"field\":\" ZZZZ"  +  i + " \" }", XContentType.JSON)
+                     .id(msgId);
+
+              IndexResponse response = openSearchClient.index(request, RequestOptions.DEFAULT);
+
+              logger.info("Inserted doc to openSearch: " + response.getId());
+              logger.info("Inserted doc to openSearch: " + response.getResult().toString());
+              logger.info("Inserted doc to openSearch: " + response.getIndex());
+
+            } catch (ElasticsearchStatusException e) {
+              // 	Suppressed: org.elasticsearch.client.ResponseException: method [POST], host [http://localhost:9200], URI [/wikimedia/_doc?timeout=1m], status line [HTTP/1.1 400 Bad Request]
+              logger.error("record couldn't be send: " + record);
+            }
           }
+          break;
         }
+        break;
       }
     }
+  }
+
+
+  /**
+   * {
+   *   "$schema": "/mediawiki/recentchange/1.0.0",
+   *   "meta": {
+   *     "uri": "https://www.wikidata.org/wiki/Q13187",
+   *     "request_id": "b295d2b4-2948-4072-b26b-dd303367b1d1",
+   *     "id": "87fe17e8-6e9d-406c-b77e-27123bcdceff",
+   *     "dt": "2023-10-29T10:26:13Z",
+   *     "domain": "www.wikidata.org",
+   *     "stream": "mediawiki.recentchange",
+   *     "topic": "codfw.mediawiki.recentchange",
+   *     "partition": 0,
+   *     "offset": 724054332
+   *   }
+   * }
+   * @param json string
+   * @return extracted value of "87fe17e8-6e9d-406c-b77e-27123bcdceff"
+   */
+  private static String parseRecordId(String json) {
+    return JsonParser.parseString(json)
+                     .getAsJsonObject()
+                     .get("meta")
+                     .getAsJsonObject()
+                     .get("id")
+                     .getAsString();
   }
 
 }
