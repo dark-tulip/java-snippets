@@ -118,48 +118,41 @@ public class OpenSearchConsumer {
 
           // 2 способ - вынуть идентификатор из самого сообщения
           String msgId = parseRecordId(record.value());
+          try {
+            IndexRequest request = new IndexRequest("wikimedia");
 
-          for (int i = 0 ; i < 2; i++) {
-            try {
-              IndexRequest request = new IndexRequest("wikimedia");
+            request.source(record.value(), XContentType.JSON)
+                   .id(msgId);
 
-              request.source("{\"field\":\" ZZZZ"  +  i + " \" }", XContentType.JSON)
-                     .id(msgId);
+            IndexResponse response = openSearchClient.index(request, RequestOptions.DEFAULT);
 
-              IndexResponse response = openSearchClient.index(request, RequestOptions.DEFAULT);
+            logger.info("Inserted doc to openSearch: " + response.getId());
 
-              logger.info("Inserted doc to openSearch: " + response.getId());
-              logger.info("Inserted doc to openSearch: " + response.getResult().toString());
-              logger.info("Inserted doc to openSearch: " + response.getIndex());
-
-            } catch (ElasticsearchStatusException e) {
-              // 	Suppressed: org.elasticsearch.client.ResponseException: method [POST], host [http://localhost:9200], URI [/wikimedia/_doc?timeout=1m], status line [HTTP/1.1 400 Bad Request]
-              logger.error("record couldn't be send: " + record);
-            }
+          } catch (ElasticsearchStatusException e) {
+            // 	Suppressed: org.elasticsearch.client.ResponseException: method [POST], host [http://localhost:9200], URI [/wikimedia/_doc?timeout=1m], status line [HTTP/1.1 400 Bad Request]
+            logger.error("record couldn't be send: " + record);
           }
-          break;
         }
-        break;
       }
     }
   }
 
-
   /**
    * {
-   *   "$schema": "/mediawiki/recentchange/1.0.0",
-   *   "meta": {
-   *     "uri": "https://www.wikidata.org/wiki/Q13187",
-   *     "request_id": "b295d2b4-2948-4072-b26b-dd303367b1d1",
-   *     "id": "87fe17e8-6e9d-406c-b77e-27123bcdceff",
-   *     "dt": "2023-10-29T10:26:13Z",
-   *     "domain": "www.wikidata.org",
-   *     "stream": "mediawiki.recentchange",
-   *     "topic": "codfw.mediawiki.recentchange",
-   *     "partition": 0,
-   *     "offset": 724054332
-   *   }
+   * "$schema": "/mediawiki/recentchange/1.0.0",
+   * "meta": {
+   * "uri": "https://www.wikidata.org/wiki/Q13187",
+   * "request_id": "b295d2b4-2948-4072-b26b-dd303367b1d1",
+   * "id": "87fe17e8-6e9d-406c-b77e-27123bcdceff",
+   * "dt": "2023-10-29T10:26:13Z",
+   * "domain": "www.wikidata.org",
+   * "stream": "mediawiki.recentchange",
+   * "topic": "codfw.mediawiki.recentchange",
+   * "partition": 0,
+   * "offset": 724054332
    * }
+   * }
+   *
    * @param json string
    * @return extracted value of "87fe17e8-6e9d-406c-b77e-27123bcdceff"
    */
