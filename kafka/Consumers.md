@@ -273,3 +273,33 @@ assign (consumer)
 - `| (batch1) OK OK OK X X | (batch1) OK OK OK OK ОК`
 
 
+## Стратегия коммита сообщений
+### 1. По умолчанию, автокоммиты
+- по умолчанию пачка коммитится когда вызывается poll method
+- `auto.commit.interval.ms=5000` and `enable.auto.commit=true` achieved
+- before calling poll again make sure your messages are already processed
+- consumer полит, полит, полит сообщения пока не истечет таймер коммита и не отправится auto commit
+- will automatically committed at regular interval
+```java
+while(true) {
+  var batch = consumer.poll(Duration.ofMillis(1000));
+  processSync(batch);  // process the data
+}
+```
+### 2. Manual committing
+- `enable.auto.commit=false` и синхронная обработка пакетов
+- в этом случае вы контролируете стратегию коммита сообщений (например собрать буфер и махом отправить в БД)
+- можно задать свои условия в isReady до коммита пачки принятых сообщений
+```Java
+while(true) {
+  var batch += consumer.poll(Duration.ofMillis(1000));
+  if (isReady(batch)) {
+    processSync(batch);
+    consumer.commitAsync();
+  }
+}
+```
+
+**!!! ВНИМАНИЕ
+`ConsumerConfig.ENABLE_AUTO_COMMIT_СONFIG=false` property каждый раз при запуске одной и той же консюмер группы будет читать сообщения c его самого последнего коммита (ну или с начала если это новая группа), 
+а ЛАГ не будет исчезать из партиций КАФКИ - это погубит систему**
