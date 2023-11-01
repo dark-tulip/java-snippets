@@ -140,6 +140,8 @@ public class OpenSearchConsumerBulkRequest {
         if (bulkRequest.numberOfActions() > 0) {
           BulkResponse response = openSearchClient.bulk(bulkRequest, RequestOptions.DEFAULT);
 
+          logger.info("Inserted: " + response.getItems().length + " document(s)");
+
           if (response.hasFailures()) {
             logger.info("Failed: " + response.buildFailureMessage());
             // [399]: index [wikimedia], type [_doc], id [39d9796d-3e59-4a15-8a06-1287e789238f],
