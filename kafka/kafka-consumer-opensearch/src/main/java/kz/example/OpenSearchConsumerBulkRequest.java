@@ -87,7 +87,7 @@ public class OpenSearchConsumerBulkRequest {
     return restHighLevelClient;
   }
 
-  public static void main(String[] args) throws IOException {
+  public static void main(String[] args) throws IOException, InterruptedException {
     RestHighLevelClient           openSearchClient   = createOpenSearchClient();
     CreateIndexRequest            createIndexRequest = new CreateIndexRequest("wikimedia");
     KafkaConsumer<String, String> consumer           = createKafkaConsumer();
@@ -174,6 +174,8 @@ public class OpenSearchConsumerBulkRequest {
           logger.info("Program will be stopped");
           break;
         }
+
+        Thread.sleep(1000);
       }
     }
   }
