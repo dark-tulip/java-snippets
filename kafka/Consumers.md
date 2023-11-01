@@ -303,3 +303,8 @@ while(true) {
 **!!! ВНИМАНИЕ
 `ConsumerConfig.ENABLE_AUTO_COMMIT_СONFIG=false` property каждый раз при запуске одной и той же консюмер группы будет читать сообщения c его самого последнего коммита (ну или с начала если это новая группа), 
 а ЛАГ не будет исчезать из партиций КАФКИ - это погубит систему**
+
+## Вставка пачками BulkRequest in openSearch
+- помимо чтения данных батчами из кафки, в OpenSearch можно посылать эту пачку массовым запросом (`BulkRequest`)
+- составляется документ (record for openSearch) в виде `IndexRequest`, копится в BulkRequest
+- вызывается `openSearchClient.bulk(bulkRequest)`
