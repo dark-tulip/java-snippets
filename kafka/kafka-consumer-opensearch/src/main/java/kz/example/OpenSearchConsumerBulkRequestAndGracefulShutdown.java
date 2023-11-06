@@ -11,6 +11,7 @@ import org.apache.kafka.clients.consumer.ConsumerConfig;
 import org.apache.kafka.clients.consumer.ConsumerRecord;
 import org.apache.kafka.clients.consumer.ConsumerRecords;
 import org.apache.kafka.clients.consumer.KafkaConsumer;
+import org.apache.kafka.common.errors.WakeupException;
 import org.apache.kafka.common.serialization.StringDeserializer;
 import org.elasticsearch.ElasticsearchStatusException;
 import org.elasticsearch.action.bulk.BulkRequest;
@@ -42,9 +43,9 @@ import java.util.concurrent.TimeUnit;
  * <p>
  * 4) close things
  */
-public class OpenSearchConsumerBulkRequest {
+public class OpenSearchConsumerBulkRequestAndGracefulShutdown {
 
-  static final Logger logger = LoggerFactory.getLogger(OpenSearchConsumerBulkRequest.class);
+  static final Logger logger = LoggerFactory.getLogger(OpenSearchConsumerBulkRequestAndGracefulShutdown.class);
 
   private static KafkaConsumer<String, String> createKafkaConsumer() {
     Properties properties = new Properties();
@@ -54,6 +55,7 @@ public class OpenSearchConsumerBulkRequest {
     properties.setProperty(ConsumerConfig.GROUP_ID_CONFIG, "opensearch-consumer-group-1");
     properties.setProperty(ConsumerConfig.AUTO_OFFSET_RESET_CONFIG, "latest");
     properties.setProperty(ConsumerConfig.ENABLE_AUTO_COMMIT_CONFIG, "false");
+
 
     return new KafkaConsumer<>(properties);
   }
@@ -91,6 +93,29 @@ public class OpenSearchConsumerBulkRequest {
     RestHighLevelClient           openSearchClient   = createOpenSearchClient();
     CreateIndexRequest            createIndexRequest = new CreateIndexRequest("wikimedia");
     KafkaConsumer<String, String> consumer           = createKafkaConsumer();
+
+    // get the reference to the main thread
+    final Thread mainThread = Thread.currentThread();
+
+    // adding the shutdown hook
+    // исполняется при нормальном выключении через Ctrl+c
+    // или когда закончился последний non-deamon thread завершил работу
+    Runtime.getRuntime().addShutdownHook(new Thread() {
+      @Override
+      public void run() {
+        logger.info("Shutdown hook executed to close consumers normally");
+        // остановить поллинг консюмера
+        // вызовет WakeupException в вызываемом потоке
+        consumer.wakeup();
+
+        // дождаться завершения работы консюмера с основного потока
+        try {
+          mainThread.join();
+        } catch (InterruptedException e) {
+          throw new RuntimeException(e);
+        }
+      }
+    });
 
     try (openSearchClient; consumer) {
 
@@ -172,11 +197,17 @@ public class OpenSearchConsumerBulkRequest {
             logger.info("Program will be stopped");
             break;
           }
-
           Thread.sleep(1000);
-
         }
       }
+    } catch (WakeupException e) {
+      logger.error("Something wrong with hard shutdown: " + e.getMessage());
+    } catch (Exception e) {
+      logger.error("Undefined exception: " + e.getMessage());
+    } finally {
+      consumer.close();
+      openSearchClient.close();
+      logger.info("Consumer and opensearch client gracefully closed");
     }
   }
 
