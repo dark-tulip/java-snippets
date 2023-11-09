@@ -1,3 +1,14 @@
+Spring 6 
+#### Spring core
+- only Java 17+
+- may be breaking changes
+- Autowire через сеттеры - опасная штука - нарушение принципа dependency injection
+- want to remove xml configuration
+#### Spring Native
+- Native станет частью спринг Spring Boot 3.0
+- AOT engine goes from Spring core 6.0
+- 
+
 #### Уровни построения логики в приложении
 - репозиторий - хранилище данных
 - сервис - бизнес логика
