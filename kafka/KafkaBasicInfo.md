@@ -63,3 +63,16 @@ timeindex is    0000123456789.timeindex (у каждого события ест
 - другие контроллеры читают события leader quorum controller-a, и сохраняют в своем журнале
 - так пропущенные события могут легко восстановиться по журанлу событий
 - **metadata топик** is events store
+
+
+## Kafka Extended API
+продюсеры и коесюмеры это просто низкоуровневое ПО
+помимо них есть
+### Kafka connect `[external source => kafka and kafka => external Sink]`
+- `[source => connect cluster(worker) => kafka cluster(broker) => sink]`
+- Source connector - to get Data from common data sources
+- Sink connector - to publish in data sources
+- ETL pipeline - extract, transform and load
+- kafka connectors allow achieve fault tolerance, idempotence, distribution, ordering  
+### Kafka Streams `kafka => kafka`
+### Kafka Schema Registry `Schemas in kafka`
