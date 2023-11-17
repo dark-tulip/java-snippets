@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/about-spring/corona-desinfector" />
+    <file type="web" url="file://$PROJECT_DIR$/functional-programming" />
     <file type="web" url="file://$PROJECT_DIR$/kafka" />
   </component>
   <component name="MavenProjectsManager">

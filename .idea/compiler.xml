@@ -8,14 +8,11 @@
         <outputRelativeToContentRoot value="true" />
         <module name="demo" />
       </profile>
-      <profile name="Gradle Imported" enabled="true">
-        <outputRelativeToContentRoot value="true" />
-        <processorPath useClasspath="false">
-          <entry name="$PROJECT_DIR$/../.gradle/caches/modules-2/files-2.1/org.projectlombok/lombok/1.18.24/13a394eed5c4f9efb2a6d956e2086f1d81e857d9/lombok-1.18.24.jar" />
-        </processorPath>
-        <module name="corona-desinfector.main" />
-      </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="functional-programming.main" target="17" />
+      <module name="functional-programming.test" target="17" />
+    </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">
     <option name="ADDITIONAL_OPTIONS_OVERRIDE">
