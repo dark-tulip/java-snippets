@@ -7,6 +7,11 @@
       <option name="url" value="https://oss.sonatype.org/content/repositories/snapshots" />
     </remote-repository>
     <remote-repository>
+      <option name="id" value="MavenRepo" />
+      <option name="name" value="MavenRepo" />
+      <option name="url" value="https://repo.maven.apache.org/maven2/" />
+    </remote-repository>
+    <remote-repository>
       <option name="id" value="central" />
       <option name="name" value="artifactory-01.novalocal-releases" />
       <option name="url" value="http://artifactory.innoforce.kz/artifactory/libs-release" />
@@ -35,11 +40,6 @@
       <option name="id" value="snapshots" />
       <option name="name" value="artifactory-01.novalocal-snapshots" />
       <option name="url" value="http://artifactory.innoforce.kz/artifactory/libs-snapshot" />
-    </remote-repository>
-    <remote-repository>
-      <option name="id" value="MavenRepo" />
-      <option name="name" value="MavenRepo" />
-      <option name="url" value="https://repo.maven.apache.org/maven2/" />
     </remote-repository>
   </component>
 </project>

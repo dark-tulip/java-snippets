@@ -10,8 +10,7 @@
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="functional-programming.main" target="17" />
-      <module name="functional-programming.test" target="17" />
+      <module name="enigma" target="17" />
     </bytecodeTargetLevel>
   </component>
   <component name="JavacSettings">

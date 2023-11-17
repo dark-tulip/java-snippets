@@ -3,6 +3,7 @@
   <component name="ExternalStorageConfigurationManager" enabled="true" />
   <component name="FrameworkDetectionExcludesConfiguration">
     <file type="web" url="file://$PROJECT_DIR$/about-spring/corona-desinfector" />
+    <file type="web" url="file://$PROJECT_DIR$/enigma" />
     <file type="web" url="file://$PROJECT_DIR$/functional-programming" />
     <file type="web" url="file://$PROJECT_DIR$/kafka" />
   </component>
@@ -10,6 +11,7 @@
     <option name="originalFiles">
       <list>
         <option value="$PROJECT_DIR$/spring-security/demo/pom.xml" />
+        <option value="$PROJECT_DIR$/about-spring/spring-security/demo/pom.xml" />
       </list>
     </option>
   </component>
