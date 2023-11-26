@@ -25,7 +25,7 @@ errors.tollerance=all
 errors.deadletterqueue.topic.name=wikimedia.connect.dlq
 ```
 
-![img_1.png](img_1.png)
+![img_1.png](connectors/img_1.png)
 
 ### Run
 
@@ -534,7 +534,7 @@ WARNING: The (sub)resource method serverInfo in org.apache.kafka.connect.runtime
 ### В сообщение кафки добавился дополнительный параметр
 - появился новый топик который указали в конфиге. Накопились сообщения
 
-![img.png](img.png)
+![img.png](connectors/img.png)
 
 ```json
 {
@@ -574,3 +574,25 @@ value.converter=org.apache.kafka.connect.json.JsonConverter
 key.converter.schemas.enable=false
 value.converter.schemas.enable=false
 ```
+
+
+after including sync connector 
+will be created new index on elastic search
+
+![img_2.png](connectors/img_2.png)
+
+
+![img_3.png](connectors/img_3.png)
+
+
+проверка `http://localhost:5601/app/dev_tools#/console`
+```bash
+GET /wikimedia.recentchange.connect/_search
+{
+"query": {
+"match_all": {}
+}
+}
+```
+
+![img_4.png](connectors/img_4.png)
