@@ -23,3 +23,17 @@ windows sidecar + winlogbeat
 
 ### Stream 
 - это логи с преднастроенными фильтрами
+
+### System/Overview - Outgoing traffic
+- тут можно посмтотреть объем памяти лог файлов
+### System/Nodex - is graylog cluster 
+- все сервера на которых работает graylog
+### System/Inputs - open ports for clients
+- на этот порт будут отправлсяться логи с клиентов (с filebeat or syslog)
+### System/Outputs 
+- пришедшие логи можно дальше перенаправлять
+### System/Pipelines
+- например настроить несколько стадий для сборки графиков
+### System/Sidecars 
+- подключение более новых клиентов
+- Collectors это более старый клиент (legacy)
