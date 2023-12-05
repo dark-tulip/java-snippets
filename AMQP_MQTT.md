@@ -28,7 +28,7 @@
 | Stored messages (two weeks default) | Removes after acceptance |
 | Stupid broker smart consumer (Polling model) | Smart broker stupid consumer - (Pushing model) |
 | Publisher subscriber delivery model | направленный, веерный, топик, по заголовкам |
-| Размер сообщения опт ДО 1 МБ | ДО 2Гб, рекоменд ДО 128 МБ |
+| Размер сообщения опт ДО 1 МБ | ДО 2Гб, рекоменд ДО 128 МБ - НО НЕ ФАКТ что не упадет |
 | Операционный | Транзакционный |
 | Гарантируется порядок в рамках партиции | Без гарантии атомарности |
 | Порядок на базе партиций | Нет упорядочивания |
