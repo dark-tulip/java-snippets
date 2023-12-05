@@ -21,3 +21,15 @@
 
 - `maxConcurrentConsumers` - кол-во консюмеров которые могут одновременно подключаться для обработки сообщений
 - `prefetchCount` - предзагрузка столького кол-ва сообщений (в виде пачки чтобы не нагружать сеть) который брокер отправляет в виде порции
+
+| Kafka | RabbitMQ |
+| --- | ----------- |
+| Network speed, up to 1M msg per second | 4-10K |
+| Stored messages (two weeks default) | Removes after acceptance |
+| Stupid broker smart consumer (Polling model) | Smart broker stupid consumer - (Pushing model) |
+| Publisher subscriber delivery model | направленный, веерный, топик, по заголовкам |
+| Размер сообщения опт ДО 1 МБ | ДО 2Гб, рекоменд ДО 128 МБ |
+| Операционный | Транзакционный |
+| Гарантируется порядок в рамках партиции | Без гарантии атомарности |
+| Порядок на базе партиций | Нет упорядочивания |
+| Нет приоритета сообщений | Назначаемы |
