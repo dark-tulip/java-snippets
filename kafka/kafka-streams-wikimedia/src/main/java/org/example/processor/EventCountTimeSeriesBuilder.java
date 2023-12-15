@@ -9,6 +9,10 @@ import java.io.IOException;
 import java.time.Duration;
 import java.util.Map;
 
+
+/**
+ * Его топик показывает статистику пришедших ивентов за последние 10 сек
+ */
 public class EventCountTimeSeriesBuilder {
   private static final String       TIMESERIES_TOPIC = "wikimedia.stats.timeseries";
 

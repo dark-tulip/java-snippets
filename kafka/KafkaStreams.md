@@ -15,3 +15,35 @@
 - scalable, fault-tolerance state management
 - consumers tend to grow in their complexity
 - key aggregation, additional logic, delivery semantic settings,
+
+
+## Как настроить?
+- включите контейнеры проекта `kafka/conduktor-platform/docker-compose.yml`
+- запустите продюсер на топик `wikimedia.recentchange`
+- запустите стримы
+
+Топики появятся в консоли платформы
+- базовый топик, от которого читает кафка стрим это `wikimedia.recentchange` (сюда продюсер собирает все данные)
+
+![img.png](img.png)
+
+Основные настроенные процессоры находятся в папке `processors` пишут в свои топики
+- `wikimedia.stats.bots`
+
+![img_2.png](img_2.png)
+
+- `wikimedia.stats.timeseries`
+
+![img_1.png](img_1.png)
+
+- `wikimedia.stats.website`
+
+![img_3.png](img_3.png)
+
+- все остальное называется внутренними топиками - созданными приложением kafka-streams для функционирования
+и сохраняют свои метаданные в материализованных внутренних хранилищах:
+- `bot-count-store`
+- `event.count.store`
+- `website-count-store`
+
+

@@ -22,9 +22,9 @@ public class WebsiteCountStreamBuilder {
   }
 
   public void setUp() {
-    final TimeWindows timeWindows = TimeWindows.ofSizeWithNoGrace(Duration.ofSeconds(10));
+    final TimeWindows timeWindows = TimeWindows.ofSizeWithNoGrace(Duration.ofMinutes(1));
 
-    inputStream
+    this.inputStream
         .selectKey((k, changeJson) -> {
           try {
             final JsonNode jsonNode = OBJECT_MAPPER.readTree(changeJson);
@@ -39,7 +39,7 @@ public class WebsiteCountStreamBuilder {
         .toStream()
         .mapValues((key, value) -> {
           final Map<String, Object> kvMap = Map.of(
-              "website", key,
+              "website", key.key(),
               "count", value
           );
           try {
