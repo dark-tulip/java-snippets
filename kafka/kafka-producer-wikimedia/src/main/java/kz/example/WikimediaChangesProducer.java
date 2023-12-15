@@ -19,7 +19,7 @@ public class WikimediaChangesProducer {
   private static final URI uri = URI.create("https://stream.wikimedia.org/v2/stream/recentchange");
 
   // топик для храненя event-ов
-  private static final String topic = "wikimedia.events";
+  private static final String topic = "wikimedia.recentchange";
 
   public static void main(String[] args) throws InterruptedException {
 

@@ -9,3 +9,9 @@
 - гибка в настройке и масштабировании
 - идемпотентность при передаче данных (exactly once)
 - нет батчинга. Одна запись на единицу времени
+- stream process means in addition some logic between data translation
+- functional Java API
+- filtering, grouping events, aggregating, joining streams
+- scalable, fault-tolerance state management
+- consumers tend to grow in their complexity
+- key aggregation, additional logic, delivery semantic settings,
