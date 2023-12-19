@@ -37,6 +37,7 @@
             <option value="$PROJECT_DIR$/kafka/kafka-consumer-opensearch" />
             <option value="$PROJECT_DIR$/kafka/kafka-course" />
             <option value="$PROJECT_DIR$/kafka/kafka-producer-wikimedia" />
+            <option value="$PROJECT_DIR$/kafka/kafka-streams-wikimedia" />
           </set>
         </option>
       </GradleProjectSettings>
