@@ -76,3 +76,18 @@ timeindex is    0000123456789.timeindex (у каждого события ест
 - kafka connectors allow achieve fault tolerance, idempotence, distribution, ordering  
 ### Kafka Streams `kafka => kafka`
 ### Kafka Schema Registry `Schemas in kafka`
+
+
+# Which API where use?
+- Source database -> (**Kafka connect source**) -> Kafka -> (**Kafka Connect Sink**) -> Target Database, for storage or analyze later
+- Different data producers, produce directly to kafka -> (**Kafka Producer**) -> Kafka -> (**Kafka Consumer**) -> consume data
+- **Kafka streams** for kafka transformations
+- **KSQL DB** - allows sql queries in kafka (leverages kafka streams)
+- **Kafka registry** - behind the scenes, to make sure data is correct, and data types are accurate 
+
+# SUMMARY
+- для импорта данных из внешнего ресурса используйте **Kafka Connect Source**
+- для трансформации данных от одного топика к другому используйте **Kafka Streams**
+- для непрерывного экспорта к целевой БД используйте **Kafka Connect Sink** - лучший выбор для большинства популярных БД
+- кафка сама по себе НЕ ВАЛИДИРУЕТ ВХОДНЫЕ ДАННЫЕ
+- **Kafka Schema Registry** требует доп установки и настройки - по умолчанию она выключена
