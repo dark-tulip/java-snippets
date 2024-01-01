@@ -176,3 +176,76 @@ https://cnr.sh/essays/how-paint-bike-shed-kafka-topic-naming-conventions
 #### `surge_pricing_topic`
 - данные приходят через кафка стримы
 - ценообразование может сод доп логику как учет регионов, погоды etc (high volume)
+
+## Хранение данных в сегменте
+- топики состоят из партиций
+- партиции состоят из сегментов размером 1 ГБ по умолчанию
+- настройка `log.segment.bytes` - максимальный размер сегмента после чего будет создан новый
+- настройка `log.segment.ms` - время, после которого кафка закоммитит сегмент, даже если не достиг `log.segment.bytes`, по умолчанию after 1 week new segment will be opened
+- данные всегда пишутся в последний (горячий) сегмент в последовательном порядке,
+- например `[segment-0; offset (0-958)] [segment-1; offset (959-1450)] [segment-2; offset (1451-?)] - ACTIVE SEGMENT` 
+
+# Сегменты
+- каждый сегмент состоит из двух индексов (files)
+- `TIMESTAMP INDEX` - помогает найти сообщение с заданного времени
+- `POSITION INDEX` (помогает быстро найти сообщение по определенному offset-у)
+
+### Что учитывать?
+Нужно ли уменьшать значение маленьких `log.segment.bytes`?
+- чаще log compaction
+- больше сегментов НА партицию
+- кафка сохраняет большее число файлов открытыми (Error: too many files opened)
+- основывайтесь на своем throughput
+
+Нужно ли уменьшать значение `log.segment.ms`
+- ежедневные сегменты вместо еженедельных
+- больше триггеров на компактинг сегментов
+
+# Log cleanup policy
+- политика истекших данных
+#### `log.cleanup.policy=delete` (default for all user topics)
+- Based on **age of data** (default is 1 week), по умолчанию после недели данные с последних сегментов удаляются 
+- Based on **max size of data** (default is -1 = infinite ) - можно настроить стирание данных по времени
+
+##### `log.retention.hours` - сколько времени хранить данные до удаления (default 1 week = 168 hours) 
+- higher number means more disk space
+- lower number means less data will be retained (stored, saved)
+- other params `log.retention.ms`, `log.retention.minutes` - меньшее значение имеет приоритет, так что обратите внимание на все три настройки
+
+##### `log.retention.bytes` - максимальное кол-во байтов на каждую партицию
+- чтобы использовать размер в качестве определенного порога
+- по умолчанию infinite == -1
+
+две популярные настройки:
+1) по времени и бесконечному размеру
+`log.retention.hours=168` and `log.retention.bytes=-1`
+2) по конечному размеру и бесконечному времени
+`log.retention.ms=-1` and `log.retention.bytes=524288000`
+
+#### `log.cleanup.policy=compact` (default for topic__consumer_offsets_)
+
+
+
+```bash
+(base) tansh@MBP-tansh work % kafka-topics --bootstrap-server localhost:9092 --describe --topic __consumer_offsets
+Topic: __consumer_offsets	TopicId: M0eUVPliR6uWFPsMZZ4p3g	PartitionCount: 50	ReplicationFactor: 1	Configs: compression.type=producer,cleanup.policy=compact,segment.bytes=104857600
+Topic: __consumer_offsets	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
+Topic: __consumer_offsets	Partition: 1	Leader: 1	Replicas: 1	Isr: 1
+***
+```
+
+Настройка Configs: compression.type=producer,cleanup.policy=compact - deletes based on your message key
+- удалит все дубликаты по ключу после коммита активного сегмента
+- infinite time and space retention
+
+Зачем нужен log.cleanup.policy
+- для контроля размера на диске
+- для удаления ненужных данных
+
+Как часто это происходит?
+- Log cleanup работает по СЕГМЕНТАМ
+- small and more segments means log cleanup will happen often
+- Log cleanup takes CPU and RAM resources
+- The cleaner chekcks every 15 seconds (`log.cleaner.backoff.ms`)
+
+ 
