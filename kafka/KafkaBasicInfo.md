@@ -203,7 +203,8 @@ https://cnr.sh/essays/how-paint-bike-shed-kafka-topic-naming-conventions
 
 # Log cleanup policy
 - политика истекших данных
-#### `log.cleanup.policy=delete` (default for all user topics)
+
+### `log.cleanup.policy=delete` (default for all user topics)
 - Based on **age of data** (default is 1 week), по умолчанию после недели данные с последних сегментов удаляются 
 - Based on **max size of data** (default is -1 = infinite ) - можно настроить стирание данных по времени
 
@@ -222,8 +223,64 @@ https://cnr.sh/essays/how-paint-bike-shed-kafka-topic-naming-conventions
 2) по конечному размеру и бесконечному времени
 `log.retention.ms=-1` and `log.retention.bytes=524288000`
 
-#### `log.cleanup.policy=compact` (default for topic__consumer_offsets_)
+### `log.cleanup.policy=compact` (default for topic__consumer_offsets_)
+- помогает достичь уникальности по ключам исторических событий, и хранится последнее записанное событие
+- сегменты компактируются в новый
+- перезаписывается значение по ключу от последнего оффсета
+- log compaction НЕ изменяет оффсеты
+- log compaction просто удаляет старые дублирующиеся ключи
+- log compaction keeps ordering by ossfet
+- offsets are immutable, they're just skipping is msg does not exist
+- удаленные сообщения все еще можно прочитать конюмером в течение времени `delete.retention.ms` (default 24 hours)
+- дедубликация данных происходит после коммита сегмента
+- конюсмеры будут продолжать читать свежие данные, даже если прилетели дубликаты а старые не были удалены - так что кафка не гарантирует уникальность
+- log compaction thread может ломаться время от времени - требуется перезагрузить брокер кафки
+- log compaction нельзя вызвать по вызову API - возможно появится в будущем
+- log compaction НЕ РАБОТАЕТ НА АКТИВНОМ СЕГМЕНТЕ ПАРТИЦИИ
 
+** зависит от следующих конфигов **
+
+- `segment.bytes` (1 GB) - max amount of size to close active segment
+- `segment.ms` (7 days) - max amount of time to close active segment
+- `min.compaction.lag.ms` (0) - how long wait before msg will be compacted
+- `delete.retention.ms` (24 hours) - wait before marked data will be removed
+- `min.cleanable.dirty.ratio` (default 0.5)
+
+1) create topic
+```bash
+(base) tansh@MBP-tansh work % kafka-topics --bootstrap-server localhost:9092 --topic employee-salaries --create --config cleanup.policy=compact --config segment.ms=5000 --partitions 1 --replication-factor 1 --config min.cleanable.dirty.ratio=0.01
+Created topic employee-salaries.
+(base) tansh@MBP-tansh work % kafka-topics --bootstrap-server localhost:9092 --topic employee-salaries --describe                                            
+Topic: employee-salaries	TopicId: mJayq58uTKyjrU5oeNrkTw	PartitionCount: 1	ReplicationFactor: 1	Configs: cleanup.policy=compact,min.cleanable.dirty.ratio=0.01,segment.ms=5000
+Topic: employee-salaries	Partition: 0	Leader: 1	Replicas: 1	Isr: 1
+(base) tansh@MBP-tansh work % kafka-configs --bootstrap-server localhost:9092 --entity-type topics --entity-name employee-salaries --alter --add-config min.cleanable.dirty.ratio=0.001
+Completed updating config for topic employee-salaries.
+(base) tansh@MBP-tansh work % kafka-configs --bootstrap-server localhost:9092 --entity-type topics --entity-name employee-salaries --describe
+Dynamic configs for topic employee-salaries are:
+  cleanup.policy=compact sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:cleanup.policy=compact, DEFAULT_CONFIG:log.cleanup.policy=delete}
+  min.cleanable.dirty.ratio=0.001 sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:min.cleanable.dirty.ratio=0.001, DEFAULT_CONFIG:log.cleaner.min.cleanable.ratio=0.5}
+  segment.ms=5000 sensitive=false synonyms={DYNAMIC_TOPIC_CONFIG:segment.ms=5000}
+```
+
+2) create consumer
+```bash
+kafka-console-consumer --bootstrap-server localhost:9092 --topic employee-salaries --property print.key=true
+```
+
+![img_10.png](img_10.png)
+
+3) create producer
+
+```bash
+kafka-console-producer --bootstrap-server localhost:9092 --topic employee-salaries --property parse.key=true --property key.separator=,
+```
+
+![img_11.png](img_11.png)
+
+4) create and test second consumer,
+duplicated keys will be destroyed within logs are compacted
+
+![img_9.png](img_9.png)
 
 
 ```bash
