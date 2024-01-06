@@ -305,4 +305,34 @@ Topic: __consumer_offsets	Partition: 1	Leader: 1	Replicas: 1	Isr: 1
 - Log cleanup takes CPU and RAM resources
 - The cleaner chekcks every 15 seconds (`log.cleaner.backoff.ms`)
 
- 
+## `unclean.leader.election.enable`
+- 1 случай, когда у вас ISR реплики упали, но есть sync replicas, по умолчанию ожидается поднятие одной из ISR реплик
+- 2 случай, можно включить `unclean.leader.election.enable=true` чтобы начать to start producing to non ISR partitions (в этом случае NON ISR partition will be the leader)
+- во 2-cлучае повышается availability, но есть риск потерять некоторые данные во всех остальных репликах, даже если они там был (даже с предыдущего лидера который содержал актуальные данные), так как лидер всегда основной
+- эту настройку можно включать если доступность записи данных важнее нежели их сохранность в партиции'
+
+# Sending large messages - id anti-pattern on kafka
+- default msg size is 1 MB
+- при изменении размера в одном месте, понадобится подпраивть настройки у брокера, продюсера и консюмера
+- если очень необходимо, можно сохранять file reference to kafka, но сам медиа файл должен храниться в отдельном медиа сервере 
+- если никак, необходиом настроить след настройки
+
+### 1) topic-wise, kafka-side - set max smg size to 10 MB
+```bash
+broderk-side: message.max.bytes
+topic-side: max.message.bytes
+- имена идентичны, но это две разные настройки!!
+```
+### 2) broker side
+```properties
+replica.fetch.max.bytes=10485880 (in server.properties)
+```
+### 3) consumer side
+```properties
+max.partition.fetch.max.bytes=10485880
+```
+### 4) producer side
+```properties
+max.request.size=10485880
+```
+
