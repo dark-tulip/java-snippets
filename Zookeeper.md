@@ -1,3 +1,11 @@
+зукипер устроен по структуре в виде дерева
+каждая нода на зукипере называется ZNODE
+each znode has its own path
+znode can be persistent or ephemeral
+каждая знода может харнить файл с конфигами
+каждая знода отслеживается на изменения
+
+
 - zookeeper used to manage kafka brokers
 - helps to perform leader elections
 - отправляет уведомления кафке об изменениях в конфигурации
