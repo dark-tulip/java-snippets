@@ -131,3 +131,38 @@ public class TestScope {
     System.out.println(arr[0]);  // 11
 ```
 - оптимизатор НЕ отпимизирует effectivel final переменные, только те, что явно объявлены как final
+
+
+##
+
+```java
+    public static void main(String[] args) {
+        Predicate<Integer>        predicate      = x -> x > 0;
+        Consumer<Integer>         consumer       = System.out::println;
+        Function<Integer, String> function       = x -> x + "asd";
+        Supplier<Integer>         supplier       = () -> 10;
+        UnaryOperator<Integer>    unaryOperator  = x -> x + x;
+        BinaryOperator<Integer>   binaryOperator = (x, y) -> x * y;
+
+        consumer.accept(
+                binaryOperator
+                        .andThen(unaryOperator)  // 12 + 12 =24
+                        .andThen(unaryOperator)  // 6 + 6 = 12
+                        .apply(2, 3)       // 6
+        ); // 24
+
+        System.out.println(
+                function
+                        .andThen(x -> x + "QWE")
+                        .apply(supplier.get())
+        );  // 10asdQWE
+
+        consumer.andThen(consumer)
+                .andThen(consumer)
+                .accept(supplier.get());  // 10 // 10  // 10
+
+        System.out.println(predicate.test(10));  // true
+
+    }
+
+```
