@@ -11,6 +11,9 @@ import java.net.http.HttpResponse;
 
 import static com.github.tomakehurst.wiremock.client.WireMock.*;
 
+/**
+ * Сервер заглушка, который может подменять запросы по указанному порту
+ */
 @WireMockTest(httpPort = 8080)
 public class WireMockTestExample {
     
