@@ -12,3 +12,19 @@ create logback-spring.xml file on the project resources
     </logger>
 </configuration>
 ```
+
+
+### java.util.logging.Handler
+
+обработчик определяет куда будет отправлено сообщение
+```
+java.util.logging.ConsoleHandler
+java.util.logging.FileHandler
+java.util.logging.SocketHandler
+```
+
+### java.util.logging.Formatter
+```
+java.util.logging.SimpleFormatter
+java.util.logging.XMLFormatter
+```
