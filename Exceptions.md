@@ -1,0 +1,2 @@
+- Exception на уровне Java программы
+- Error на уровне JVM
