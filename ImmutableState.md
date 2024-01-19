@@ -1,0 +1,3 @@
+- final for class restricts inheritance
+- final for method restricts overriding
+- final for objects means its value unchangable
