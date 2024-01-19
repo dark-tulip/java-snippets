@@ -1,3 +1,11 @@
+## File paths get
+```java
+File file = new File("/usr/bin/java");
+String path   = file.getPath();    // /usr/bin/java
+String name   = file.getName();    // java
+String parent = file.getParent();  // /usr/bin
+```
+
 ## Работа с файлами на Java
 
 *Streams* (в рамках работы с файлами) - упорядоченная последовательность данных
