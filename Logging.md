@@ -14,6 +14,15 @@ create logback-spring.xml file on the project resources
 ```
 
 
+```mvn
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>1.18.30</version>
+            <scope>provided</scope>
+        </dependency>
+```
+
 ### java.util.logging.Handler
 
 обработчик определяет куда будет отправлено сообщение
