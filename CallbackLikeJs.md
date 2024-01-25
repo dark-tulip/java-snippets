@@ -49,3 +49,9 @@ public class CallbackLikeJs {
 
 }
 ```
+
+```
+OK, user: MyUser(name=testName, age=11)
+Something wrong with user: MyUser(name=null, age=11)
+Provided name or age is null
+```
