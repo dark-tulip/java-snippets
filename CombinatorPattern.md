@@ -91,7 +91,9 @@ public class Main {
         .and(isAgeValid())
         .apply(userDto);
 
-    System.out.println(result);
+    if (!result.equals(ValidationResult.SUCCESSFUL)) {
+      throw new RuntimeException("KF8CWQWK :: User validation failed: " + result);
+    }
 
   }
 }
