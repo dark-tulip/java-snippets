@@ -1,3 +1,5 @@
+Цепочка не будет вызвана пока не вызовут apply()
+
 ```java
 package org.example;
 
