@@ -1,3 +1,8 @@
+1. Через программу KeyStore explorer можно создать свой CA
+2. В нем можно создать связку ключей которую можно использовать в приложении
+3. У некоторых браузеров свое хранилище доверенных сертификатов (for example, firefox)
+
+
 ## Setup spring application profile
 
 Run/Debug configurations -> (Modify options) enable checkbox active profiles - set name of your profile in `application.properties` file
@@ -64,6 +69,3 @@ public class TestController {
 #### Без установки защищенного соединения `http://localhost:8080/test`
 
 <img width="50%" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3be2d26-21cd-4e6f-9530-71354850057c">
-
-
-
