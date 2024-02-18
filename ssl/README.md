@@ -1,11 +1,16 @@
 ## Setup spring application profile
 
 Run/Debug configurations -> (Modify options) enable checkbox active profiles - set name of your profile in `application.properties` file
-<img width="1037" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/cbfc91f2-311d-431d-840e-3942d306d055">
 
-`
+<img width="50%" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/cbfc91f2-311d-431d-840e-3942d306d055" >
+
+<hr>
+
+### Enable SSL on Spring application
+
+```properties
 server.ssl.enabled=true
-`
+```
 
 ```logs
 # before
@@ -47,11 +52,18 @@ public class TestController {
 }
 ```
 
+<hr>
 
-### using https:
 
-<img width="572" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/62ff9b0e-b8af-491f-b36d-07668f4e8fbd">
+#### Using https `https://localhost:8080/test`
 
-### без установки защищенного соединения
+<img width="50%" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/e17f556d-617a-4047-9961-dcbab64ef44d">
 
-<img width="418" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3be2d26-21cd-4e6f-9530-71354850057c">
+
+
+#### Без установки защищенного соединения `http://localhost:8080/test`
+
+<img width="50%" alt="image" src="https://github.com/dark-tulip/course-java/assets/89765480/f3be2d26-21cd-4e6f-9530-71354850057c">
+
+
+
