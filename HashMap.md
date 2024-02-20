@@ -1,3 +1,26 @@
+# ClassCastException
+- `map.values()` возвращает коллекцию и эту коллекцию нельзя просто так преобразовать в список
+- внутренний класс Values хэш мапы extends от абстрактной коллекции и НЕ ИМПЛЕМЕНТИРУЕТ интерфейс `List`. Вот почему `ClassCastException`
+- `ArrayList` в конструкторе принимает коллекцию, и через нее можно смапить `new ArrayList<>(map.values())`
+  
+```java
+    public static void main(String[] args) {
+        // так ClassCastException
+        // Exception in thread "main" java.lang.ClassCastException: java.util.HashMap$Values cannot be cast to java.util.List
+        System.out.println(cast());
+    }
+
+    public static List<Integer> cast() {
+        HashMap<String, Integer> map = new HashMap<>();
+        map.put("test", 123);
+        map.put("test2", 1234);
+        map.put("test3", 1235);
+
+        return (List<Integer>) map.values();
+    }
+```
+
+
 - если отсортированную мапу приравнять к хэшмапе - результат сортировки сотрется
 - use LinkedList to keep order
 ```Java
