@@ -26,6 +26,9 @@ update test_table set name=json_build_object('default', name, 'ru', name);
 alter table test_table alter column name type jsonb using name::jsonb;
 ```
 
+![image](https://github.com/dark-tulip/course-java/assets/89765480/0a34cfdf-b043-4ad5-97c3-61610e32b6d0)
+
+
 # TOAST
 - если вы хотите хранить больше чем 2 кб, вы должны ззнать что такое TOAST
 
