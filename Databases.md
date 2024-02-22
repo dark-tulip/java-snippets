@@ -16,6 +16,16 @@
 - когда обновляется id внутри большого JSON-a запись попадает в WAL где имеет весь свой размер - решением было разделить обновление на чанки, чтобы в WAL шла новая версия этого чанка
 - **JSON выигрывает когда у вас много JOIN-ов между разными сущностями** - позволяет быстее достать готовый объект
 - МИНУС: обновление большого JSON, медленный поиск внутри текста (массива) json*
+
+### Как преобразовать колонку типа текст json
+1) update column values (from plain text to json text format)
+2) alter column using cast
+
+```sql
+update test_table set name=json_build_object('default', name, 'ru', name);
+alter table test_table alter column name type jsonb using name::jsonb;
+```
+
 # TOAST
 - если вы хотите хранить больше чем 2 кб, вы должны ззнать что такое TOAST
 
