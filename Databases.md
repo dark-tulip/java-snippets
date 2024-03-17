@@ -9,6 +9,10 @@
 - **условие помещенное в ON исполняется ДО операции соединения, а where после**
 
 ### IS TRUE, equals TRUE, IS NULL, IS UNKNOWN DIFFERENCE
+- `show transform_null_equals;` -- по умолчанию off
+- `set transform_null_equals = on;` заменяет все = null на is null
+- `show all;`
+
 ```sql
 create table test(
     boo boolean
@@ -33,7 +37,35 @@ select * from test where boo is not true;    -- null, false, false
 select * from test where boo is not false;   -- null, true, true
 select * from test where boo != false;       -- true, true
 select * from test where boo != true;        -- false, false
+
+select null = null;   -- null
+select null = true;   -- null
+select null = false;  -- null
+select null is null;  -- true
+select null is true;  -- false
+select null is false; -- false
+select null is unknown; -- true
+select unknown is null; -- error
 ```
+
++---------+-------+-------+---------+
+|   IS    | TRUE  | FALSE | UNKNOWN |
++---------+-------+-------+---------+
+| TRUE    | TRUE  | FALSE | FALSE   |
+| FALSE   | FALSE | TRUE  | FALSE   |
+| UNKNOWN | FALSE | FALSE | TRUE    |
++---------+-------+-------+---------+
+
+----
+
++---------+---------+---------+---------+
+|    =    |  TRUE   |  FALSE  | UNKNOWN |
++---------+---------+---------+---------+
+| TRUE    | TRUE    | FALSE   | UNKNOWN |
+| FALSE   | FALSE   | TRUE    | UNKNOWN |
+| UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN |
++---------+---------+---------+---------+
+
 ### Курсоры
 - явные (имеют имя и работают в оперативной памяти)
 - неявные (каждый раз идет обращение к памяти с диска)
