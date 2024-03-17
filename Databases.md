@@ -8,6 +8,32 @@
 - Пара строк из t1 и t2 соответствуют если условие ON для них истинно
 - **условие помещенное в ON исполняется ДО операции соединения, а where после**
 
+### IS TRUE, equals TRUE, IS NULL, IS UNKNOWN DIFFERENCE
+```sql
+create table test(
+    boo boolean
+);
+
+insert into test
+values (null),
+       (true),
+       (false),
+       (1::bool),
+       (0::bool);
+
+select * from test where boo is true;        -- true, true
+select * from test where boo = true;         -- true, true
+select * from test where boo = false;        -- false, false
+select * from test where boo is null;        -- null
+select * from test where boo is unknown;     -- null (тип проверки для is unknown обязательно должен быть booleanб)
+select * from test where boo is not unknown; -- true, false, true, false
+select * from test where boo = null;         -- empty result
+select * from test where boo is false;       -- false, false
+select * from test where boo is not true;    -- null, false, false 
+select * from test where boo is not false;   -- null, true, true
+select * from test where boo != false;       -- true, true
+select * from test where boo != true;        -- false, false
+```
 ### Курсоры
 - явные (имеют имя и работают в оперативной памяти)
 - неявные (каждый раз идет обращение к памяти с диска)
