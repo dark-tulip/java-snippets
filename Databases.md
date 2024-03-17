@@ -47,7 +47,7 @@ select null is false; -- false
 select null is unknown; -- true
 select unknown is null; -- error
 ```
-```
+```sql
 +---------+-------+-------+---------+
 |   IS    | TRUE  | FALSE | UNKNOWN |
 +---------+-------+-------+---------+
@@ -55,9 +55,7 @@ select unknown is null; -- error
 | FALSE   | FALSE | TRUE  | FALSE   |
 | UNKNOWN | FALSE | FALSE | TRUE    |
 +---------+-------+-------+---------+
-```
-----
-```
+
 +---------+---------+---------+---------+
 |    =    |  TRUE   |  FALSE  | UNKNOWN |
 +---------+---------+---------+---------+
@@ -66,7 +64,7 @@ select unknown is null; -- error
 | UNKNOWN | UNKNOWN | UNKNOWN | UNKNOWN |
 +---------+---------+---------+---------+
 ```
-**! Единственная разница между операторами is and = это то как они работают c NULL значениями**
+**! Единственная разница между операторами `is` and `=` это то как они работают c `NULL` значениями**
 
 ### Курсоры
 - явные (имеют имя и работают в оперативной памяти)
