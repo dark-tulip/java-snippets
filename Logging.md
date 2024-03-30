@@ -1,3 +1,14 @@
+### Формат и вывод логируемых сообещений, Appender, Layout, Category
+
+- `root` содержит все логгеры в системе
+- any logger generates message
+- `Category` contains many loggers
+- `Appender` adds loggers to file or any stdout
+- `Layout` adds timestamps or message formats
+- Логгеры и категории связываются по именам (Имя логгера начинается с имени категории)
+- Категория и аппендеры связаны по appender reference
+- фильтрация на уровне аппендера и категории берется по наиболее приоритетному
+
 ### Настройка конфигурационного файла логирования
 1) Set VM options
 ```
