@@ -6,4 +6,4 @@ JDBC API состоит из
 
 ## Statement mode and Transaction mode
 - Statement mode обработает только один запрос 
-- Transaction mode целую транзакцию
+- Transaction mode целую транзакцию (втранзакции может быть несколько запросов)
