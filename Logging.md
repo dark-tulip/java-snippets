@@ -1,3 +1,35 @@
+### Настройка конфигурационного файла логирования
+1) Set VM options
+```
+-Djava.util.logging.config.file=logging.properties
+```
+2) Define configuration file
+```
+# Глобальный уровень логирования, принимает все
+.level=ALL
+# Обработчик логов - вывод в консоль
+.handlers=java.util.logging.ConsoleHandler
+# Обработчик консольных логов также выводит все уровни приоритета
+java.util.logging.ConsoleHandler.level=ALL
+```
+
+3) Output
+```
+# Без
+> Task :Main.main()
+Hello world!
+Mar 30, 2024 10:09:20 PM kz.tansh.Main main
+INFO: info logger
+
+# C настроенным файлом
+> Task :Main.main()
+Mar 30, 2024 10:02:46 PM kz.tansh.Main main
+INFO: info logger
+Mar 30, 2024 10:02:46 PM kz.tansh.Main main
+FINEST: FINEST logger
+Hello world!
+```
+
 ### When spring boot does not show logs
 
 create logback-spring.xml file on the project resources
