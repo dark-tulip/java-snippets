@@ -1,3 +1,8 @@
+### Перебор SSH паролей с помощью гидры
+- https://te.legra.ph/Kak-vzlomat-parol-SSH-s-pomoshchyu-Hydra-06-20
+- https://te.legra.ph/Brutim-SSH-udalennogo-servera-06-15
+- https://telegra.ph/Kak-perehvatit-parol-SSH-Ataka-chelovek-poseredine-na-SSH-03-14
+
 ### Уязвимости прикладного уровня HTTP
 - Cookies
 - Same origin policy
