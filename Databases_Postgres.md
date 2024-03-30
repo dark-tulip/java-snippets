@@ -198,5 +198,6 @@ alter table test_table alter column name type jsonb using name::jsonb;
 ### WAL журнал
 
 ### AUTOVACUUM
-
+- работает в виде демона автовакуума
+- это подчистка помеченных к удалению данных, которые выпали из области видимости транзакции
 ### WORK MEM
