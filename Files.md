@@ -1,3 +1,10 @@
+## Charset 
+```java
+System.out.println(Charset.defaultCharset());
+System.out.println(StandardCharsets.UTF_8);
+// все доступные кодировки JVM
+System.out.println(Charset.availableCharsets());
+```
 Канонический путь файла - это очищенный от всяких `./../` путь к файлу относительно /home директории
 
 ## File paths get
