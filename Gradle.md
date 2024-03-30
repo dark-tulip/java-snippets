@@ -1,3 +1,26 @@
+## как подружить Ant with Gradle
+- gradle.build.kts
+```kts
+
+ant.importBuild("build-ant.xml")
+```
+
+- build-ant.xml
+```xml
+<project>
+    <target name="hello-ant">
+        <echo>Hello, from ANT!</echo>
+    </target>
+</project>
+```
+
+- output:
+```
+(base) tansh@MBP-tansh test % ./gradlew hello-ant
+> Task :hello-ant
+[ant:echo] Hello, from ANT!
+```
+
 - (*) - зависимость ранее встречалась
 - (n) - not resolved
 - (c) - dependency constraint 
