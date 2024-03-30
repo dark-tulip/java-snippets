@@ -4,3 +4,6 @@ JDBC API состоит из
 1) Simple query
 2) Extended query
 
+## Statement mode and Transaction mode
+- Statement mode обработает только один запрос 
+- Transaction mode целую транзакцию
