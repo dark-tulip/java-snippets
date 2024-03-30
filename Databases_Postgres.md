@@ -181,6 +181,7 @@ alter table test_table alter column name type jsonb using name::jsonb;
 ## Пессимистические алгоритмы шедулинга транзакций - решают проблему конфиликтов сериализации
 ### MVCC - multiversion concurrency control
 - MVCC это сделать 2PL быстрее
+- MVCC это как таймстамп когда прочтени и когда изменено
 ### 2 phase locking
 - для не распретеленных транзакций
 - НЕ ПУТАЙТЕ 2PL c MVCC
