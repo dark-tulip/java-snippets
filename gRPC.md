@@ -146,3 +146,25 @@ public class GreetingServiceImpl extends GreetingServiceGrpc.GreetingServiceImpl
     </build>
 </project>
 ```
+
+# GRPC client + same `proto file` and `pom.xml` as in server
+```java
+
+public class Client {
+    public static void main(String[] args) {
+        ManagedChannel channel = ManagedChannelBuilder.forTarget("localhost:8080")
+                .usePlaintext().build();
+
+        // stub это тот объект на котором можно делать удаленные вызовы
+        GreetingServiceGrpc.GreetingServiceBlockingStub stub = GreetingServiceGrpc.newBlockingStub(channel);
+        GreetingServiceOuterClass.HelloRequest request = GreetingServiceOuterClass.HelloRequest
+                .newBuilder().setName("Neil").build();
+
+        GreetingServiceOuterClass.HelloResponse response = stub.greeting(request);
+
+        System.out.println(response);
+
+        channel.shutdownNow();
+    }
+}
+```
