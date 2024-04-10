@@ -17,3 +17,5 @@ Java код не примет сертификат в виде server.key, ег�
 ```bash
 openssl pkcs8 -topk8 -nocrypt -in pkcs1_key_file.key -out pkcs8_key.pem
 ```
+
+#### Полезная статья для настройки сертификатов (grpc for java) https://medium.com/@ankitgrg.26/generate-a-self-signed-certificate-for-grpc-java-56323df05be4
