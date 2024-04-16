@@ -31,7 +31,14 @@
 
 - Если у вас два одинаковых класса, версионируйте прото файлы по пакетам
 
-<img width="805" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/e8da7679-7e0c-4995-b3b8-c973ac9506de">
+<img width="500" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/e8da7679-7e0c-4995-b3b8-c973ac9506de">
+
+
+### `option java_multiple_files = true;`
+
+- позволяет directly обратиться к билдеру объекта без ссылания к PersonOuterClass
+  
+<img width="600" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/2c57a290-1eea-4e2d-af14-2d0da4d90b9e">
 
 
 ## JSON
