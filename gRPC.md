@@ -1,3 +1,4 @@
+- где хранить прото файлы? `/src/main/proto`
 - framework from google
 - from service-to service communication
 - proto file is a platfrom neutral file
