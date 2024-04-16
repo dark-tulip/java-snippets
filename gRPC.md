@@ -87,8 +87,8 @@ public class Main {
   }
 }
 ```
-
-for efficient encoding of negative values use sint32 (int), or sint64 (long), однако обычные int32, int64 тоже допустимы для отрицательных значений
+- не заданные билдеру поля просто не печатаются, in proto file every field is OPTIONAL
+- for efficient encoding of negative values use sint32 (int), or sint64 (long), однако обычные int32, int64 тоже допустимы для отрицательных значений
 
 ### Formatting proto files
 - используйте конвенцию `snake_case`, protoc java compiler автоматически переведет объекты в `notSnakeCase`
