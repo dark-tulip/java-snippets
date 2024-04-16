@@ -95,15 +95,6 @@ public class Main {
 
 ### Serialization and deserialization
 ```
-package kz.tansh;
-
-import kz.tansh.proto.v3.Person;
-import lombok.extern.slf4j.Slf4j;
-
-import java.io.IOException;
-import java.nio.file.Files;
-import java.nio.file.Path;
-
 @Slf4j
 public class Main {
   public static final Path path = Path.of("person_out.txt");
@@ -122,16 +113,21 @@ public class Main {
   }
 
   public static void serialize(Person person) throws IOException {
-    person.writeTo(Files.newOutputStream(path));
+    try (var fos = Files.newOutputStream(path)){
+      person.writeTo(fos);
+    }
   }
 
   public static Person deserialize() throws IOException {
-    return Person.parseFrom(Files.newInputStream(path));
+    try (var fis = Files.newInputStream(path)) {
+      return Person.parseFrom(fis);
+    }
   }
 }
 ```
 
 - the output file will be serialized in binary format
+- не забудьте про try with reosurces при работе с файлами
 
 <img width="450" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/aa70bbb8-0199-4d9a-ae7f-d2b8bb331014">
 
