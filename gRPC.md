@@ -27,6 +27,13 @@
 <img width="564" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/6a49008c-6285-48ab-ad72-009e2437e4cf">
 
 
+### `package v1; and option java_package="kz.tansh.proto.v1";`
+
+- Если у вас два одинаковых класса, версионируйте прото файлы по пакетам
+
+<img width="805" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/e8da7679-7e0c-4995-b3b8-c973ac9506de">
+
+
 ## JSON
 - JSON - это текстовый формат данных (больший размер сообщения: медленней пересылка)
 - Избыточный - повторение ключей в массиве каждый раз
