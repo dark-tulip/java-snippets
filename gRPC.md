@@ -41,6 +41,53 @@
 <img width="600" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/2c57a290-1eea-4e2d-af14-2d0da4d90b9e">
 
 
+### Cвойства grpc Object Builder-a
+
+```java
+package kz.tansh;
+
+import kz.tansh.proto.v1.Person;
+import lombok.extern.slf4j.Slf4j;
+
+@Slf4j
+public class Main {
+  public static void main(String[] args) {
+    var person1 = Person.newBuilder()
+                       .setAge(12)
+                       .setName("Test")
+                       .build();
+
+    var person2 = Person.newBuilder()
+                       .setAge(12)
+                       .setName("Test")
+                       .build();
+
+    // 1. EQUALITY PROPERTY
+    log.info("person1.equals(person2): " + person1.equals(person2));  // true
+    log.info("person1 == person2: " + (person1 == person2));          // false
+
+    // 2. IMMUTABLE PROPERTY
+    // PROTO СLASSES ARE IMMUTABLE, YOU CANNOT USE SETTER DIRECTLY
+    log.info("person1 before " + person1.getAge());  // age: 12
+
+    // you only can create new object, using toBuilder() Method
+    person1.toBuilder().setAge(44).build();
+    log.info("person1 after " + person1.getAge());   // age: 12
+
+    var person3 = person1.toBuilder().setAge(44).build();
+    log.info("person3 after " + person3.getAge());   // age: 44
+
+    // 3. NULLS ARE NOT ALLOWED
+    // person1.toBuilder().setName(null).build();       // NPE
+    person1 = person1.toBuilder().clearName().build();  // use clear() to set empty property
+    log.info("person1 after " + person1.getName());
+
+    person1 = Person.newBuilder().setAge(33).build();   // здесь не установили имя
+    log.info("person1 {} ", person1.getName());         // allowed, empty value
+  }
+}
+```
+
 ## JSON
 - JSON - это текстовый формат данных (больший размер сообщения: медленней пересылка)
 - Избыточный - повторение ключей в массиве каждый раз
