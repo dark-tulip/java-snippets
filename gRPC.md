@@ -18,7 +18,15 @@
 - framework from google
 - from service-to service communication
 - proto file is a platfrom neutral file
-  
+- если IDEA не распознает класс прото файла но успешно компилируется
+
+<img width="512" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/6eea16ab-18c5-4b71-8c0e-0e36f3ac9648">
+
+нужно пометить директорию Mark as Generated Project Sources 
+
+<img width="564" alt="image" src="https://github.com/dark-tulip/java-snippets/assets/89765480/6a49008c-6285-48ab-ad72-009e2437e4cf">
+
+
 ## JSON
 - JSON - это текстовый формат данных (больший размер сообщения: медленней пересылка)
 - Избыточный - повторение ключей в массиве каждый раз
@@ -30,6 +38,11 @@
 - строная типизация
 - нечитаемый для человека
 - необходимо кодировать и декодировать эти данные
+
+### Версии протофайлов
+прото1 - нечто внутреннее от гугла что не было выпущено внаружу опубликовано
+прото2 - your should always set if the field is optional or required
+прото3 
 
 ## HTTP 2.0
 - меньший размер - выше скорость
