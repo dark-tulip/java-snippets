@@ -1,12 +1,17 @@
+- framework from google
+- from service-to service communication
+- proto file is a platfrom neutral file
+  
 ## JSON
 - JSON - это текстовый формат данных (больший размер сообщения: медленней пересылка)
 - Избыточный - повторение ключей в массиве каждый раз
 - нет строгой типизации
+- JSON slow for serialization for machine that protobuf
 
 ## Protobuf
 - Protobuf - бинарный формат данных (ускорение до 7-10 раз)
 - строная типизация
-- нечитаемый
+- нечитаемый для человека
 - необходимо кодировать и декодировать эти данные
 
 ## HTTP 2.0
