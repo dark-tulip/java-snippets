@@ -25,7 +25,11 @@ Spring 6
 Одна из реализаций Inversion of control это `dependency injection`
 - Конкрентная реализация возлагается на фреймворк или используемый модуль
 
-Бин - объект класса управляемый контейнером бинов (ApplicationContext)
+### Java VS XML configuration
+- xml is dynamic, when Java configs you have to recompile
+- 
+
+### Бин - объект класса управляемый контейнером бинов (ApplicationContext)
 - Подставить значение поля shop объекту seller
 - Аннотация `Component` означает что класс который мы вызываем это бин
 - Аннотация `Autowired` означает подставить значение, в поле которое оно аннотирует
