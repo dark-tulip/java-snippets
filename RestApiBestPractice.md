@@ -1,3 +1,15 @@
+## Storages
+- Session storage - deletes after close
+- Local Storage - can be deleted only programmaly
+- both session and local storage are accessible from JS
+
+## Domain and origin difference
+- origin это тройка протокол домен и порт 
+- Cookie задается на весь домен
+- Local storage позволяет храть данные для данного origin
+- CSRF - когда злоумышленник умеет отправлять запросы от другого пользователя
+- CORS - cross origin resource sharing
+
 ### Что еще есть помимо реста?
 - `REST` means - repsesentation state transfer - формат запрос - ответ
 - `WEBSocket` - открываем постоянное соединение
