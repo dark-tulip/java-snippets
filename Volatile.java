@@ -1,4 +1,7 @@
 /**
+disables compiler optimisation
+volatile write happens before volatile read
+
 VOLATILE не поможет когда мы с двух потоков одновременно будем изменять данные - DATA RACE
 - 1) работает с main memory
 - 2) happens before to read and write operations 
