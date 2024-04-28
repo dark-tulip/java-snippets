@@ -1,3 +1,7 @@
+### ANY README.md file is a way to work with repo culturally 
+
+Ридми про то как работать с репозиторием культурно
+
 Простые отрезки полезной информации из множества курсов
 
 
@@ -9,3 +13,4 @@ sudo update-alternatives --config java
 ```
 java -version
 ```
+
