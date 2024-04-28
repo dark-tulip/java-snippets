@@ -9,3 +9,8 @@
 - internal static class, enum or interface
 - sealed classes
 - faster flatMap realization -- TODO
+
+## Switch Case
+- time complexity for `switch` is `O(1)` whereas `if` is `O(n)`
+- switch по типу данных
+- поддержка гвардов (условий внутри switch)
