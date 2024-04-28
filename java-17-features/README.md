@@ -14,3 +14,7 @@
 - time complexity for `switch` is `O(1)` whereas `if` is `O(n)`
 - switch по типу данных
 - поддержка гвардов (условий внутри switch)
+
+## Sealed classes
+- final class means that noone can extend this class,
+- sealed class mean that only permitted classes can extend this class
