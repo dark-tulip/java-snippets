@@ -1,4 +1,5 @@
 ## Kafka
+- visualizer https://softwaremill.com/kafka-visualisation/
 - distributed streaming system
 - horizontal scaling via brokers
 - позволяет уменьшить количество интеграций
