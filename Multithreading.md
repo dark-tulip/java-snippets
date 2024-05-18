@@ -1,3 +1,4 @@
+- `Callable vs Runnable` - runnable returns Void, callable returns Feature
 - `Runnable` это спопсоб передать в аргумент void-овский метод
 - метод `.join()` заставляет вызвавший родительский поток (MainThread) дождаться завершения дочернего (ChildThread)
 ```java
