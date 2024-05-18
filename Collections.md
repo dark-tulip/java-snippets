@@ -1,3 +1,7 @@
 - List - может хранить дубликаты и null (ArrayList, LinkedList, Vector (Stack))
 - ArrayList - this is resizable array, defaultCapacity = 10, можно задать initialCapacity, можно передать в параметры конструктора другой список  
 - B `TreeSet` обьекты должны быть однородными
+
+## Sync collections
+- синхронизированные коллекции используют лок для всех методов
+- это некоторая обертка над коллекцией
