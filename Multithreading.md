@@ -12,6 +12,8 @@
 - `awaitTermination` - либо `ExecutorService` прекращает работу либо истекает таймаут
 
 
+## Runnable and Callable
+- Runnable эта передача некоторых инструкций отдельному потоку
 - Любая блокировка идет на объекте а не на классе 
 - `Callable vs Runnable` - runnable returns Void, callable returns Feature
 - `Runnable` это спопсоб передать в аргумент void-овский метод
