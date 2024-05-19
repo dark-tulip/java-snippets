@@ -5,6 +5,15 @@
 - помогает получить инфу и о данных класса, методах, или полей
 - примитивные типы также представлены в виде объектов
 
+## Method Handles and Reflection
+- invoke dynamic - used to dynamically call method at runtime
+- MH это боксинг значений чере var args array
+- Reflection всегда проверяет поля и методы на модификаторы доступа (access modifiers)
+- MH сразу же вызывает function pointer
+- Рефлекшн написан полностью на джаве, там все работает через объекты, даже если мы используем примитивы, все это боксируется и анбоксируется
+- Reflection uses visibility check
+- MH имеет указатель на конкретное поле, и прямой доступ напрямую
+
 ### Три способа получения объекта класса класс
 ```Java
 Class clazz = Person.class;
