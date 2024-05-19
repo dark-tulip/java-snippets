@@ -9,6 +9,7 @@
 - snapshot isolaton is MVCC implementation
 - сначала данные сохраняются на диске, только потом изолируются
 - есть пять уровней изоляции - пятый это снапшоты свойственные постгресу
+- RETURNING позволяет возвращать модифицируемые строки при INSERT, UPDATE, DELETE
 
 
 ### Index hits and index vs seq scan stats
