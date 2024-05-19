@@ -1,4 +1,5 @@
 ## Kafka
+- Еcли у вас есть event sourcing, у вас история, аудит и логирование из коробки
 - visualizer https://softwaremill.com/kafka-visualisation/
 - distributed streaming system
 - horizontal scaling via brokers
