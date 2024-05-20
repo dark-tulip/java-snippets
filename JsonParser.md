@@ -1,3 +1,6 @@
+```java
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
+```
 
 ```Java
   /**
