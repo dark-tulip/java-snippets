@@ -32,6 +32,13 @@ String parent = file.getParent();  // /usr/bin
 - относительный путь (относительно корневой директории проекта)
 <hr>
 
+### Buffers and channels
+- Буфер - рабочий передаваемый блок памяти
+- В отличии от Стримов Channel может как и читать так и записывать в файл
+- **Read** - Channel читает информацию из файла и записывает ее в Буфер, **channel -> file -> buffer**
+- **Write** - Channel берет информацию из Буфера и записывает в Файл **channel -> buffer -> file**
+  
+
 ### FileWriter and FileReader
 - используется для записи потока символов (**Character Input Stream**)
 - !! USE try with resources чтобы закрыть поток
