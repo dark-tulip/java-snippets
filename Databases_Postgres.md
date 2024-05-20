@@ -230,3 +230,7 @@ alter table test_table alter column name type jsonb using name::jsonb;
 - работает в виде демона автовакуума
 - это подчистка помеченных к удалению данных, которые выпали из области видимости транзакции
 ### WORK MEM
+- сколько памяти будет потреблять этот зарпос? - `3 * work_mem`
+```
+select * from (select * form table1) t1 join (select * from table2) t2 on t1.id = t2.id
+```
