@@ -37,6 +37,7 @@ String parent = file.getParent();  // /usr/bin
 - В отличии от Стримов Channel может как и читать так и записывать в файл
 - **Read** - Channel читает информацию из файла и записывает ее в Буфер, **channel -> file -> buffer**
 - **Write** - Channel берет информацию из Буфера и записывает в Файл **channel -> buffer -> file**
+- buffer has two modes, `buffer reade mode` and `buffer write mode` - to change mode use `flip()`
   
 
 ### FileWriter and FileReader
