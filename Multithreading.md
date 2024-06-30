@@ -6,7 +6,15 @@
 - Javadoc: если вы хотите усыпить поток для его ожидания, заблокируйте монитор его объекта
 - В Java в каждом объекте есть заголовок, это метаинформация которая нужна в jvm. Там же хранится информация о ГС и информация, нужная для блокировок, в каком сотоянии находится поток, thin, biased, inflated
 - однопоточные программы выполняются пседвопоследовательно - это значит сохраняется последовательность и при записи и при чтении
-- 
+
+
+## CPU and IO bound задачи
+- for CPU `runAsync(runnable)`
+- for IO intensive work (http services, DB, MQ) use executors service
+```java
+private ExecutorService MY_POOL = Executors.newFixedThreadPool(100);
+runAsync(runnable, MY_POOL);
+```
 
 ## Мониторы и мьютексы
 - монитор работает через синх блок
