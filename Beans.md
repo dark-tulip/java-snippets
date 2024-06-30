@@ -1,3 +1,13 @@
+### Bean post processor
+- позволяет настривать бины до того как они попадут в контейнер
+- у интерфейса есть два метода
+- `Object postProcessBeforeInitialization(Object bean, String beanName)`
+- `Object postProcessAfterInitialization(Object bean, String beanName)`
+- Между ними вызывается init method
+  - `init method`,
+  - `afterPropertiesSet`
+  - `@PostConstruct`
+
 1. Create BookService interface
 2. Create BookServiceImpl service implementing interface (@Service annotattion)
 3. Create BookServiceStubbedImpl service implementing interface (@Service annotattion)
