@@ -12,6 +12,37 @@
 - RETURNING позволяет возвращать модифицируемые строки при INSERT, UPDATE, DELETE
 
 
+## Мониторинг индексов, не используемые индексы
+
+```sql
+select schemaname || '.' || relname                   as tablename,
+       indexrelname                                   as index,
+       pg_size_pretty(pg_relation_size(i.indexrelid)) as index_size,
+       idx_scan                                       as index_scans,
+from pg_stat_user_indexes ui
+         join pg_index i on ui.indexrelid = i.indexrelid
+where not indisunique
+  and idx_scan < 50
+  and pg_relation_size(relid) > 5 * 8192
+order by pg_relation_size(i.indexrelid) / nullif(idx_scan, 0) desc nulls first,
+         pg_relation_size(i.indexrelid) desc;
+```
+
+## Внутренние настройки постгреса
+- чем выше **maintenance_work_mem тем быстрее создастся индекс**
+```
+select current_setting('maintenance_work_mem');
+```
+
+### Жизненный цикл страницы в постгресе
+`shared_buffers <-> OS cash <-> disk`
+
+## Чекпойнты
+- чистые страницы поднимаются в shared_buffers, если хоть один кортеж изменился - страница помечается грязной
+- commit не возвращает управления пока страница не записана в WAL
+- время от времени происходит чекпойт, грязные страницы из shared_buffers пишутся на диск
+- при больших значениях shared_bufferrs возникают проблемы
+
 ### Index hits and index vs seq scan stats
 - индекс говорит где в таблице мы можем найти эту запись
 - индекс всегда отсортирован, в рамках каждой страницы все данные отсортированы по индексу
