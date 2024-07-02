@@ -8,6 +8,26 @@
   - `afterPropertiesSet`
   - `@PostConstruct`
 
+### Трехфазовый конструктор
+- Constructor
+- @PostConstruct
+- @AfterProxy
+
+### ClassPathBeanDefinitionScanner - сканер ищущий BeanDefinitions
+- `BeanPostProcessor`, `BeanFactoryPostProcessor`
+- `ResourceLoaderAware`
+- создает `BeanDefinition` из всех классов над которыми стоит `@Component`, или другая аннотация аннотированная `@Component`
+
+### Java Config
+- `AnnotatedBeanDefinitionReader` - регистрирует только `JavaConfigs` по проекту
+- JavaConfig обрабатывает `ConfigurationClassPostProcessor` (особый вид `BeanFactoryPostProcessor`)
+- Его регистирирует `AnnotationConfigApplicationContext`
+- создает бин дифинишены по `@Bean`
+- также относится к `@Import @ImportBean @ComponentScan`
+
+---- 
+
+
 1. Create BookService interface
 2. Create BookServiceImpl service implementing interface (@Service annotattion)
 3. Create BookServiceStubbedImpl service implementing interface (@Service annotattion)
