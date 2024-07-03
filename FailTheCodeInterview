@@ -36,3 +36,23 @@ System.out.println(10/3);
         }
     }
 ```
+
+### 5. Swap the map, why?
+
+```java
+    public static void main(String[] args) {
+        HashMap<String, String> numbers = new HashMap<String, String>() {{
+            put("a", "1111");
+            put("b", "2222");
+        }};
+
+        HashMap<String, String> strings = new HashMap<String, String>() {{
+            put("a", "aaaa");
+            put("b", "bbbb");
+        }};
+
+        numbers.replaceAll(strings::put);
+        System.out.println(numbers);
+        System.out.println(strings);
+    }
+```
