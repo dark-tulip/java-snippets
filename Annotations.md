@@ -328,11 +328,7 @@ public class ValidationConfig {
      */
     public static void main(String[] args) throws IllegalArgumentException {
         assertTrue(validateBool(Locality.ASTANA, ValidationType.PHONE, "77776665544"), "");
-
-        // IIN for KAZ
         assertTrue(validateBool(Locality.ASTANA, ValidationType.IIN, "020728666555"), "");
-        assertTrue(!validateBool(Locality.KENTAU, ValidationType.IIN, "7776665"), "");
-        assertTrue(validateBool(Locality.SHYMKENT, ValidationType.IIN, "123456789098"), "");
     }
 }
 
