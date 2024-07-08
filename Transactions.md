@@ -4,7 +4,7 @@
 - Транзакционный метод не может быть вызван в том же объямвленном классе
 - транзакции в спринге используют java dynamic proxy
 - транзакционных метод откатывается только для рантайм исключений. Для checked исключений оно не работает, так как любая другая исключительная ситуация должна быть явно обработана если она проверяема.
-
+- Note that by default, rollback happens for runtime, unchecked exceptions only. The checked exception does not trigger a rollback of the transaction.
 
 ### Нормальные формы - совокупность требований которым должны удовлетворять отношения (relations)
 ```
