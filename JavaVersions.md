@@ -1,0 +1,13 @@
+### Java 9 
+- immutable collections List.of()
+- Completable future асинхронный код
+- OrElse optional
+- Работать со стэк трейсом без создария объекта exception
+- Objects require not null
+- Http2 с поддержкрй асинхронных запросов
+- Разбиение функциональности на отдельные модули, всего jdk, а некотррые модули были вынесеня из jdk
+- Запуск единичного java файла,
+- Var в лямбда функциях 
+- Method referebce в стримах
+- Опционал из емпти
+- Методы isblank(), Strip()
