@@ -25,4 +25,7 @@ git cherry pick - заново добавить откаченный комми�
 ### git pull (or rebase)
 - стянуть удаленные изменения
 
-- 
+## Git merge git rebase
+- использовать rebase плохая идея так как она стирает историю коммитов
+- not best practice to use rebase when multiple users work on same feature branch, because it's deleting commits history
+- rebase looks clearly, but changes commit hashes
