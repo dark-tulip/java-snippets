@@ -263,6 +263,7 @@ alter table test_table alter column name type jsonb using name::jsonb;
 
 
 ### WAL журнал
+- Репликация на основе WAL появилась с 9 го постгреса
 - чтобы коммит вернул управление должна произойти запись в WAL (if syncronous_commin = on)
 - **в WAL пишется информация необходимая для ВОССТАНОВЛЕНИЯ**
 - запись происходит из WAL_buffers, которые после каждого коммита происходят целиком
@@ -280,4 +281,16 @@ alter table test_table alter column name type jsonb using name::jsonb;
 - сколько памяти будет потреблять этот зарпос? - `3 * work_mem`
 ```
 select * from (select * form table1) t1 join (select * from table2) t2 on t1.id = t2.id
+```
+
+
+### Поля массивы в постгресе
+```sql
+create table holiday (
+       holiday varchar(50),    -- строковое значение
+       sandwitch text[],       -- массив
+       side text[][],          -- многомерный массив
+       desert text array,      -- массив      
+       beverage text array[4], -- массив из 4 элементов
+)
 ```
