@@ -14,3 +14,6 @@ executeJavaScript("arguments[0].remove()", button)
 - `TestNG` - one instance for all tests - это несет за собой риск зависимых тестов. (Фичи TestNG, xml конфигурация, порядок тестов и зависимые тесты)
 
 ### BDD - это про взаимодействие с заказчиком
+
+### Как стать хорошим тестером не став параноиком (Полезное от отца селенида)
+https://asolntsev.github.io/ru/publications/
