@@ -20,6 +20,7 @@ Performance is:
 - составной ключ с низкой кардинальностью (с рандомным значением) в симбиозе ascending id
 
 ## Перебалансировка данных в шардах
+- Sharding in mongo mean - config server knows which shard contains which document
 - балансировка построена на шардах
 - с 5.0 версии монги поддерживается live rebalancing between shards
 - данные в кластере разбиваются по чанкам,
