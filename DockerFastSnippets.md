@@ -1,3 +1,8 @@
+- **namespaces** - независимые пространства имен (user/pid/mount/network/UTC/IPC) - one service and one container service with pid 1
+- **cgrounps** - control group, CPU memory limits
+- **capabilitues** - привилегии рута
+- **unionFS** - слоистоя луковая файловая система, основанная на переиспользовании. Используется для хранения image контейнера. Самый верхний слой доступный для записи.
+
 ## Поднять локальный раббит с админкой
 
 ```
