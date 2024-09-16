@@ -1,3 +1,7 @@
+### Огромный список вопросов для подготовки к интевью
+
+https://github.com/enhorse/java-interview/blob/master/README.md
+
 ### 1. Final/Finally/Finalize
 
 ### 2. Что вернет `try/catch`?
