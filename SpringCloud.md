@@ -1,8 +1,8 @@
-Fallback feign - метод выполняющийся в случае упадка сервиса,
-
-`
-@HystrixCommand Annotation 
-`
+## Fallback feign 
+- Fallback feign - метод выполняющийся в случае упадка сервиса,
+- Хистрикс проксирует класс, который содержит логику circuit breaker
+- Прокси класс вызывает аннотированный метод и ожидает ответа, при падении вызывает аварийный метод Fallback feign 
+- @HystrixCommand Annotation 
 
 ## Zuul proxy
 - Zuil is reverse proxy, accepts all queries 
