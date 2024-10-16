@@ -8,3 +8,7 @@
 - Publisher (java 9 spec)
 - Observable (RX Java)
 - Flux (Spring React)
+
+### Модели взаимодействия
+- PUSH model - сервер сам пушит
+- PULL model - клиент запрашивает (можем сами контролировать поток данных который читаем)
