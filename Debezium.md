@@ -1,4 +1,10 @@
 ## 0. Какие источники и приемники поддерживаются в Debezium?
+
+сравнение:
+
+https://hevodata.com/learn/debezium-vs-kafka-connect/#:~:text=Debezium%20platform%20has%20a%20vast,records%20from%20external%20database%20systems.
+
+
 Debezium поддерживает ряд источников данных для захвата изменений данных (CDC - Change Data Capture) и передачу их в системы-цели. Основные источники:
 
 Базы данных:
