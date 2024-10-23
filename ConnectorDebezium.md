@@ -2,8 +2,9 @@
 
 сравнение:
 
-https://hevodata.com/learn/debezium-vs-kafka-connect/#:~:text=Debezium%20platform%20has%20a%20vast,records%20from%20external%20database%20systems.
+In "JDBC Connector" you cannot capture DDL changes like new tables, columns etc. With Debezium connector you can track data structure changes so you also adjust the sink connector if it necesary.
 
+- https://stackoverflow.com/questions/60908891/kafka-connect-jdbc-vs-debezium-cdc
 
 Debezium поддерживает ряд источников данных для захвата изменений данных (CDC - Change Data Capture) и передачу их в системы-цели. Основные источники:
 
