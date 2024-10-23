@@ -109,4 +109,8 @@ GoldenGate может быть интегрирован с системами с
 - GoldenGate Stream Analytics: Oracle предоставляет решение для обработки потоков данных в реальном времени и выполнения аналитики с помощью GoldenGate
 - Поддержка Big Data позволяет обрабатывать изменения данных в реальном времени и выполнять аналитику над потоками данных.
 
-Oracle GoldenGate — это мощная и высокопроизводительная платформа для репликации данных, которая поддерживает гетерогенные базы данных и источники. Она является эффективным решением для интеграции данных в реальном времени и построения реплик баз данных с минимальной задержкой.
+
+While both Debezium and Oracle GoldenGate perform change data capture (CDC) for replication, GoldenGate's architecture is more tailored for high-performance enterprise-grade replication. Key differences include:
+
+- GoldenGate: Optimized for enterprise environments, it supports advanced features like real-time log-based capture, parallel processing, multi-threading, and minimal impact on performance. It also has strong integration with Oracle's own ecosystem.
+- Debezium: Built on Kafka Connect, it is more open-source-oriented, but generally operates with higher overhead compared to GoldenGate's finely-tuned enterprise capabilities.
