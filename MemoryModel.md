@@ -1,3 +1,19 @@
+## Memory reordering types:
+- LoadLoad - переупорядочивание чтений
+- LoadStore - действия r, w могут выполниться в порядке w, r
+- StoreLoad - действия w, r могут выполниться в порядке r, w
+- StoreStore -  действия w1, w2 могут выполниться в порядке w2, w1
+
+Memory model декларирует правила по которым возможно переупорядочивание. В зависимости от строгости возможна следующая согласованность
+- **sequential consistency** - запрещено переупорядочивание
+- **relaxed consistency **
+- **weak consistency** - разрешены все переуполядочивания
+
+## Memory orderign and Instructions reordering
+- переупорядочивание инструкций процессова должно подчиняться правилам JMM
+
+
+
 ## Acquire and Release
 all the mem operations
 - preceeding release before it starts
