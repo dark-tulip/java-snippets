@@ -1,4 +1,5 @@
 ## Try with resources
+- Try с ресурсами освобождает память после окончания, спасает от огромных массивов которые сделаны яерез java.io
 - The resources will be closed after execution block
 - Interface AutoCloseable (Closable) и переопределить метод close-
 - Ресурс объявляется и инициализируется внутри try блока
