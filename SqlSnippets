@@ -1,0 +1,23 @@
+#### Удалить ключи с пустым value в jsonb
+```xml
+<sql>
+        update route_end_bus_stops
+        set localized_names_first = (select jsonb_object_agg(key, value)
+                                     from jsonb_each(localized_names_first) AS kv
+                                     where localized_names_first::json ->> kv.key != ''),
+            localized_names_last  = (select jsonb_object_agg(key, value)
+                                     from jsonb_each(localized_names_last) AS kv
+                                     where localized_names_last::json ->> kv.key != '')
+        where localized_names_first::json ->> 'default' = ''
+           or localized_names_first::json ->> 'ru' = ''
+           or localized_names_first::json ->> 'kk' = ''
+           or localized_names_first::json ->> 'en' = ''
+           or localized_names_first::json ->> 'kz' = ''
+           or localized_names_last::json ->> 'default' = ''
+           or localized_names_last::json ->> 'ru' = ''
+           or localized_names_last::json ->> 'kk' = ''
+           or localized_names_last::json ->> 'en' = ''
+           or localized_names_last::json ->> 'kz' = ''
+    </sql>
+</changeSet>
+```
