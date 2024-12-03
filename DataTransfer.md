@@ -43,8 +43,13 @@ data = [
 # Нормализация данных для плоской структуры
 df = json_normalize(data, sep='_')
 
-# Сохранение в Parquet
 parquet_file = 'data.parquet'
 df.to_parquet(parquet_file, engine='pyarrow', index=False)
-print(f"Данные сохранены в {parquet_file}")
+print(f" ==== Данные сохранены в {parquet_file}")
+
+df_parquet = pd.read_parquet(parquet_file)
+df_parquet
 ```
+
+<img width="512" alt="image" src="https://github.com/user-attachments/assets/e6d353de-e891-4ee5-99fb-2e5e45480377">
+
