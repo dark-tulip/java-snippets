@@ -52,5 +52,6 @@ df_parquet = pd.read_parquet(parquet_file)
 df_parquet
 ```
 
-<img width="512" alt="image" src="https://github.com/user-attachments/assets/e6d353de-e891-4ee5-99fb-2e5e45480377">
+<img width="496" alt="image" src="https://github.com/user-attachments/assets/7137d1c6-3f1c-4428-8b19-ce237ed421f2">
+
 
