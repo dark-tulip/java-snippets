@@ -47,7 +47,7 @@ df.to_parquet(parquet_file, engine='pyarrow', index=False)
 print(f" ==== saved to parquet file {parquet_file}")
 
 
-# ============= read from parquet
+# ============= 2. read from parquet
 df_parquet = pd.read_parquet(parquet_file)
 df_parquet
 ```
