@@ -16,7 +16,7 @@
 import pandas as pd
 from pandas import json_normalize
 
-# Данные в формате JSON
+# ============= 1. save json to parquet format
 data = [
     {
         "id": 1,
@@ -40,13 +40,14 @@ data = [
     }
 ]
 
-# Нормализация данных для плоской структуры
-df = json_normalize(data, sep='_')
+df = json_normalize(data, sep='_')  # json flattening
 
 parquet_file = 'data.parquet'
 df.to_parquet(parquet_file, engine='pyarrow', index=False)
-print(f" ==== Данные сохранены в {parquet_file}")
+print(f" ==== saved to parquet file {parquet_file}")
 
+
+# ============= read from parquet
 df_parquet = pd.read_parquet(parquet_file)
 df_parquet
 ```
