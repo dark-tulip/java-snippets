@@ -1,0 +1,50 @@
+## JSON -> PARQUET
+
+#### Нормализация вложенных данных:
+- Вложенные структуры (например, "address")
+- преобразуются в плоские колонки (address_city, address_zipcode).
+
+#### Сжатие данных:
+- Parquet сжимает данные (по умолчанию Snappy),
+- поэтому файл data.parquet будет значительно меньше, чем data.json.
+
+#### Формат хранения:
+- Parquet-файл нельзя просто открыть текстовым редактором,
+- но он идеально читается аналитическими системами (например, Spark, Pandas)
+
+```python
+import pandas as pd
+from pandas import json_normalize
+
+# Данные в формате JSON
+data = [
+    {
+        "id": 1,
+        "name": "Alice",
+        "age": 30,
+        "email": "alice@example.com",
+        "address": {
+            "city": "New York",
+            "zipcode": "10001"
+        }
+    },
+    {
+        "id": 2,
+        "name": "Bob",
+        "age": 25,
+        "email": "bob@example.com",
+        "address": {
+            "city": "San Francisco",
+            "zipcode": "94105"
+        }
+    }
+]
+
+# Нормализация данных для плоской структуры
+df = json_normalize(data, sep='_')
+
+# Сохранение в Parquet
+parquet_file = 'data.parquet'
+df.to_parquet(parquet_file, engine='pyarrow', index=False)
+print(f"Данные сохранены в {parquet_file}")
+```
