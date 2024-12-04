@@ -58,6 +58,12 @@ create logback-spring.xml file on the project resources
 </configuration>
 ```
 
+###run local memcached and redis 
+
+```
+docker run -d --name memcached-local -p 11211:11211 memcached
+docker run -d --name redis-local -p 6379:6379 -e REDIS_PASSWORD=jedis redis --requirepass jedis
+```
 
 ```mvn
         <dependency>
