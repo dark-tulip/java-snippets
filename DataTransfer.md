@@ -118,10 +118,15 @@ Apache NiFi
 - для быстрой развертки
 - готовые классы преобразователи
 - processor based (QueryDatabaseTable, RecordReader, RecordWriter, PutFile)
+- еще задается `Maximum-value Columns`: столбец для отслеживания новых данных (например, по дате или идентификатору)
+
+  
 поток NiFi:
 - `QueryDatabaseTable` → Загружает данные из PostgreSQL.
 - `ConvertRecord` → Преобразует данные в формат Parquet.
 - `PutFile` → Сохраняет Parquet-файлы на диске.
+
+Для сценариев, где нужна гибкая настройка потоков и файлов
 
 Apache Kafka
 - для систем реального времени
