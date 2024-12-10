@@ -106,3 +106,23 @@ streams.start();
 - Если критически важно обрабатывать каждое сообщение
 - Если пропуск даже одного сообщения недопустим
 - Если вы еще не настроили DLQ
+
+
+### Способы перенести данные из постгреса в паркет формат
+
+<img width="583" alt="image" src="https://github.com/user-attachments/assets/ae67e412-b0aa-4a80-836b-9d62a57c79f8">
+
+что умеет работать с паркетом?
+
+Apache NiFi
+- для быстрой развертки
+- готовые классы преобразователи
+- processor based (QueryDatabaseTable, RecordReader, RecordWriter, PutFile)
+поток NiFi:
+- `QueryDatabaseTable` → Загружает данные из PostgreSQL.
+- `ConvertRecord` → Преобразует данные в формат Parquet.
+- `PutFile` → Сохраняет Parquet-файлы на диске.
+
+Apache Kafka
+- для систем реального времени
+- больше масштабируемости
