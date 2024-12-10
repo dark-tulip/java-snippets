@@ -63,6 +63,7 @@ df_parquet
 - у source коннектора есть пропертя **"query"** можно задать его чтобы объединить результат с нескольких таблиц
 - для `sink` коннектора важно чтобы ему передали точное название топика **`direct topic name`**
 - для `sink` коннектора есть настройка **"table.name.format": "target_schema.${topic}"**, которая указывает в какую схему и таблицу перенести данные
+- `Sink Connector` использовать матвьюху как целевую таблицу
 
 если коннектора недостаточно, всегда можно использовать Kafka Streams:
 
@@ -78,4 +79,23 @@ sourceStream.map((key, value) -> {
 
 KafkaStreams streams = new KafkaStreams(builder.build(), properties);
 streams.start();
+```
+
+### Способы трансформаций и кастинга данных
+- использовать Kafka connector SMT - single message transformation внутри настроек коннектора
+- использовать KafkaStreams
+- использовать матвьюхи или триггеры и решать проблему на уровне БД
+
+### Обработка ошибок
+- ошибки преобразования данных, несовпадения типов, отсутствия обязательных полей **можно приглушить с настройкой** `error.tolerance=all`, без нее коннектор просто прекратит свою работу (by default)
+- второй способ задать `dlq` топик
+```json
+{
+...
+  "errors.tolerance": "all",
+  "errors.deadletterqueue.topic.name": "dlq-topic",
+  "errors.deadletterqueue.context.headers.enable": "true",
+  "errors.log.enable": "true",
+  "errors.log.include.messages": "true"
+}
 ```
