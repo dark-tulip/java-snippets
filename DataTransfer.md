@@ -64,4 +64,18 @@ df_parquet
 - для `sink` коннектора важно чтобы ему передали точное название топика **`direct topic name`**
 - для `sink` коннектора есть настройка **"table.name.format": "target_schema.${topic}"**, которая указывает в какую схему и таблицу перенести данные
 
+если коннектора недостаточно, всегда можно использовать Kafka Streams:
 
+```java
+StreamsBuilder builder = new StreamsBuilder();
+KStream<String, GenericRecord> sourceStream = builder.stream("source-schema-table1");
+
+sourceStream.map((key, value) -> {
+    // Преобразуем данные, например, добавляем целевую схему
+    value.put("schema", "target_schema");
+    return KeyValue.pair(key, value);
+}).to("target-schema-table1");
+
+KafkaStreams streams = new KafkaStreams(builder.build(), properties);
+streams.start();
+```
