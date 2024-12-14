@@ -46,3 +46,8 @@ docker-compose ps
 ```
 - While Docker Compose is about creating and starting one or multiple containers, 
 - Kubernetes serves more as a platform to create a network where we can orchestrate containers.
+
+- Optimistic concurrency control
+- Multiversion concurrency control
+- Pessimistic concurrecny control (two phase locking) - 2PL Фаза расширения, Фаза сокращения
+
