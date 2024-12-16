@@ -16,6 +16,16 @@ docker run -d \
   rabbitmq:3.9-management
 ```
 
+```bash
+docker run -d \
+  --name local-postgres \
+  -e POSTGRES_USER=your_user \
+  -e POSTGRES_PASSWORD=your_password \
+  -e POSTGRES_DB=your_database \
+  -p 5432:5432 \
+  postgres:15
+```
+
 - docker compose написан на питоне
 - перед воркдир необязательно ставить мкдир
   
