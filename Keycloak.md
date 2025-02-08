@@ -56,4 +56,16 @@ ALTER USER keycloakuser WITH SUPERUSER;
 - A realm manages a set of users, credentials, roles, and groups. 
 - A user belongs to and logs into a realm. 
 - Realms are isolated from one another and can only manage and authenticate the users that they control.
+- теперь в рамках нового рилма можно создавать роли, группы и пользователей
 
+### 3. Create new user, verify email, then set password
+
+```bash
+curl --location 'http://localhost:7080/realms/amvera/protocol/openid-connect/token' \
+--header 'Content-Type: application/x-www-form-urlencoded' \
+--data-urlencode 'client_id=cdc-client1' \
+--data-urlencode 'client_secret=<get_from_ui>' \
+--data-urlencode 'username=cdc-user1' \
+--data-urlencode 'password=user1pass' \
+--data-urlencode 'grant_type=password'
+```
