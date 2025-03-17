@@ -119,7 +119,7 @@ GROUP BY datname, usename, state;
 - ! Если у вас микросервисная архитектура
 
 - не факт, что инстансов java приложения всегда пять
-- может есть другие сервисы, которые нарушают принцип `database per service` (тк `control-api` создает `hikari-pool` для других `avtobbys-service` в своем коде) - поэтому макс кол-во может колебаться выше 50
+- есть другие сервисы, которые нарушают принцип `database per service` (тк `control-api` создает `hikari-pool` для других `avtobbys-service` в своем коде) - поэтому макс кол-во может колебаться выше 50
 
 <img width="1253" alt="image" src="https://github.com/user-attachments/assets/b1fc157c-b843-4ddb-82dd-e8cddf71ee77" />
 
