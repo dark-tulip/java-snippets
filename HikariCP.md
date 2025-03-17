@@ -18,6 +18,10 @@ core.dao.primary-db-hikari-idle-timeout=300000
 - При нагрузке увеличиваемся до 10
 - `idleTimeout=300000` →  Соединение закрывается, если не используется в течение 5 минут.
 
+---
+
+## Проблема №1
+
 **Как можно сделать лучше?**
 
 
@@ -107,3 +111,15 @@ GROUP BY datname, usename, state;
 
 - !Убедись, что `HikariCP.maximumPoolSize * количество реплик ≤ default_pool_size` внутри `PGbouncer`
 - настройки pg-bouncer-a можно посмотреть в `pgbouncer-beta.ini` файле в соотв проекте
+
+----
+
+## Проблема №2
+
+- ! Если у вас микросервисная архитектура
+
+- не факт, что инстансов java приложения всегда пять
+- может есть другие сервисы, которые нарушают принцип `database per service` (тк `control-api` создает `hikari-pool` для других `avtobbys-service` в своем коде) - поэтому макс кол-во может колебаться выше 50
+
+<img width="1253" alt="image" src="https://github.com/user-attachments/assets/b1fc157c-b843-4ddb-82dd-e8cddf71ee77" />
+
