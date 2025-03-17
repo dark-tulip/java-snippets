@@ -103,7 +103,7 @@ GROUP BY datname, usename, state;
 
 - Если оставить `pool_mode=transaction` в `PgBouncer`, то `HikariCP` должен работать с `autoCommit=false`, чтобы не разрывать транзакции слишком рано
 
-### 4️. Как исправить положение и помочь нашим сервисам, если есть проблемы?
+### 4. Как исправить положение и помочь нашим сервисам?
 
 - !Убедись, что `HikariCP.maximumPoolSize * количество реплик ≤ default_pool_size` внутри `PGbouncer`
 - настройки pg-bouncer-a можно посмотреть в `pgbouncer-beta.ini` файле в соотв проекте
