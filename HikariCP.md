@@ -1,4 +1,4 @@
-## Резюме по разбору настроек `HikariCP и PGbouncer`
+## Резюме по разбору настроек `HikariCP` и `PGbouncer`
 Разобрались с настройками `HikariCP` и PGbouncer на одном из наших тестовых проектов. Вот основные выводы:
 
 ### 0. Описание проблемы
@@ -119,7 +119,7 @@ GROUP BY datname, usename, state;
 - ! Если у вас микросервисная архитектура
 
 - не факт, что инстансов java приложения всегда пять
-- есть другие сервисы, которые нарушают принцип `database per service` (тк `control-api` создает `hikari-pool` для `avtobys-service` в своем коде с параметром `ApplicationName=control-api`) - поэтому макс кол-во может колебаться выше 50, если мы в графане делим кол-во коннектов по `ApplicationName`
+- есть другие сервисы, которые нарушают принцип `database per service` (тк `control-api` создает `hikari-pool` для `avtobys-service` в своем коде с параметром `ApplicationName=control-api`) - поэтому макс кол-во может колебаться выше 50, если мы в графане аггрегируем кол-во коннектов по параметру `ApplicationName`
 
 <img width="1253" alt="image" src="https://github.com/user-attachments/assets/b1fc157c-b843-4ddb-82dd-e8cddf71ee77" />
-
+- ниже на скриншоте один конфиг `hikari-enabled=true` работает массово для всех бинов - а значит мы создаем дополнительные `connection-pools` к БД другого микросервиса
