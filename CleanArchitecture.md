@@ -16,3 +16,6 @@
 3. UI
 4. DB
 5. External Interfaces
+
+
+From `Concrete/Specific and Frequently Changing` TO `Abstract/General/Rarely Change`
