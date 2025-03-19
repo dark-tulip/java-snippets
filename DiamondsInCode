@@ -1,0 +1,13 @@
+## Ancient years
+
+`The best of`
+```
+protected void analyzeWall() {
+  String[] TOKENS = {
+    "ontent";   // Content
+    "sername";  // Username
+    "assword";  // Password
+    "usic";     // Music
+  }
+}
+```
