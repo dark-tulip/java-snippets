@@ -1,3 +1,11 @@
+## REST это про:
+- стиль построения веб служб
+- единица информации URL - это достук к ресурсу, а HTTP метод - глагол
+- HTTP Status - для указания ошибок
+- Каноничный
+- Стандарт общения
+- Stateless - не хранит состояние клиента
+
 ## Storages
 - Session storage - deletes after close
 - Local Storage - can be deleted only programmaly
