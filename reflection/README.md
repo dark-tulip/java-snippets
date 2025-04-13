@@ -1,1 +1,4 @@
-В данном репозитории вы являетесь Developer'ом, т.е. не можете делать push в мастер ветку. Вам нужно запушить код в ветку \<homeworkName\>taskN, а затем сделать merge request в master.
+### Проект работы с рефлексией на Java
+
+1. new Proxy Instance (interface)
+2. ByteBuddy (create instance from class, not interface in Runtime)
