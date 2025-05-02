@@ -1,10 +1,33 @@
 # Tables and streams
-- table is the интеграл от потока
-- поток это производная от таблицы
+- удобная прослойка над кафкой и абстракция
+- переход мышления на потоковый способ обработки надо привыкнуть
 
 Ktable - `key/value stream + changlelog`
+GlobalKTable - join between workers
+
+1) `table table join` декартово произведение и выборка, например по ключу
+2) `stream/table join lookup` (по стриму поиск в таблице) - поток событий, на момент события какая инфа была в таблице
+3) `stream-stream window join` - ограничены окном в виде буфера по времени
+
+`RocksDB (key + timestamp + seqnum)` sort lexicography (строка в бинарное представление времени которое оно представляет, что есть в localStore подходящее по времени внутри рокс дб - O(log(N)))
+
+`withTimestampExtractor` - время штука тонкая в распределенных системах. Бери время из модели события
+
+1) tumbling windom /_/
+2) hopling window []
+3) session window
+
+Window retention time - удаление старых событий с рокс бд
+Grace time - должен быть меньше чем retention time. События опоздавшие на час учитываться задним событием не будут
+Punctuator - нарезка потока, не оконные операторы. 
+
+насколько долго мы можем обрабатывать данные?
 
 Join двух таблиц, и топики дублируются
+
+- table is the интеграл от потока
+- поток это производная от таблицы
+  
 `uv = u'v + v'u`
 
 # What is Kafka Streams?
