@@ -1,3 +1,12 @@
+# Tables and streams
+- table is the интеграл от потока
+- поток это производная от таблицы
+
+Ktable - `key/value stream + changlelog`
+
+Join двух таблиц, и топики дублируются
+`uv = u'v + v'u`
+
 # What is Kafka Streams?
 - для обработки потока данных внутри кафка кластера
 - выявление аномалий (по безопасности)
