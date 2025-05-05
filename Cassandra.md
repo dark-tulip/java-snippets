@@ -32,17 +32,17 @@ SELECT * FROM system_schema.keyspaces;
 ```
 ```sql
 
-CREATE KEYSPACE tansh28
+CREATE KEYSPACE hobod2025s008
   WITH REPLICATION = { 
    'class' : 'SimpleStrategy',
    'replication_factor' : 1 
   } 
-AND DURABLE_WRITES = false ;;
+AND DURABLE_WRITES = true ;
    
+use hobod2025s008;
 
-select * from system_schema.columns where keyspace_name = 'tansh28';
 
-CREATE TABLE tansh28.video ( 
+CREATE TABLE hobod2025s008.video ( 
    video_id    uuid, 
    added_date  timestamp, 
    description text, 
@@ -50,6 +50,8 @@ CREATE TABLE tansh28.video (
    user_id     uuid,
    PRIMARY KEY ((video_id, added_date), user_id)
 );
+
+select * from system_schema.columns where keyspace_name = 'hobod2025s008';
 
 COPY video(video_id, added_date, description, title, user_id) FROM '/home/ifedotov/cassanda/sem1/videos.csv' WITH HEADER=true;
 ```
