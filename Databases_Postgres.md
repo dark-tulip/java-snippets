@@ -227,6 +227,8 @@ alter table test_table alter column name type jsonb using name::jsonb;
 - при записи вся страница помечается как ГРЯЗНАЯ
 - чтобы можно было восстановить страницы записываем в WAL
 - помимо WAL есть еще чекпойнты (синхронизация страниц на диск)
+- FK могут кушать вашу производительность. На проде от некоторых FK можно избавиться.
+  
 # DO NOT TUNE THE QUERY / KNOW YOUR DATA
 ## Пессимистические алгоритмы шедулинга транзакций - решают проблему конфиликтов сериализации
 ### MVCC - multiversion concurrency control
@@ -263,6 +265,7 @@ alter table test_table alter column name type jsonb using name::jsonb;
 
 
 ### WAL журнал
+- **WAL does not write READONLY Transactions**
 - Репликация на основе WAL появилась с 9 го постгреса
 - чтобы коммит вернул управление должна произойти запись в WAL (if syncronous_commin = on)
 - **в WAL пишется информация необходимая для ВОССТАНОВЛЕНИЯ**
@@ -294,3 +297,4 @@ create table holiday (
        beverage text array[4], -- массив из 4 элементов
 )
 ```
+
